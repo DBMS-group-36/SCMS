@@ -1,0 +1,10 @@
+{
+	"/": [
+		"src/routes/+page.server.js"
+	],
+	"/dashboard": [],
+	"/date": [],
+	"/login": [
+		"src/routes/login/+page.server.js"
+	]
+}

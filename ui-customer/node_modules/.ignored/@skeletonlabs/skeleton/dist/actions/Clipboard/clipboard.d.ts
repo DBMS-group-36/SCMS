@@ -1,0 +1,10 @@
+type ClipboardArgs = string | {
+    element: string;
+} | {
+    input: string;
+};
+export declare function clipboard(node: HTMLElement, args: ClipboardArgs): {
+    update(newArgs: ClipboardArgs): void;
+    destroy(): void;
+};
+export {};
