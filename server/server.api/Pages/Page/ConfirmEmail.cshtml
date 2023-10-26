@@ -1,0 +1,36 @@
+﻿@page
+@model server.api.Pages.Page.ConfirmEmailModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email confirmation - Company A</title>
+</head>
+<body>
+    <header>
+        Company A
+    </header>
+    <div>
+        <main>
+            <h1>Confirm email</h1>
+
+            @if (!String.IsNullOrEmpty(Model.StatusMessage))
+            {
+                <div>
+                    @Model.StatusMessage
+                </div>
+            }
+        </main>
+    </div>
+
+    <footer>
+        <div>
+            &copy; 2023 - Company A
+        </div>
+    </footer>
+</body>
+</html>
