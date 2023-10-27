@@ -1,0 +1,27 @@
+# ignore built application files
+bin/
+obj/
+
+# ignore user-specific files
+*.user
+*.suo
+*.cache
+*.vscode
+*.vs
+
+
+# ignore build output
+*.dll
+*.exe
+*.pdb
+*.log
+*.txt
+
+# ignore node_modules
+node_modules/
+
+# ignore Visual Studio files
+.vscode/
+
+appsettings.json
+appsettings.Development.json

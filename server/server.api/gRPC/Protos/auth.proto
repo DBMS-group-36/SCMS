@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option csharp_namespace = "server.api.gRPC";
+
+package auth;
+
+import "google/api/annotations.proto";
+
+service Auth {
+  rpc Login (LoginRequest) returns (TokenResponseReply){
+	  option (google.api.http) = {
+		  post: "/auth/login",
+		  body: "*"
+	  };
+  }
+  rpc Register (RegisterRequest) returns (StatusReply){
+	  option (google.api.http) = {
+		  post: "/auth/register",
+		  body: "*"
+	  };
+  }
+}
+
+message LoginRequest {	
+  string userName = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message RegisterRequest {
+  string userName = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message TokenResponseReply {
+  string accessToken = 1;
+  string refreshToken = 2;
+  string expire = 3;
+  StatusReply response = 4;
+}
+
+message StatusReply {
+  string message = 1;
+  bool isSuccess = 2;
+  repeated string errors = 3;
+}
