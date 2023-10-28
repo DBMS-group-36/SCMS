@@ -1,9 +1,9 @@
 {
   "name": "material-kit-react",
   "version": "3.0.0",
-  "author": "Devias",
+  "author": "Pinsara Aasith Mallawarachchi",
   "licence": "MIT",
-  "homepage": "https://devias.io",
+  "homepage": "https://www.facebook.com/pinsara.aasith/",
   "private": false,
   "scripts": {
     "dev": "next",
