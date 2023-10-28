@@ -3,8 +3,6 @@ import NextLink from 'next/link';
 import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material';
 import { Logo } from 'src/components/logo';
 
-// TODO: Change subtitle text
-
 export const Layout = (props) => {
   const { children } = props;
 
@@ -68,14 +66,15 @@ export const Layout = (props) => {
             }
           }}
         >
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ p: 6 }}>
             <Typography
               align="center"
               color="inherit"
               sx={{
                 fontSize: '24px',
                 lineHeight: '32px',
-                mb: 1
+                mb: 1,
+                mt: 4
               }}
               variant="h1"
             >
@@ -85,15 +84,15 @@ export const Layout = (props) => {
                 sx={{ color: '#15B79E' }}
                 target="_blank"
               >
-                Devias Kit
+                A Suppliers
               </Box>
             </Typography>
             <Typography
               align="center"
-              sx={{ mb: 3 }}
-              variant="subtitle1"
+              variant="subtitle2"
+              sx={{mt:3}}
             >
-              A professional kit that comes with ready-to-use MUI components.
+              We are Company A, headquartered in the enchanting city of Kandy, and we specialize in offering a wide variety of top-quality products to wholesalers, retailers, and end customers, all made accessible through our well-established railway supply chain for islandwide distribution.
             </Typography>
             <img
               alt=""
