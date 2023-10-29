@@ -296,6 +296,6 @@ export function createComponents(config) {
       defaultProps: {
         variant: 'filled'
       }
-    }
+    },
   };
 }

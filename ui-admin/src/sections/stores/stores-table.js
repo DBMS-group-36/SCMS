@@ -3,32 +3,31 @@ import {
   Box,
   Card,
   Checkbox,
+  IconButton,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
+import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
+import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
+import NextLink from 'next/link';
 
 export const StoresTable = (props) => {
   const {
     count = 0,
     items = [],
-    onDeselectAll,
-    onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
-    onSelectAll,
-    onSelectOne,
+    handleDelete,
     page = 0,
     rowsPerPage = 0,
-    selected = []
   } = props;
-
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
 
   return (
     <Card>
@@ -37,20 +36,7 @@ export const StoresTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAll}
-                    indeterminate={selectedSome}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        onSelectAll?.();
-                      } else {
-                        onDeselectAll?.();
-                      }
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
+                <TableCell width={130}>
                   Store ID
                 </TableCell>
                 <TableCell>
@@ -59,38 +45,53 @@ export const StoresTable = (props) => {
                 <TableCell>
                   Capacity
                 </TableCell>
+                <TableCell>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {items.map((store) => {
-                const isSelected = selected.includes(store.id);
-
                 return (
                   <TableRow
                     hover
                     key={store.Id}
-                    selected={isSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(store.Id);
-                          } else {
-                            onDeselectOne?.(store.Id);
-                          }
-                        }}
-                      />
-                    </TableCell>
                     <TableCell>
-                      {store.Id}
+                      <Typography variant="h6">
+                        {store.Id}
+                      </Typography>
                     </TableCell>
                     <TableCell>
                       {store.City}
                     </TableCell>
                     <TableCell>
-                      {store.Capacity}
+                      <Typography variant="subtitle2">
+                        {store.Capacity} Cubic Meters
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="primary"
+                        aria-label="edit"
+                        href={`/stores/edit/${store.Id}`}
+                        LinkComponent={NextLink}
+                      >
+                        <SvgIcon>
+                          <PencilIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
+                        </SvgIcon>
+                      </IconButton>
+
+                      <IconButton
+                        color="primary"
+                        aria-label="remove"
+                        onClick={() => handleDelete(store)}
+                        LinkComponent={NextLink}
+                      >
+                        <SvgIcon>
+                          <TrashIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
+                        </SvgIcon>
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
@@ -115,13 +116,9 @@ export const StoresTable = (props) => {
 StoresTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
-  onDeselectAll: PropTypes.func,
-  onDeselectOne: PropTypes.func,
   onPageChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
-  onSelectAll: PropTypes.func,
-  onSelectOne: PropTypes.func,
+  handleDelete: PropTypes.func,
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
-  selected: PropTypes.array
 };
