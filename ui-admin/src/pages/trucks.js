@@ -7,22 +7,19 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { StoresTable } from 'src/sections/stores/stores-table';
-import { StoresSearch } from 'src/sections/stores/stores-search';
+import { CustomersTable } from 'src/sections/customer/customers-table';
+import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
-import cities from "src/pages/cities.json";
-
-console.log(cities, "Incites")
 
 const data = [
   {
-    Id: '1',
-    City: 'Gampaha',
-    Capacity: 900,
+    id: '5e887ac47eed253091be10cb',
+    city: 'Gampaha',
+    capacity: 900,
   },
 ];
 
-const useStores = (page, rowsPerPage) => {
+const useCustomers = (page, rowsPerPage) => {
   return useMemo(
     () => {
       return applyPagination(data, page, rowsPerPage);
@@ -31,21 +28,21 @@ const useStores = (page, rowsPerPage) => {
   );
 };
 
-const useStoreIds = (stores) => {
+const useCustomerIds = (customers) => {
   return useMemo(
     () => {
-      return stores.map((store) => store.id);
+      return customers.map((customer) => customer.id);
     },
-    [stores]
+    [customers]
   );
 };
 
 const Page = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const stores = useStores(page, rowsPerPage);
-  const storesIds = useStoreIds(stores);
-  const storesSelection = useSelection(storesIds);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
+  const customers = useCustomers(page, rowsPerPage);
+  const customersIds = useCustomerIds(customers);
+  const customersSelection = useSelection(customersIds);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -65,14 +62,14 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Stores | A Suppilers
+          Customers | A Suppilers
         </title>
       </Head>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          py: 4
+          py: 8
         }}
       >
         <Container maxWidth="xl">
@@ -84,9 +81,34 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Stores
+                  Customers
                 </Typography>
-
+                <Stack
+                  alignItems="center"
+                  direction="row"
+                  spacing={1}
+                >
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowUpOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Import
+                  </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={(
+                      <SvgIcon fontSize="small">
+                        <ArrowDownOnSquareIcon />
+                      </SvgIcon>
+                    )}
+                  >
+                    Export
+                  </Button>
+                </Stack>
               </Stack>
               <div>
                 <Button
@@ -101,19 +123,19 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <StoresSearch />
-            <StoresTable
+            <CustomersSearch />
+            <CustomersTable
               count={data.length}
-              items={stores}
-              onDeselectAll={storesSelection.handleDeselectAll}
-              onDeselectOne={storesSelection.handleDeselectOne}
+              items={customers}
+              onDeselectAll={customersSelection.handleDeselectAll}
+              onDeselectOne={customersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={storesSelection.handleSelectAll}
-              onSelectOne={storesSelection.handleSelectOne}
+              onSelectAll={customersSelection.handleSelectAll}
+              onSelectOne={customersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={storesSelection.selected}
+              selected={customersSelection.selected}
             />
           </Stack>
         </Container>

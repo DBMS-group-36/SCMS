@@ -9,6 +9,8 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import { SnackbarProvider } from 'notistack';
+import { ConfirmProvider } from 'material-ui-confirm';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -34,20 +36,25 @@ const App = (props) => {
           content="initial-scale=1, width=device-width"
         />
       </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AuthConsumer>
-              {
-                (auth) => auth.isLoading
-                  ? <SplashScreen />
-                  : getLayout(<Component {...pageProps} />)
-              }
-            </AuthConsumer>
-          </ThemeProvider>
-        </AuthProvider>
-      </LocalizationProvider>
+      <ConfirmProvider>
+        <SnackbarProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <AuthProvider>
+
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <AuthConsumer>
+                  {
+                    (auth) => auth.isLoading
+                      ? <SplashScreen />
+                      : getLayout(<Component {...pageProps} />)
+                  }
+                </AuthConsumer>
+              </ThemeProvider>
+            </AuthProvider>
+          </LocalizationProvider>
+        </SnackbarProvider>
+      </ConfirmProvider>
     </CacheProvider>
   );
 };

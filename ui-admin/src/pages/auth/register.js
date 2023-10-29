@@ -98,13 +98,13 @@ const Page = () => {
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
-                  fullWidth
                   helperText={formik.touched.name && formik.errors.name}
-                  label="Name"
-                  name="name"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
+                  fullWidth
+                  label="Name"
+                  name="name"
                 />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
