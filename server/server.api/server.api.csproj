@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -29,6 +29,7 @@
   <ItemGroup>
     <Protobuf Include="gRPC\Protos\weatherForecast.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\auth.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\truck.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

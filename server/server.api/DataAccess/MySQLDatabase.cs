@@ -43,6 +43,7 @@ public class MySQLDatabase : IDatabase
             var item = (T)Activator.CreateInstance(t);
             t.GetProperties().ToList().ForEach((p) =>
             {
+                if (p.Name == "Parser" || p.Name == "Descriptor") return;
                 var val = reader[p.Name];
                 if (val is not DBNull) p.SetValue(item, val);
             });
@@ -68,6 +69,7 @@ public class MySQLDatabase : IDatabase
 
             t.GetProperties().ToList().ForEach((p) =>
             {
+                if (p.Name == "Parser" || p.Name == "Descriptor") return;
                 var val = reader[p.Name];
                 if (val is not DBNull) p.SetValue(item, val);
             });
