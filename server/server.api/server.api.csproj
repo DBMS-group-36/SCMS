@@ -9,6 +9,10 @@
     <EditorConfigFiles Remove="D:\Aca\S3\DB\CS3043-Group36-SupplyChainManagementSystem\server\server.api\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="gRPC\Protos\store.proto" />
+  </ItemGroup>
+
   
 
   <ItemGroup>
@@ -27,9 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="gRPC\Protos\store.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\weatherForecast.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\auth.proto" GrpcServices="Server" />
-    <Protobuf Include="gRPC\Protos\truck.proto" GrpcServices="Server" />
+	<Protobuf Include="gRPC\Protos\truck.proto" GrpcServices="Server" />
+	<Protobuf Include="gRPC\Protos\shared.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

@@ -23,22 +23,22 @@ public class TruckService : Truck.TruckBase
         this.database = database;
     }
 
-    public async override Task<GetTruckReply> GetTrucks(GetTruckRequest request, ServerCallContext context)
+    public async override Task<GetTrucksReply> GetTrucks(GetTrucksRequest request, ServerCallContext context)
     {
 
-        var reply = new GetTruckReply();
+        var reply = new GetTrucksReply();
         var sql = "SELECT * FROM trucks";
         var countSql = "SELECT COUNT(*) FROM trucks";
 
         switch (request.OneOfGetTruckRequestCase)
         {
-            case GetTruckRequest.OneOfGetTruckRequestOneofCase.None:
+            case GetTrucksRequest.OneOfGetTruckRequestOneofCase.None:
                 break;
-            case GetTruckRequest.OneOfGetTruckRequestOneofCase.StoreId:
+            case GetTrucksRequest.OneOfGetTruckRequestOneofCase.StoreId:
                 sql += $" WHERE StoreId = {request.StoreId.toSqlString()}";
                 countSql += $" WHERE StoreId = {request.StoreId.toSqlString()}";
                 break;
-            case GetTruckRequest.OneOfGetTruckRequestOneofCase.Id:
+            case GetTrucksRequest.OneOfGetTruckRequestOneofCase.Id:
                 sql += $" WHERE Id = {request.Id.toSqlString()}";
                 countSql += $" WHERE Id = {request.Id.toSqlString()}";
                 break;

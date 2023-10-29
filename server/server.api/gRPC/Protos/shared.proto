@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option csharp_namespace = "server.api.gRPC";
+
+package shared;
+
+message Pagination {
+	int32 offset = 1;
+	int32 limit = 2;
+}

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option csharp_namespace = "server.api.gRPC";
+
+package store;
+
+import "google/api/annotations.proto";
+import "gRPC/Protos/shared.proto";
+
+service Store {
+	rpc GetStores (GetStoresRequest) returns (GetStoresReply){
+		option (google.api.http) = {
+			get: "/api/admin/store"
+		};
+	}
+
+	rpc AddStore (StoreMessage) returns (StoreMessage){
+		option (google.api.http) = {
+			post: "/api/admin/store"	
+		};
+	}
+
+	rpc UpdateStore (StoreMessage) returns (StoreMessage){
+		option (google.api.http) = {
+			put: "/api/admin/store"	
+		};
+	}
+
+	rpc EditStore (StoreMessage) returns (StoreMessage){
+		option (google.api.http) = {
+			patch: "/api/admin/store"	
+		};
+	}
+
+	rpc RemoveStore (StoreMessage) returns (StoreMessage){
+		option (google.api.http) = {
+			put: "/api/admin/store"	
+		};
+	}
+}
+
+message GetStoresRequest {
+	optional string id = 2;
+	shared.Pagination p = 3;
+}
+
+message GetStoresReply {
+	repeated StoreMessage stores = 1;
+	int32 count = 2;
+}
+
+message StoreMessage {
+	string id = 1;
+	string city = 2;
+	int32 capacity = 3;
+}
+

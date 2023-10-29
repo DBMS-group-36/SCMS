@@ -63,6 +63,7 @@ app.UseAuthorization();
 //app.MapControllers();
 app.MapGrpcService<AuthService>();
 app.MapGrpcService<TruckService>();
+app.MapGrpcService<StoreService>();
 app.MapGrpcService<WeatherService>();
 app.MapGrpcReflectionService();
 app.MapRazorPages();

@@ -5,9 +5,10 @@ option csharp_namespace = "server.api.gRPC";
 package truck;
 
 import "google/api/annotations.proto";
+import "gRPC/Protos/shared.proto";
 
 service Truck {
-	rpc GetTrucks (GetTruckRequest) returns (GetTruckReply){
+	rpc GetTrucks (GetTrucksRequest) returns (GetTrucksReply){
 		option (google.api.http) = {
 			get: "/api/admin/truck"
 		};
@@ -38,22 +39,17 @@ service Truck {
 	}
 }
 
-message GetTruckRequest {
+message GetTrucksRequest {
 	oneof oneOfGetTruckRequest {
 		string storeId = 1;
 		string id = 2;
 	}
-	Pagination p = 3;
+	shared.Pagination p = 3;
 }
 
-message GetTruckReply {
+message GetTrucksReply {
 	repeated TruckMessage trucks = 1;
 	int32 count = 2;
-}
-
-message Pagination {
-	int32 offset = 1;
-	int32 limit = 2;
 }
 
 message TruckMessage {
