@@ -37,9 +37,7 @@ CREATE DEFINER=`scms_backend`@`%` PROCEDURE `insert_store`(
 	Capacity int
 )
 BEGIN
-	SET @last_uuid = UUID();
-	INSERT INTO stores VALUES (@last_uuid, City, Capacity);
-	SELECT @last_uuid;
+	INSERT INTO stores(city, capacity) VALUES (City, Capacity);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -58,12 +56,10 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`scms_backend`@`%` PROCEDURE `insert_truck`(
 	capacity int,
-	storeId varchar(450)    
+	storeId int
     )
 BEGIN
-	SET @last_uuid = UUID();
-	INSERT INTO trucks VALUES (@last_uuid, capacity, storeId);
-	SELECT @last_uuid;
+	INSERT INTO trucks(capacity, storeId) VALUES (capacity, storeId);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;

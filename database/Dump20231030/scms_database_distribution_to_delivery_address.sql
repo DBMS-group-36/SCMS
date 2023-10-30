@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `distribution_to_delivery_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `distribution_to_delivery_address` (
-  `OrderId` varchar(450) DEFAULT NULL,
-  `DeliveryId` varchar(450) DEFAULT NULL,
+  `OrderId` int DEFAULT NULL,
+  `DeliveryId` int DEFAULT NULL,
   KEY `dtda_ibfk_1` (`OrderId`),
   KEY `dtda_ibfk_2` (`DeliveryId`),
   CONSTRAINT `dtda_ibfk_1` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`),

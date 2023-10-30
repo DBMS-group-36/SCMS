@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `deliveries`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `deliveries` (
-  `Id` varchar(450) NOT NULL,
-  `DriverId` varchar(450) DEFAULT NULL,
-  `DriverAssistantId` varchar(450) DEFAULT NULL,
-  `TruckId` varchar(450) DEFAULT NULL,
-  `RouteId` varchar(450) DEFAULT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `DriverId` int DEFAULT NULL,
+  `DriverAssistantId` int DEFAULT NULL,
+  `TruckId` int DEFAULT NULL,
+  `RouteId` int DEFAULT NULL,
   `Date` datetime DEFAULT NULL,
   `TimeOfDeparture` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`)

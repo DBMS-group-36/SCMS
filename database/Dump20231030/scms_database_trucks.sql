@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `trucks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `trucks` (
-  `Id` varchar(450) NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `Capacity` int DEFAULT NULL,
-  `StoreId` varchar(450) DEFAULT NULL,
+  `StoreId` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`),
   KEY `trucks_ibfk_1_idx` (`StoreId`),
@@ -39,7 +39,7 @@ CREATE TABLE `trucks` (
 
 LOCK TABLES `trucks` WRITE;
 /*!40000 ALTER TABLE `trucks` DISABLE KEYS */;
-INSERT INTO `trucks` VALUES ('6d5e9c85-769a-11ee-96b9-b2c634681465',32,'b7ce6d97-7647-11ee-b4e5-b2c634681465');
+INSERT INTO `trucks` VALUES (1,32,'b7ce6d97-7647-11ee-b4e5-b2c634681465');
 /*!40000 ALTER TABLE `trucks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

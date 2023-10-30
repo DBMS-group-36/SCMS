@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `driver_assisstants`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `driver_assisstants` (
-  `EmployeeId` varchar(450) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `EmployeeId` INT NOT NULL AUTO_INCREMENT,
   `WorkHours` varchar(450) DEFAULT NULL,
-  `StoreId` varchar(450) DEFAULT NULL,
+  `StoreId` int DEFAULT NULL,
   PRIMARY KEY (`EmployeeId`),
   CONSTRAINT `driver_assistants_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employees` (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `transportation_train_trips`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `transportation_train_trips` (
-  `Id` varchar(450) NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `Date` datetime DEFAULT NULL,
   `TimeOfDeparture` datetime DEFAULT NULL,
   `TimeOfArrival` datetime DEFAULT NULL,

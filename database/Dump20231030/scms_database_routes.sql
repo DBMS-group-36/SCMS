@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `routes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `routes` (
-  `Id` varchar(450) NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `MaximumTimeForCompletion` int DEFAULT NULL,
-  `StoreId` varchar(450) DEFAULT NULL,
+  `StoreId` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `routes_ibfk_1` (`StoreId`),
   CONSTRAINT `routes_ibfk_1` FOREIGN KEY (`StoreId`) REFERENCES `stores` (`Id`) ON DELETE CASCADE

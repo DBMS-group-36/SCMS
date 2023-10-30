@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `store_workers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `store_workers` (
-  `EmployeeId` varchar(450) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `EmployeeId` INT NOT NULL AUTO_INCREMENT,
   `Age` int DEFAULT NULL,
-  `StoreId` varchar(450) DEFAULT NULL,
+  `StoreId` int DEFAULT NULL,
   PRIMARY KEY (`EmployeeId`),
   KEY `store_workers_ibfk_2_idx` (`StoreId`),
   CONSTRAINT `store_workers_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employees` (`UserId`),

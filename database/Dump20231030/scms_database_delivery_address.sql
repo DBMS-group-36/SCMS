@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `delivery_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `delivery_address` (
-  `Id` varchar(450) NOT NULL,
-  `CustomerId` varchar(450) DEFAULT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `CustomerId` int DEFAULT NULL,
   `AddressLine1` varchar(450) DEFAULT NULL,
   `AddressLine2` varchar(450) DEFAULT NULL,
   `Province` varchar(256) DEFAULT NULL,

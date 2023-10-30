@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `userclaims`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `userclaims` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` varchar(450) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `UserId` int NOT NULL,
   `ClaimType` longtext,
   `ClaimValue` longtext,
   PRIMARY KEY (`Id`),

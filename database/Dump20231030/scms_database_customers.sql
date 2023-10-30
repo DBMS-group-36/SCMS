@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `customers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
-  `Id` varchar(450) NOT NULL,
-  `UserId` varchar(450) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `UserId` INT NOT NULL,
   `DeliveryAddressId` varchar(650) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

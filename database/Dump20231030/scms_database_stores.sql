@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `stores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stores` (
-  `Id` varchar(450) NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `City` varchar(256) DEFAULT NULL,
   `Capacity` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
@@ -37,7 +37,7 @@ CREATE TABLE `stores` (
 
 LOCK TABLES `stores` WRITE;
 /*!40000 ALTER TABLE `stores` DISABLE KEYS */;
-INSERT INTO `stores` VALUES ('b7ce6d97-7647-11ee-b4e5-b2c634681465','Kotte',0);
+INSERT INTO `stores` VALUES (0,'Kotte',0);
 /*!40000 ALTER TABLE `stores` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `employees` (
-  `UserId` varchar(450) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `UserId` INT NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(100) DEFAULT NULL,
   `LastName` varchar(100) DEFAULT NULL,
   `DateOfBirth` datetime DEFAULT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `employees` (
   `Address` varchar(1000) DEFAULT NULL,
   `NationalId` varchar(50) DEFAULT NULL,
   `JobTitle` varchar(100) DEFAULT NULL,
-  `ManagerId` varchar(450) DEFAULT NULL,
+  `ManagerId` int DEFAULT NULL,
   `HireDate` datetime(6) DEFAULT NULL,
   `Salary` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`UserId`),

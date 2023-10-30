@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `wholesalers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `wholesalers` (
-  `Id` varchar(450) NOT NULL,
-  `CustomerId` varchar(450) DEFAULT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `CustomerId` int DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `wholesalers_ibfk_1` (`CustomerId`),
   CONSTRAINT `wholesalers_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `customers` (`Id`) ON DELETE CASCADE

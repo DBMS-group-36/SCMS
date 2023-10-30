@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `distribution_to_stores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `distribution_to_stores` (
-  `OrderId` varchar(450) NOT NULL,
-  `StoreId` varchar(450) DEFAULT NULL,
-  `TripId` varchar(450) DEFAULT NULL,
+  `OrderId` int NOT NULL AUTO_INCREMENT,
+  `StoreId` int DEFAULT NULL,
+  `TripId` int DEFAULT NULL,
   PRIMARY KEY (`OrderId`),
   KEY `distribution_to_stores_ibfk_2` (`StoreId`),
   KEY `distribution_to_stores_ibfk_3` (`TripId`),

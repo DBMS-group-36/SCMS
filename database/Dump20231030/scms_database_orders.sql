@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
-  `Id` varchar(150) NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
   `OrderDate` datetime DEFAULT NULL,
   `DeliveryDate` datetime DEFAULT NULL,
-  `DeliveryAddressId` varchar(450) DEFAULT NULL,
-  `RouteId` varchar(450) DEFAULT NULL,
+  `DeliveryAddressId` int DEFAULT NULL,
+  `RouteId` int DEFAULT NULL,
   `OrderCapacity` int DEFAULT NULL,
   `State` varchar(450) DEFAULT NULL,
   PRIMARY KEY (`Id`)
@@ -40,7 +40,6 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES ('1','2013-10-10 00:00:00','2013-10-18 00:00:00','3','1',10,'1'),('2','2013-10-10 00:00:00','2013-10-18 00:00:00','3','1',10,'1'),('3','2013-10-10 00:00:00','2013-10-18 00:00:00','3','1',10,'1'),('4','2013-10-10 00:00:00','2013-10-18 00:00:00','3','1',10,'1'),('6','2013-10-10 00:00:00','2013-10-18 00:00:00','3','1',10,'1'),('7','2013-10-10 00:00:00','2013-10-18 00:00:00','3','1',10,'1');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;

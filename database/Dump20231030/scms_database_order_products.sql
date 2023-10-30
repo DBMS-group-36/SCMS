@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `order_products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_products` (
-  `OrderId` varchar(150) NOT NULL,
-  `ProductId` varchar(150) NOT NULL,
+  `OrderId` int NOT NULL,
+  `ProductId` int NOT NULL,
   `Quantity` int DEFAULT NULL,
   `Cost` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`OrderId`,`ProductId`),
@@ -40,7 +40,7 @@ CREATE TABLE `order_products` (
 
 LOCK TABLES `order_products` WRITE;
 /*!40000 ALTER TABLE `order_products` DISABLE KEYS */;
-INSERT INTO `order_products` VALUES ('1','1',5,149.95),('1','10',5,222.50),('1','11',5,138.75),('2','1',5,149.95),('2','10',5,222.50),('2','11',5,138.75),('3','1',5,149.95),('3','10',5,222.50),('3','11',5,138.75),('4','1',5,149.95),('4','10',5,222.50),('4','11',5,138.75),('6','1',5,149.95),('6','10',5,222.50),('6','11',5,138.75);
+INSERT INTO `order_products` VALUES (1,1,5,149.95),(1,10,5,222.50),(1,11,5,138.75);
 /*!40000 ALTER TABLE `order_products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
