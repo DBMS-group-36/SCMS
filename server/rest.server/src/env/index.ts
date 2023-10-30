@@ -4,7 +4,7 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 
 (() => {
-    let path = getEnvFilePath();
+    const path = getEnvFilePath();
 
     const result = dotenv.config({ path });
 
@@ -14,7 +14,7 @@ import dotenv from 'dotenv';
 })();
 
 function getEnvFilePath() {
-    let env = process.env.NODE_ENV || 'development';
+    const env = process.env.NODE_ENV || 'development';
 
     if (!env) {
         throw new Error("No environment variable provided");

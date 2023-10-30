@@ -7,7 +7,6 @@ export async function getAllStores() {
 }
 
 export function insertStore(data) {
-    console.log("Inserting store", data)
     return axios.post(`${BACKEND_URL}/api/admin/store`, {
         City: data?.city,
         Capacity: data?.capacity
