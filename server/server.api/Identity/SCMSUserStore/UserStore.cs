@@ -35,7 +35,7 @@ public partial class SCMSUserStore : IUserStore<SCMSUser>
             $"{user.AccessFailedCount.toSqlString()} " +
             $");";
 
-        Console.WriteLine( sql );
+        //Console.WriteLine( sql );
         var result = await database.ExecuteAsync(sql);
         if (result == 1) return IdentityResult.Success;
         else return IdentityResult.Failed(new IdentityError { Description = $"{result} rows affected." });

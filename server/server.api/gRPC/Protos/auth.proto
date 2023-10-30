@@ -22,26 +22,26 @@ service Auth {
 }
 
 message LoginRequest {	
-  string userName = 1;
-  string email = 2;
-  string password = 3;
+	string userName = 1;
+	string email = 2;
+	string password = 3;
 }
 
 message RegisterRequest {
-  string userName = 1;
-  string email = 2;
-  string password = 3;
+	string userName = 1;
+	string email = 2;
+	string password = 3;
 }
 
 message TokenResponseReply {
-  string accessToken = 1;
-  string refreshToken = 2;
-  string expire = 3;
-  StatusReply response = 4;
+	string accessToken = 1;
+	string refreshToken = 2;
+	string expire = 3;
+	StatusReply response = 4;
 }
 
 message StatusReply {
-  string message = 1;
-  bool isSuccess = 2;
-  repeated string errors = 3;
+	string message = 1;
+	bool isSuccess = 2;
+	repeated string errors = 3;
 }

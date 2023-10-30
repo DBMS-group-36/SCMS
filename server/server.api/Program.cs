@@ -10,7 +10,7 @@ using server.api.DataAccess;
 using System.Text;
 using server.api.Identity.Services;
 using server.api.gRPC.Services;
-
+using server.api.BusinessLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -62,6 +62,8 @@ var app = builder.Build();
 app.UseAuthorization();
 //app.MapControllers();
 app.MapGrpcService<AuthService>();
+app.MapGrpcService<TruckService>();
+app.MapGrpcService<StoreService>();
 app.MapGrpcService<WeatherService>();
 app.MapGrpcReflectionService();
 app.MapRazorPages();
