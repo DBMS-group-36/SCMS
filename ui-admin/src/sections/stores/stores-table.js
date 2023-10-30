@@ -36,7 +36,7 @@ export const StoresTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell width={130}>
+                <TableCell width={170}>
                   Store ID
                 </TableCell>
                 <TableCell>
@@ -55,26 +55,26 @@ export const StoresTable = (props) => {
                 return (
                   <TableRow
                     hover
-                    key={store.Id}
+                    key={store.id}
                   >
                     <TableCell>
-                      <Typography variant="h6">
-                        {store.Id}
+                      <Typography variant="subtitle2">
+                        {store.id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {store.City}
+                      {store.city}
                     </TableCell>
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.Capacity} Cubic Meters
+                        {store.capacity} Cubic Meters
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"
                         aria-label="edit"
-                        href={`/stores/edit/${store.Id}`}
+                        href={`/stores/edit/${store.id}`}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>

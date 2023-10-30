@@ -12,44 +12,8 @@ import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
+import { getAllStores } from 'src/apis/stores';
 
-const mockData = [
-  {
-    Id: 1,
-    City: 'Gampaha',
-    Capacity: 900,
-  },
-  {
-    Id: 2,
-    City: 'Rathmalana',
-    Capacity: 400,
-  },
-  {
-    Id: 3,
-    City: 'Katubadda',
-    Capacity: 60,
-  },
-  {
-    Id: 4,
-    City: 'Anuradhapura',
-    Capacity: 20,
-  },
-  {
-    Id: 5,
-    City: 'Gampola',
-    Capacity: 90,
-  },
-  {
-    Id: 6,
-    City: 'Kurunegala',
-    Capacity: 28,
-  },
-  {
-    Id: 7,
-    City: 'Rathnapura',
-    Capacity: 232,
-  },
-];
 
 const useStores = (data, page, rowsPerPage) => {
   return useMemo(
@@ -70,12 +34,19 @@ const Page = () => {
 
   const [loading, setLoading] = useState(true)
 
-  function retrieveAndRefreshData() {
+  async function retrieveAndRefreshData() {
     setLoading(true)
-    // TODO: Fetch data from api and  refresh data
-    setData(mockData)
+    try {
+      const stores = (await getAllStores()) || [];
+
+      console.log(stores, "Stores")
+      setData(stores)
+    } catch(e) {
+      console.error(e)
+    }
     setLoading(false)
   }
+
 
   useEffect(() => {
     retrieveAndRefreshData()
@@ -178,7 +149,7 @@ const Page = () => {
             {loading && <LinearProgress />}
 
             <StoresTable
-              count={mockData.length}
+              count={data.length}
               items={stores}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}

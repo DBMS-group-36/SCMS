@@ -15,15 +15,15 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      Capacity: 0,
-      City: '',
+      capacity: 0,
+      city: '',
       submit: null
     },
     validationSchema: Yup.object({
-      City: Yup
+      city: Yup
         .string()
         .required('City is required'),
-      Capacity: Yup
+      capacity: Yup
         .number()
         .max(10000)
         .required('Capacity is required')
@@ -116,15 +116,15 @@ const Page = () => {
                           (params) =>
                             <TextField
                               {...params}
-                              error={!!(formik.touched.City && formik.errors.City)}
-                              helperText={formik.touched.City && formik.errors.City}
+                              error={!!(formik.touched.city && formik.errors.city)}
+                              helperText={formik.touched.city && formik.errors.city}
                               onBlur={(e) => { formik.handleBlur(e) }}
                               label="Select City"
                             />
                         }
-                        onChange={(_, newValue) => formik.setFieldValue("City", newValue)}
-                        name="City"
-                        value={formik.values.City}
+                        onChange={(_, newValue) => formik.setFieldValue("city", newValue)}
+                        name="city"
+                        value={formik.values.city}
                       />
                     </FormControl>
                     <FormControl
@@ -133,12 +133,12 @@ const Page = () => {
                     >
                       <TextField
                         fullWidth
-                        label="Capacity"
+                        label="capacity"
                         type="number"
-                        name="Capacity"
-                        error={!!(formik.touched.Capacity && formik.errors.Capacity)}
-                        helperText={formik.touched.Capacity && formik.errors.Capacity}
-                        value={formik.values.Capacity}
+                        name="capacity"
+                        error={!!(formik.touched.capacity && formik.errors.capacity)}
+                        helperText={formik.touched.capacity && formik.errors.capacity}
+                        value={formik.values.capacity}
                         onChange={formik.handleChange}
                       />
                     </FormControl>
