@@ -13,24 +13,27 @@ import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
 import { getAllStores } from 'src/apis/stores';
+import { searchObjects } from 'src/utils/search-objects';
 
 
-const useStores = (data, page, rowsPerPage) => {
+const useStores = (data, page, rowsPerPage, search) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      const filtered = searchObjects(data, search)
+      return applyPagination(filtered, page, rowsPerPage);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, rowsPerPage, data]
+    [page, rowsPerPage, data, search]
   );
 };
 
 const Page = () => {
   const [page, setPage] = useState(0);
 
+  const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const stores = useStores(data, page, rowsPerPage);
+  const stores = useStores(data, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
 
@@ -38,10 +41,10 @@ const Page = () => {
     setLoading(true)
     try {
       const stores = (await getAllStores()) || [];
-
-      console.log(stores, "Stores")
+      console.log("Stored were fetched from the database", stores)
+      
       setData(stores)
-    } catch(e) {
+    } catch (e) {
       console.error(e)
     }
     setLoading(false)
@@ -69,7 +72,7 @@ const Page = () => {
   const confirm = useConfirm()
 
   const handleDelete = (store) => {
-    confirm({ description: `This will permanently delete the record`})
+    confirm({ description: `This will permanently delete the record` })
       .then(() => {
         // TODO: Delete the data, api call
 
@@ -136,7 +139,7 @@ const Page = () => {
                         <ArrowPathIcon />
                       </SvgIcon>
                     )}
-                    onClick={() => setRefreshCount(s => s + 1)}
+                    onClick={() => retrieveAndRefreshData()}
                     variant="outlined"
                   >
                     Refresh
@@ -144,7 +147,10 @@ const Page = () => {
                 </Stack>
               </div>
             </Stack>
-            <StoresSearch />
+            <StoresSearch
+              search={search}
+              onSearch={setSearch}
+            />
 
             {loading && <LinearProgress />}
 
