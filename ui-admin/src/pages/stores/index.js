@@ -12,7 +12,7 @@ import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
-import { getAllStores } from 'src/apis/stores';
+import { deleteStore, getAllStores } from 'src/apis/stores';
 import { searchObjects } from 'src/utils/search-objects';
 
  
@@ -71,10 +71,18 @@ const Page = () => {
 
   const confirm = useConfirm()
 
-  const handleDelete = (store) => {
+  const handleDelete = async (store) => {
     confirm({ description: `This will permanently delete the record` })
-      .then(() => {
+      .then(async () => {
         // TODO: Delete the data, api call
+        try {
+          setLoading(true)
+          await deleteStore(store.Id)
+          console.log("Record was successfully deleted...")
+      
+        } catch (e) {
+          console.error(e)
+        }
 
         retrieveAndRefreshData()
       })

@@ -17,7 +17,7 @@ export enum LOG_TRANSPORT {
   BOTH
 }
 
-const APPLICATION_NAME: string = "health-monitor";
+const APPLICATION_NAME: string = "scms-application";
 
 let LOGGER_NAME: string;
 

@@ -18,5 +18,5 @@ export function updateStore() {
 }
 
 export function deleteStore(storeId) {
-    return axios.delete(`${BACKEND_URL}/api/admin/stores/`)
+    return axios.delete(`${BACKEND_URL}/api/admin/stores/${storeId}`)
 }
