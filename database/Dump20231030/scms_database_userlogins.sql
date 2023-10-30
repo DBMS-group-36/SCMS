@@ -26,7 +26,7 @@ CREATE TABLE `userlogins` (
   `LoginProvider` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ProviderKey` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ProviderDisplayName` longtext,
-  `UserId` int NOT NULL AUTO_INCREMENT,
+  `UserId` int NOT NULL,
   PRIMARY KEY (`LoginProvider`,`ProviderKey`),
   KEY `IX_UserLogins_UserId` (`UserId`),
   CONSTRAINT `userlogins_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE CASCADE

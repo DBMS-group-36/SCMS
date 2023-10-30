@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `userroles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `userroles` (
-  `UserId` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `RoleId` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `UserId` int NOT NULL,
+  `RoleId` int NOT NULL,
   PRIMARY KEY (`UserId`,`RoleId`),
   KEY `IX_UserRoles_RoleId` (`RoleId`),
   CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`RoleId`) REFERENCES `roles` (`Id`) ON DELETE CASCADE,
@@ -38,7 +38,7 @@ CREATE TABLE `userroles` (
 
 LOCK TABLES `userroles` WRITE;
 /*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
-INSERT INTO `userroles` VALUES ('7e543796-9b5e-4162-b953-e8d08a0b197b','07223246-efb5-4a24-88ea-fd11fb622fe0'),('a08ce4b3-0853-4bea-85b3-b27f47d7f3f2','07223246-efb5-4a24-88ea-fd11fb622fe0'),('d5488008-06ca-438f-bd81-0541bc679fd3','07223246-efb5-4a24-88ea-fd11fb622fe0');
+-- INSERT INTO `userroles` VALUES ('7e543796-9b5e-4162-b953-e8d08a0b197b','07223246-efb5-4a24-88ea-fd11fb622fe0'),('a08ce4b3-0853-4bea-85b3-b27f47d7f3f2','07223246-efb5-4a24-88ea-fd11fb622fe0'),('d5488008-06ca-438f-bd81-0541bc679fd3','07223246-efb5-4a24-88ea-fd11fb622fe0');
 /*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `distribution_to_stores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `distribution_to_stores` (
-  `OrderId` int NOT NULL AUTO_INCREMENT,
+  `OrderId` int NOT NULL,
   `StoreId` int DEFAULT NULL,
   `TripId` int DEFAULT NULL,
   PRIMARY KEY (`OrderId`),

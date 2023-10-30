@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `roleclaims`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roleclaims` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `RoleId` int NOT NULL AUTO_INCREMENT,
+  `RoleId` int DEFAULT NULL,
   `ClaimType` longtext,
   `ClaimValue` longtext,
   PRIMARY KEY (`Id`),
