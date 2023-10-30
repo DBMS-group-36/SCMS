@@ -59,15 +59,15 @@ export const StoresTable = (props) => {
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.id}
+                        {store.Id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {store.city}
+                      {store.City}
                     </TableCell>
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.capacity} Cubic Meters
+                        {store.Capacity} Cubic Meters
                       </Typography>
                     </TableCell>
                     <TableCell>

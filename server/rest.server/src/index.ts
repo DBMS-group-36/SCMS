@@ -8,6 +8,7 @@ import './env'
 import BaseRouter from './routes';
 import { StatusCodes } from 'http-status-codes';
 import logger from './shared/logger';
+import cors from 'cors'
 
 const app = express();
 
@@ -15,12 +16,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+// Cors Origin for Client Access
+
+app.use(cors({
+  origin: '*'
+}));
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
-}
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(helmet());
 }
 
 app.use('/', BaseRouter);
@@ -29,7 +33,7 @@ app.use('/', BaseRouter);
 const { INTERNAL_SERVER_ERROR } = StatusCodes;
 
 app.use((err: Error, req: Request, res: Response) => {
-  logger.error(err);
+  logger.error(err.message);
 
   return res.status(INTERNAL_SERVER_ERROR).json({
     status: 'failed',
