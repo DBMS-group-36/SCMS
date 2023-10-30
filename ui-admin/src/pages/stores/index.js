@@ -6,7 +6,7 @@ import { Box, Button, Container, LinearProgress, Stack, SvgIcon, Typography } fr
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { StoresTable } from 'src/sections/stores/stores-table';
-import { StoresSearch } from 'src/sections/stores/stores-search';
+import { StoresSearch } from 'src/sections/big-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
@@ -29,10 +29,10 @@ const useStores = (data, page, rowsPerPage, search) => {
 
 const Page = () => {
   const [page, setPage] = useState(0);
-
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const stores = useStores(data, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
@@ -150,6 +150,7 @@ const Page = () => {
             <StoresSearch
               search={search}
               onSearch={setSearch}
+              placeholder={"Search stores"}
             />
 
             {loading && <LinearProgress />}

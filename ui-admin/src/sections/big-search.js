@@ -6,7 +6,7 @@ export const StoresSearch = (props) => (
   <Card sx={{ p: 2 }}>
     <OutlinedInput
       fullWidth
-      placeholder="Search store"
+      placeholder={props.placeholder}
       value={props.search}
       onChange={(evt) => props.onSearch(evt.target?.value)}
       startAdornment={(
