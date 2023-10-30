@@ -40,20 +40,19 @@ public class StoreService : Store.StoreBase
         {
             if (request.P.Limit < 1)
             {
-                request.P.Limit = 20;
+                request.P.Limit = 200;
             }
             sql += $" LIMIT {request.P.Limit.toSqlString()} OFFSET {request.P.Offset.toSqlString()}";
         }
 
         else
         {
-            sql += $" LIMIT {20.toSqlString()} OFFSET {0.toSqlString()}";
+            sql += $" LIMIT {200.toSqlString()} OFFSET {0.toSqlString()}";
         }
 
         var stores = await database.QueryAllAsync<StoreMessage>(sql);
 
         reply.Stores.AddRange(stores);
-
         reply.Count = (int)await database.ExecuteScalarAsync<long>(countSql);
 
         return reply;
@@ -64,15 +63,15 @@ public class StoreService : Store.StoreBase
     {
         var reply = request;
 
-        var sql = $"CALL insert_store(" +
-            $"{request.City.toSqlString()}, " +
-            $"{request.Capacity.toSqlString()})";
+        var sql = $"INSERT INTO stores(City, Capacity) VALUES(@City, @Capacity); SELECT LAST_INSERT_ID();";
 
+        MySqlParameter[] parameters = new MySqlParameter[]
+            {
+                new("@City", request.City),
+                new("@Capacity", request.Capacity)
+            };
 
-        var Id = await database.ExecuteScalarAsync<string>(sql);
-
-        reply.Id = Id;
-
+        var Id = await database.ExecuteScalarAsync<ulong>(sql, parameters);
         return reply;
     }
 
