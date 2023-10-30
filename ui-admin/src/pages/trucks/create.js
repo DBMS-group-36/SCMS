@@ -8,7 +8,6 @@ import _cities from "src/pages/cities.json";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { insertStore } from 'src/apis/stores';
 
 const Page = () => {
   const router = useRouter();
@@ -16,24 +15,24 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      capacity: 0,
-      city: '',
+      Capacity: 0,
+      City: '',
       submit: null
     },
     validationSchema: Yup.object({
-      city: Yup
+      City: Yup
         .string()
         .required('City is required'),
-      capacity: Yup
+      Capacity: Yup
         .number()
         .max(10000)
         .required('Capacity is required')
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await insertStore(formik.values)
-        
-        enqueueSnackbar('Store was added successfully!', {
+        // TODO: use axios and Connect with backend do the post request and create
+
+        enqueueSnackbar('Truck was added successfully!', {
           variant: 'success',
           anchorOrigin: {
             vertical: 'bottom',
@@ -43,7 +42,7 @@ const Page = () => {
           autoHideDuration: 2000
         })
 
-        setTimeout(() => router.push('/stores'), 400)
+        setTimeout(() => router.push('/trucks'), 400)
         
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -57,7 +56,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Stores | A Suppilers
+          Strucks | A Suppilers
         </title>
       </Head>
       <Box
@@ -76,17 +75,17 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h5">
-                  Stores
+                  Strucks
                 </Typography>
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'Stores',
-                    linkUrl: '/stores',
+                    text: 'Trucks',
+                    linkUrl: '/trucks',
                   },
                   {
                     text: 'Add New',
-                    linkUrl: '/stores/create',
+                    linkUrl: '/trucks/create',
                     active: true
                   },
                 ]} />
@@ -95,7 +94,7 @@ const Page = () => {
 
             </Stack>
             <Card sx={{ overflow: 'visible' }}>
-              <CardHeader title="Add New Store" />
+              <CardHeader title="Add New Truck" />
               <CardContent>
                 <form onSubmit={formik.handleSubmit}>
                   <Stack
@@ -117,15 +116,15 @@ const Page = () => {
                           (params) =>
                             <TextField
                               {...params}
-                              error={!!(formik.touched.city && formik.errors.city)}
-                              helperText={formik.touched.city && formik.errors.city}
+                              error={!!(formik.touched.City && formik.errors.City)}
+                              helperText={formik.touched.City && formik.errors.City}
                               onBlur={(e) => { formik.handleBlur(e) }}
                               label="Select City"
                             />
                         }
-                        onChange={(_, newValue) => formik.setFieldValue("city", newValue)}
-                        name="city"
-                        value={formik.values.city}
+                        onChange={(_, newValue) => formik.setFieldValue("City", newValue)}
+                        name="City"
+                        value={formik.values.City}
                       />
                     </FormControl>
                     <FormControl
@@ -136,10 +135,10 @@ const Page = () => {
                         fullWidth
                         label="Capacity"
                         type="number"
-                        name="capacity"
-                        error={!!(formik.touched.capacity && formik.errors.capacity)}
-                        helperText={formik.touched.capacity && formik.errors.capacity}
-                        value={formik.values.capacity}
+                        name="Capacity"
+                        error={!!(formik.touched.Capacity && formik.errors.Capacity)}
+                        helperText={formik.touched.Capacity && formik.errors.Capacity}
+                        value={formik.values.Capacity}
                         onChange={formik.handleChange}
                       />
                     </FormControl>

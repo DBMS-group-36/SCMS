@@ -6,12 +6,16 @@ export async function getAllStores() {
     return response.data.stores
 }
 
-export function insertStore() {
-    return axios.get(`${BACKEND_URL}/api/admin/store`)
+export function insertStore(data) {
+    console.log("Inserting store", data)
+    return axios.post(`${BACKEND_URL}/api/admin/store`, {
+        City: data?.city,
+        Capacity: data?.capacity
+    })
 }
 
 export function updateStore() {
-    return axios.get(`${BACKEND_URL}/api/admin/store`)
+    return axios.put(`${BACKEND_URL}/api/admin/store`)
 }
 
 export function deleteStore(storeId) {
