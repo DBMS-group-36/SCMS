@@ -1,4 +1,6 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+using MySql.Data.MySqlClient;
 
 namespace server.api.DataAccess;
 
@@ -45,7 +47,9 @@ public class MySQLDatabase : IDatabase
             {
                 if (p.Name == "Parser" || p.Name == "Descriptor") return;
                 var val = reader[p.Name];
-                if (val is not DBNull) p.SetValue(item, val);
+                if (val is DBNull) return;
+                if (p.PropertyType == typeof(string)) val = val.ToString();
+                p.SetValue(item, val);
             });
 
             result.Add(item);

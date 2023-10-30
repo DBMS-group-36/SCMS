@@ -7,12 +7,12 @@ using NuGet.Protocol.Plugins;
 
 using server.api.DataAccess;
 using server.api.DataAccess.SqlQueryExtensions;
-using server.api.gRPC;
+using server.api.gRPC.Admin;
 using server.api.Identity.Services;
 
 using System.Configuration;
 
-namespace server.api.BusinessLogic;
+namespace server.api.gRPC.Services.Admin;
 
 public class TruckService : Truck.TruckBase
 {

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="gRPC\Protos\product.proto" />
     <None Remove="gRPC\Protos\store.proto" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
     <PackageReference Include="FluentValidation" Version="11.7.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.57.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.58.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="7.0.11" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.10" />
@@ -31,11 +33,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="gRPC\Protos\store.proto" GrpcServices="Server" />
-    <Protobuf Include="gRPC\Protos\weatherForecast.proto" GrpcServices="Server" />
-    <Protobuf Include="gRPC\Protos\auth.proto" GrpcServices="Server" />
-	<Protobuf Include="gRPC\Protos\truck.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\Customer\product.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\Admin\store.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\Authentication\auth.proto" GrpcServices="Server" />
+	<Protobuf Include="gRPC\Protos\Admin\truck.proto" GrpcServices="Server" />
 	<Protobuf Include="gRPC\Protos\shared.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

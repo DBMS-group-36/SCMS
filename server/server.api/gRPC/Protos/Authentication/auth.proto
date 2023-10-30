@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "server.api.gRPC";
+option csharp_namespace = "server.api.gRPC.Authentication";
 
 package auth;
 
@@ -9,13 +9,13 @@ import "google/api/annotations.proto";
 service Auth {
   rpc Login (LoginRequest) returns (TokenResponseReply){
 	  option (google.api.http) = {
-		  post: "/auth/login",
+		  post: "/api/auth/login",
 		  body: "*"
 	  };
   }
   rpc Register (RegisterRequest) returns (StatusReply){
 	  option (google.api.http) = {
-		  post: "/auth/register",
+		  post: "/api/auth/register",
 		  body: "*"
 	  };
   }

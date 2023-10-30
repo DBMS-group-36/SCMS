@@ -1,8 +1,8 @@
 ﻿using Grpc.Core;
-using server.api.gRPC;
 using server.api.Identity.Services;
+using server.api.gRPC.Authentication;
 
-namespace server.api.gRPC.Services;
+namespace server.api.gRPC.Services.Authentication;
 
 public class AuthService : Auth.AuthBase
 {

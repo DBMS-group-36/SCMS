@@ -10,9 +10,9 @@ using server.api.DataAccess;
 using System.Text;
 using server.api.Identity.Services;
 using server.api.gRPC.Services;
-using server.api.BusinessLogic;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var configuration = builder.Configuration;
 
 // Add services to the container.
@@ -57,14 +57,12 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 
 // Configure the HTTP request pipeline.
 app.UseAuthorization();
 //app.MapControllers();
-app.MapGrpcService<AuthService>();
-app.MapGrpcService<TruckService>();
-app.MapGrpcService<StoreService>();
-app.MapGrpcService<WeatherService>();
+app.MapSCMSGrpcServices();
 app.MapGrpcReflectionService();
 app.MapRazorPages();
 
