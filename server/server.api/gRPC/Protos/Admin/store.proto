@@ -40,7 +40,7 @@ service Store {
 }
 
 message GetStoresRequest {
-	optional string id = 2;
+	optional int32 id = 2;
 	shared.Pagination p = 3;
 }
 
@@ -50,7 +50,7 @@ message GetStoresReply {
 }
 
 message StoreMessage {
-	string id = 1;
+	int32 id = 1;
 	string city = 2;
 	int32 capacity = 3;
 }
