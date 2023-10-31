@@ -1,5 +1,5 @@
 
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import 'express-async-errors';
 import morgan from 'morgan';
@@ -32,8 +32,9 @@ app.use('/', BaseRouter);
 // Print API errors
 const { INTERNAL_SERVER_ERROR } = StatusCodes;
 
-app.use((err: Error, req: Request, res: Response) => {
-  logger.error(err.message);
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  logger.error("Internal server error");
+  console.error(error)
 
   return res.status(INTERNAL_SERVER_ERROR).json({
     status: 'failed',

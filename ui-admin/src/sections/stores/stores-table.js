@@ -55,7 +55,7 @@ export const StoresTable = (props) => {
                 return (
                   <TableRow
                     hover
-                    key={store.id}
+                    key={store.Id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
@@ -66,9 +66,7 @@ export const StoresTable = (props) => {
                       {store.City}
                     </TableCell>
                     <TableCell>
-                      <Typography variant="subtitle2">
-                        {store.Capacity} Cubic Meters
-                      </Typography>
+                        {store.Capacity} Cubic Meters           
                     </TableCell>
                     <TableCell>
                       <IconButton

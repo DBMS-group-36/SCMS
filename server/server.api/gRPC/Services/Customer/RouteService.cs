@@ -31,13 +31,13 @@ public class RouteService : Route.RouteBase
         var reply = new GetRoutesReply();
         var sql = "SELECT * FROM routes";
         var countSql = "SELECT COUNT(*) FROM routes";
-
-        if (request.Id != 0)
-        {
-            sql += $" WHERE Id = {request.Id.ToSqlString()}";
-            countSql += $" WHERE Id = {request.Id.ToSqlString()}";
-        }
-
+        // check here
+        Console.WriteLine(request);
+       
+            sql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
+            countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
+//         sql += $" WHERE StoreId = 61";
+// countSql += $" WHERE StoreId = 61";
         if (request.P is not null)
         {
             if (request.P.Limit < 1)
@@ -52,7 +52,7 @@ public class RouteService : Route.RouteBase
             sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
-        var products = await database.QueryAllAsync<ListedProductMessage>(sql);
+        var products = await database.QueryAllAsync<RouteMessage>(sql);
 
         reply.Routes.AddRange(products);
 

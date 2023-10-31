@@ -95,7 +95,7 @@
           <GridItem
             title={item.name}
             price={Number(item.price)}
-            weight={item.capacityPerUnit}
+            weight={item.CapacityPerUnit}
           />
         {/each}
       </div>

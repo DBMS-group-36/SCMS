@@ -17,7 +17,7 @@ using System.Security.Claims;
 
 namespace server.api.gRPC.Services.Customer;
 
-[Authorize]
+
 public class OrderService : Order.OrderBase
 {
     private readonly IDatabase database;

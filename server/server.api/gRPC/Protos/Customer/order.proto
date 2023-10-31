@@ -17,7 +17,8 @@ service Order {
 
 	rpc PlaceOrder (PlaceOrderRequest) returns (OrderMessage){
 		option (google.api.http) = {
-			post: "/api/order"
+			post: "/api/order",
+			body : "*"
 		};
 	}
 
@@ -62,6 +63,16 @@ message CancelOrderRequest {
 message OrderProduct {
 	uint64 productId = 1;
 	int32 quantity = 2;
+}
+
+message OrderMessage {
+	uint64 id = 1;
+	google.protobuf.Timestamp orderDate = 2;
+	google.protobuf.Timestamp deliveryDate = 3;
+	uint64 deliveryAddressId = 4;
+	uint64 routeId = 5;
+	string price = 6;
+	string status = 7;
 }
 
 message OrderMessage {

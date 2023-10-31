@@ -10,23 +10,26 @@ import "gRPC/Protos/shared.proto";
 service Route {
 	rpc GetDeliveryRoutes (GetRoutesRequest) returns (GetRoutesReply) {
 		option (google.api.http) = {
-			get: "/api/routes"
+			post: "/api/routes",
+			body : "*"
 		};
 	}
 }
 
 message GetRoutesRequest {
-	optional uint64 id = 2;
-	optional shared.Pagination p = 3;
+	uint64 storeId = 1;
+	optional shared.Pagination p = 2;
 }
 
 message GetRoutesReply {
-	repeated shared.ListedProductMessage routes = 1;
+	repeated RouteMessage routes = 1;
 	int64 count = 2;
 
 }
 
 message RouteMessage {
-	string a = 1;
+	int32 Id = 1;
+	int32 MaximumTimeForCompletion = 2;
+	int32 StoreId = 3;
 }
 

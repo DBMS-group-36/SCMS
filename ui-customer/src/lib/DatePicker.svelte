@@ -22,8 +22,11 @@
 
   // Create a reactive object to store the calculated values
   let totalPrice = 0;
+  export let isOpen = false;
   let totalWeight = 0;
-  let stores;
+  let stores: any[] = [];
+  let routes: any[] = [];
+
   fetch("http://localhost:5000/api/admin/store")
     .then((res) => res.json())
     .then((data) => {
@@ -59,7 +62,25 @@
   let rows = initRows();
 
   // props
-
+  async function locationOnChange() {
+    console.log(location);
+    isOpen = true;
+    await fetch("http://localhost:5000/api/routes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        storeId: location,
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        routes = json.routes;
+        console.log(routes);
+      });
+    isOpen = false;
+  }
   // reactivity, on inputTxt changes
   $: dispatch("datepicked", {
     datepicked: inputTxt,
@@ -99,7 +120,7 @@
       [0, 0, 0, 0, 0, 0, 0],
     ];
   }
-  let currentDatePlus14Days = dayjs().add(14, "day");
+  let currentDatePlus14Days = dayjs().add(7, "day");
 
   // ... (your existing code)
 
@@ -182,6 +203,14 @@
   }
 </script>
 
+{#if isOpen}
+  <div class="modal">
+    <div class="modal-content">
+      <div class="loading-indicator" />
+      <p class="text-black">Loading...</p>
+    </div>
+  </div>
+{/if}
 {#if isOpenCalendar}
   <div
     class="fixed z-40 left-0 top-0 w-full h-full overflow-auto bg-zinc-700 bg-opacity-40"
@@ -322,23 +351,37 @@
       <label class="text-gray-200">Select Location</label>
       <label class="label">
         <!-- <span>Select Location</span> -->
-        <select class="select w-64" bind:value={location}>
-          <option value="1">Option 1</option>
+        <select
+          class="select w-64"
+          bind:value={location}
+          on:change={() => {
+            locationOnChange();
+          }}
+        >
+          {#each stores as s}
+            <option value={s.id}>{s.city} - {s.id}</option>
+          {/each}
+          <!-- <option value="1">Option 1</option>
           <option value="2">Option 2</option>
           <option value="3">Option 3</option>
           <option value="4">Option 4</option>
-          <option value="5">Option 5</option>
+          <option value="5">Option 5</option> -->
         </select>
       </label>
       <label class="text-gray-200">Select Route</label>
       <label class="label">
         <!-- <span>Select Location</span> -->
         <select class="select w-64" bind:value={route}>
-          <option value="1">Option 1</option>
+          {#each routes as r}
+            <option value={r.Id}
+              >{r.Id} : max-duration {r.MaximumTimeForCompletion}</option
+            >
+          {/each}
+          <!-- <option value="1">Option 1</option>
           <option value="2">Option 2</option>
           <option value="3">Option 3</option>
           <option value="4">Option 4</option>
-          <option value="5">Option 5</option>
+          <option value="5">Option 5</option> -->
         </select>
       </label>
       <label class="text-gray-200">Select Date</label>
@@ -387,3 +430,42 @@
     </section>
   </div>
 </div>
+
+<style>
+  /* Style the modal and loading indicator as needed */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .loading-indicator {
+    /* Add your loading indicator styles (e.g., spinner, animation) */
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
