@@ -13,6 +13,7 @@
 <div class="card rounded-lg bg-opacity-50 p-4">
   <div
     on:click={() => {
+      console.log("clicked");
       if (show) {
         show = false;
       } else {

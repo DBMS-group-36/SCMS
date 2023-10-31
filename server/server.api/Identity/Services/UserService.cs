@@ -54,7 +54,7 @@ public class UserService : IUserService
             UserName = request.UserName,
             Email = request.Email
         };
-
+        
         var result = await userManager.CreateAsync(user, request.Password);
 
 

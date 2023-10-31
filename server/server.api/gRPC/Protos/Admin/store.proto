@@ -40,7 +40,9 @@ service Store {
 }
 
 message GetStoresRequest {
+
 	optional uint64 id = 2;
+
 	shared.Pagination p = 3;
 }
 
