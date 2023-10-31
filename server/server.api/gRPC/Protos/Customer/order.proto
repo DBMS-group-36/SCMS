@@ -16,7 +16,8 @@ service Order {
 
 	rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderReply){
 		option (google.api.http) = {
-			post: "/api/order"
+			post: "/api/order",
+			body : "*"
 		};
 	}
 
@@ -37,16 +38,11 @@ message GetOrdersReply {
 	int64 count = 2;
 }
 
-message PlaceOrderRequest {
-	repeated OrderItem orderItems = 1;
-	uint64 routeId = 2;
-	string deliveryDate = 3;
-	uint64 deliveryAddressId = 4;
-}
+
 
 message PlaceOrderReply {
-	string status = 1;
-	uint64 orderId = 2;
+	
+	uint64 orderId = 1;
 }
 
 message CancelOrderRequest {
@@ -57,9 +53,19 @@ message CancelOrderReply {
 	uint64 orderId = 1;
 	PlaceOrderRequest orderDetails = 2;
 }
-
+message PlaceOrderRequest {
+	repeated OrderItem orderItems = 1;
+	uint64 routeId = 2;
+	string deliveryDate = 3;
+	string orderDate = 4;
+	string deliveryAddressId = 5;
+	uint64 orderCapacity = 6;
+	float  price = 7;
+	uint64 storeId = 8;
+}
 message OrderItem {
 	uint64 itemId = 1;
 	int32 quantity = 2;
+	int32 unitPrice = 3;
 }
 
