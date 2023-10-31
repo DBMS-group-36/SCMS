@@ -13,5 +13,6 @@ message Pagination {
 message ListedProductMessage {
 	string id = 1;
 	string name = 2;
-	string price = 4;
+	string price = 3;
+	int32 CapacityPerUnit = 4;
 }

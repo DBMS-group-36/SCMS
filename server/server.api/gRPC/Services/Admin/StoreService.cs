@@ -30,7 +30,7 @@ public class StoreService : Store.StoreBase
         var sql = "SELECT * FROM stores";
         var parameters = new Dictionary<string, object>();
         var countSql = "SELECT COUNT(*) FROM stores";
-
+        Console.WriteLine(request.Id);
         if (request.Id != 0)
         {
             sql += $" WHERE Id = @Id";

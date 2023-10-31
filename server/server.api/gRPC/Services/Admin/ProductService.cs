@@ -25,11 +25,11 @@ public class ProductService : Product.ProductBase
 
     public async override Task<GetProductsReply> GetProducts(GetProductsRequest request, ServerCallContext context)
     {
-
+        Console.WriteLine("fuck");
         var reply = new GetProductsReply();
         var sql = "SELECT * FROM products";
         var countSql = "SELECT COUNT(*) FROM products";
-
+   
         if (request.Id != 0)
         {
             sql += $" WHERE Id = {request.Id.ToSqlString()}";
