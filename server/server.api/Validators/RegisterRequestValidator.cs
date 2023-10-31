@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-using server.api.gRPC;
+using server.api.gRPC.Authentication;
 
 namespace server.api.Validators;
 

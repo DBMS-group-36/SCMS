@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const StoresTable = (props) => {
+export const ProductsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -37,44 +37,47 @@ export const StoresTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={170}>
-                  Store ID
+                  Product ID
                 </TableCell>
                 <TableCell>
-                  City
+                  Product Name
                 </TableCell>
                 <TableCell>
-                  Capacity
+                  Capacity per Unit
                 </TableCell>
                 <TableCell>
-                  Actions
+                  Price
+                </TableCell>
+                <TableCell>
+                  Number of Units sold
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((store) => {
+              {items.map((product) => {
                 return (
                   <TableRow
                     hover
-                    key={store.id}
+                    key={product.id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.id}
+                        {product.id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {store.city}
+                      {product.city}
                     </TableCell>
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.capacity} Cubic Meters
+                        {product.capacity} Cubic Meters
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"
                         aria-label="edit"
-                        href={`/stores/edit/${store.id}`}
+                        href={`/products/edit/${product.id}`}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>
@@ -85,7 +88,7 @@ export const StoresTable = (props) => {
                       <IconButton
                         color="primary"
                         aria-label="remove"
-                        onClick={() => handleDelete(store)}
+                        onClick={() => handleDelete(product)}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>
@@ -113,7 +116,7 @@ export const StoresTable = (props) => {
   );
 };
 
-StoresTable.propTypes = {
+ProductsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,

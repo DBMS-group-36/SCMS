@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const StoresTable = (props) => {
+export const Transportation_train_tripsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -37,44 +37,53 @@ export const StoresTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={170}>
-                  Store ID
+                  Transportation train trip ID
                 </TableCell>
                 <TableCell>
-                  City
+                  Date
                 </TableCell>
                 <TableCell>
-                  Capacity
+                  Time of Departure
                 </TableCell>
                 <TableCell>
-                  Actions
+                  Time of Arrival
+                </TableCell>
+                <TableCell>
+                  Capacity allocated
+                </TableCell>
+                <TableCell>
+                  destination
+                </TableCell>
+                <TableCell>
+                  Capacity available
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((store) => {
+              {items.map((transportation_train_trip) => {
                 return (
                   <TableRow
                     hover
-                    key={store.id}
+                    key={transportation_train_trip.id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.id}
+                        {transportation_train_trip.id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {store.city}
+                      {transportation_train_trip.city}
                     </TableCell>
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.capacity} Cubic Meters
+                        {transportation_train_trip.capacity} Cubic Meters
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"
                         aria-label="edit"
-                        href={`/stores/edit/${store.id}`}
+                        href={`/transportation_train_trips/edit/${transportation_train_trip.id}`}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>
@@ -85,7 +94,7 @@ export const StoresTable = (props) => {
                       <IconButton
                         color="primary"
                         aria-label="remove"
-                        onClick={() => handleDelete(store)}
+                        onClick={() => handleDelete(transportation_train_trip)}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>
@@ -113,7 +122,7 @@ export const StoresTable = (props) => {
   );
 };
 
-StoresTable.propTypes = {
+Transportation_train_tripsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,

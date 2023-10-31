@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
 
-using server.api.gRPC;
+using server.api.gRPC.Authentication;
 using server.api.Validators;
 
 using System.Data;

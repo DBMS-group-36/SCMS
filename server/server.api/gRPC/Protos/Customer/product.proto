@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option csharp_namespace = "server.api.gRPC.Customer";
+
+package product;
+
+import "google/api/annotations.proto";
+import "gRPC/Protos/shared.proto";
+
+service Product {
+	rpc GetProducts (GetProductsRequest) returns (GetProductsReply){
+		option (google.api.http) = {
+			get: "/api/products"
+		};
+	}
+}
+
+message GetProductsRequest {
+	optional string id = 2;
+	optional shared.Pagination p = 3;
+}
+
+message GetProductsReply {
+	repeated ProductMessage stores = 1;
+	int32 count = 2;
+}
+
+message ProductMessage {
+	string id = 1;
+	string name = 2;
+	int32 capacityPerUnit = 3;
+	string price = 4;
+}
+
