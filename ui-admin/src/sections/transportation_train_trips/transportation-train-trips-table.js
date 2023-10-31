@@ -89,29 +89,7 @@ export const TransportationTrainTripsTable = (props) => {
                     <TableCell>
                       {transportation_train_trip.CapacityAvailable}
                     </TableCell>
-                    <TableCell>
-                      <IconButton
-                        color="primary"
-                        aria-label="edit"
-                        href={`/transportation_train_trips/edit/${transportation_train_trip.id}`}
-                        LinkComponent={NextLink}
-                      >
-                        <SvgIcon>
-                          <PencilIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
-                        </SvgIcon>
-                      </IconButton>
-
-                      <IconButton
-                        color="primary"
-                        aria-label="remove"
-                        onClick={() => handleDelete(transportation_train_trip)}
-                        LinkComponent={NextLink}
-                      >
-                        <SvgIcon>
-                          <TrashIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
-                        </SvgIcon>
-                      </IconButton>
-                    </TableCell>
+                    
                   </TableRow>
                 );
               })}

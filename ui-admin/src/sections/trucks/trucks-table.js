@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const ProductsTable = (props) => {
+export const TrucksTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -37,46 +37,45 @@ export const ProductsTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={170}>
-                  Product ID
+                  Truck ID
                 </TableCell>
+                
                 <TableCell>
-                  Product Name
+                  Capacity
                 </TableCell>
+                
                 <TableCell>
-                  Capacity per Unit
+                  Store ID
                 </TableCell>
+
                 <TableCell>
-                  Price
+                  truck city
                 </TableCell>
-                <TableCell>
-                  Number of Units sold
-                </TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((product) => {
+              {items.map((truck) => {
                 return (
                   <TableRow
                     hover
-                    key={product.Id}
+                    key={truck.Id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {product.Id}
+                        {truck.Id}
                       </Typography>
                     </TableCell>
-                    <TableCell>
-                      {product.Name}
-                    </TableCell>
                     <TableCell>                     
-                        {product.CapacityPerUnit}                   
+                        {truck.Capacity} Cubic Centimeters                   
                     </TableCell>
                     <TableCell>
-                      {product.Price}
+                      {truck.StoreId}
                     </TableCell>
-                    <TableCell>                      
-                        {product.UnitsSold}                      
+                    <TableCell>
+                      {truck.StoreCity}
                     </TableCell>
+                    
                   
                   </TableRow>
                 );
@@ -98,7 +97,7 @@ export const ProductsTable = (props) => {
   );
 };
 
-ProductsTable.propTypes = {
+TrucksTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,

@@ -6,45 +6,50 @@ import { Box, Button, Container, LinearProgress, Stack, SvgIcon, Typography } fr
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { TrucksTable } from 'src/sections/trucks/trucks-table';
-import { TrucksSearch } from 'src/sections/trucks/trucks-search';
+import { BigSearch } from 'src/sections/big-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
-import { getAllStores } from 'src/apis/stores';
+import { getAllTrucks } from 'src/apis/trucks';
+import { searchObjects } from 'src/utils/search-objects';
 
-const useTrucks = (data, page, rowsPerPage) => {
+
+const useTrucks = (data, page, rowsPerPage, search) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      const filtered = searchObjects(data, search)
+      return applyPagination(filtered, page, rowsPerPage);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, rowsPerPage, data]
+    [page, rowsPerPage, data, search]
   );
 };
 
 const Page = () => {
   const [page, setPage] = useState(0);
-
-  const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const trucks = useTrucks(data, page, rowsPerPage);
+
+  const trucks = useTrucks(data, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
 
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
-      const stores = await getAllStores();
-
-      setData(stores)
-    } catch(e) {
+      const trucks = (await getAllTrucks()) || [];
+      console.log("Trucks were fetched from the database", trucks)
+      
+      setData(trucks)
+    } catch (e) {
       console.error(e)
     }
     setLoading(false)
   }
+
 
   useEffect(() => {
     retrieveAndRefreshData()
@@ -67,7 +72,7 @@ const Page = () => {
   const confirm = useConfirm()
 
   const handleDelete = (truck) => {
-    confirm({ description: `This will permanently delete the record`})
+    confirm({ description: `This will permanently delete the record` })
       .then(() => {
         // TODO: Delete the data, api call
 
@@ -77,6 +82,7 @@ const Page = () => {
   };
 
   return (
+
     <>
       <Head>
         <title>
@@ -104,7 +110,7 @@ const Page = () => {
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'Trucks',
+                    text: 'trucks',
                     linkUrl: '/trucks',
                     active: true
                   },
@@ -116,25 +122,14 @@ const Page = () => {
                   spacing={1}
                   direction={'row'}
                 >
-                  <Button
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
-                    href={'/trucks/create'}
-                    LinkComponent={NextLink}
-                  >
-                    Add New
-                  </Button>
+                  
                   <Button
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <ArrowPathIcon />
                       </SvgIcon>
                     )}
-                    onClick={() => setRefreshCount(s => s + 1)}
+                    onClick={() => retrieveAndRefreshData()}
                     variant="outlined"
                   >
                     Refresh
@@ -142,19 +137,23 @@ const Page = () => {
                 </Stack>
               </div>
             </Stack>
-            <StoresSearch />
+            <BigSearch
+              search={search}
+              onSearch={setSearch}
+              placeholder={"Search trucks"}
+            />
 
-            {loading && <LinearProgress />}
+            {loading && <LinearProgress />} 
 
-            <StoresTable
-              count={mockData.length}
+             <TrucksTable
+              count={data.length}
               items={trucks}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
               page={page}
               rowsPerPage={rowsPerPage}
               handleDelete={handleDelete}
-            />
+            /> 
           </Stack>
         </Container>
       </Box>
