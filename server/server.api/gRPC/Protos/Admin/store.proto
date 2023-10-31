@@ -40,11 +40,9 @@ service Store {
 }
 
 message GetStoresRequest {
-<<<<<<< HEAD
-	optional string id = 2;
-=======
+
 	optional uint64 id = 2;
->>>>>>> 769bbb0989f28bbcdeb68b6f83b11f894ed51ea4
+
 	shared.Pagination p = 3;
 }
 

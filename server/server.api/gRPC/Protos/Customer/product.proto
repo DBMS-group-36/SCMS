@@ -21,11 +21,7 @@ message GetProductsRequest {
 }
 
 message GetProductsReply {
-<<<<<<< HEAD
-	repeated ProductMessage products = 1;
-	int32 count = 2;
-=======
 	repeated shared.ListedProductMessage products = 1;
 	int64 count = 2;
->>>>>>> 769bbb0989f28bbcdeb68b6f83b11f894ed51ea4
+
 }
