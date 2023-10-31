@@ -67,7 +67,8 @@ public class ProductService : Product.ProductBase
         var sql = $"CALL insert_product(" +
             $"{request.Name.ToSqlString()}, " +
             $"{request.Price.ToSqlString()}, " +
-            $"{request.CapacityPerUnit.ToSqlString()})";
+            $"{request.CapacityPerUnit.ToSqlString()}, " +
+            $"{request.Listed.ToSqlString()})";
 
 
         var Id = await database.ExecuteScalarAsync<ulong>(sql);
@@ -105,6 +106,7 @@ public class ProductService : Product.ProductBase
             $"Name = {request.Name.ToSqlString()}" +
             $"Price = {request.Price.ToSqlString()}" +
             $"CapacityPerUnit = {request.CapacityPerUnit.ToSqlString()}, " +
+            $"Listed = {request.Listed.ToSqlString()}, " +
             $"WHERE Id = {request.Id.ToSqlString()}";
 
         var result = await database.ExecuteAsync(sql);

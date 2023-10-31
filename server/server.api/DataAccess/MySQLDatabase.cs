@@ -1,6 +1,10 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Google.Protobuf.Collections;
+
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using MySql.Data.MySqlClient;
+
+using Org.BouncyCastle.Asn1.Cms;
 
 using System.Data;
 using System.Data.Common;
@@ -10,7 +14,7 @@ namespace server.api.DataAccess;
 public class MySQLDatabase : IDatabase
 {
     private readonly string connectionString;
-
+    private DbTransaction transaction;
     public readonly MySqlConnection connection;
 
     public MySQLDatabase(IConfiguration configuration)
@@ -46,6 +50,23 @@ public class MySQLDatabase : IDatabase
         return await CreateCommand(sql, parameters).ExecuteNonQueryAsync();
     }
 
+    public async Task BeginTransactionAsync()
+    {
+        transaction = await connection.BeginTransactionAsync();
+    }
+
+    public async Task RollbackAsync()
+    {
+        await transaction.RollbackAsync();
+    }
+
+    public async Task CommitAsync()
+    {
+        await transaction.CommitAsync();
+    }
+
+
+
     private DbCommand CreateCommand(string sql, IDictionary<string, object> parameters = null)
     {
         var command = new MySqlCommand(sql, connection);
@@ -64,8 +85,9 @@ public class MySQLDatabase : IDatabase
             if (p.Name == "Parser" || p.Name == "Descriptor") return;
             var val = reader[p.Name];
             if (val is DBNull) return;
-            if (p.PropertyType == typeof(ulong)) val = Convert.ToUInt64(val);
-            if (p.PropertyType == typeof(string)) val = val.ToString();
+            else if (p.PropertyType == typeof(ulong)) val = Convert.ToUInt64(val);
+            else if (p.PropertyType == typeof(string)) val = val.ToString();
+            else if (p.PropertyType == typeof(Google.Protobuf.WellKnownTypes.Timestamp)) val = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime((DateTime)val);
             p.SetValue(item, val);
         });
 

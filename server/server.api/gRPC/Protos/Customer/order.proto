@@ -5,6 +5,7 @@ option csharp_namespace = "server.api.gRPC.Customer";
 package Customer;
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 import "gRPC/Protos/shared.proto";
 
 service Order {
@@ -14,13 +15,13 @@ service Order {
 		};
 	}
 
-	rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderReply){
+	rpc PlaceOrder (PlaceOrderRequest) returns (OrderMessage){
 		option (google.api.http) = {
 			post: "/api/order"
 		};
 	}
 
-	rpc CancelOrder (CancelOrderRequest) returns (CancelOrderReply){
+	rpc CancelOrder (CancelOrderRequest) returns (OrderMessage){
 		option (google.api.http) = {
 			delete: "/api/order"
 		};
@@ -33,33 +34,43 @@ message GetOrdersRequest {
 }
 
 message GetOrdersReply {
-	repeated shared.ListedProductMessage stores = 1;
+	repeated OrderMessage orders = 1;
 	int64 count = 2;
 }
 
 message PlaceOrderRequest {
-	repeated OrderItem orderItems = 1;
+	repeated OrderProduct orderProducts = 1;
 	uint64 routeId = 2;
-	string deliveryDate = 3;
-	uint64 deliveryAddressId = 4;
+	google.protobuf.Timestamp deliveryDate = 3;
+	oneof OneOfDeliveryAddressOrId{
+		 uint64 deliveryAddressId = 4;
+		 Address deliveryAddress = 5;
+	}
 }
 
-message PlaceOrderReply {
-	string status = 1;
-	uint64 orderId = 2;
+message Address {
+	string addressLine1 = 1;
+	string addressLine2 = 2;
+	string province = 3;
+	string postalCode = 4;
 }
 
 message CancelOrderRequest {
 	uint64 orderId = 1;
 }
 
-message CancelOrderReply {
-	uint64 orderId = 1;
-	PlaceOrderRequest orderDetails = 2;
+message OrderProduct {
+	uint64 productId = 1;
+	int32 quantity = 2;
 }
 
-message OrderItem {
-	uint64 itemId = 1;
-	int32 quantity = 2;
+message OrderMessage {
+	uint64 id = 1;
+	google.protobuf.Timestamp orderDate = 2;
+	google.protobuf.Timestamp deliveryDate = 3;
+	uint64 deliveryAddressId = 4;
+	uint64 routeId = 5;
+	string price = 6;
+	string status = 7;
 }
 

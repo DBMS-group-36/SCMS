@@ -43,7 +43,7 @@ public class TruckService : Truck.TruckBase
                 countSql += $" WHERE Id = {request.Id.ToSqlString()}";
                 break;
             default:
-                throw new ArgumentException("Unknown request type.");
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Unknown request type."));
         }
 
         if (request.P is not null)
