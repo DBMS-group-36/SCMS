@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const StoresTable = (props) => {
+export const RoutesTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -37,44 +37,41 @@ export const StoresTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={170}>
-                  Store ID
+                  Route ID
                 </TableCell>
                 <TableCell>
-                  City
+                  maximum time for completion
                 </TableCell>
                 <TableCell>
-                  Capacity
-                </TableCell>
-                <TableCell>
-                  Actions
+                  store id
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((store) => {
+              {items.map((route) => {
                 return (
                   <TableRow
                     hover
-                    key={store.id}
+                    key={route.id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.Id}
+                        {route.id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {store.City}
+                      {route.city}
                     </TableCell>
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {store.Capacity} Cubic Meters
+                        {route.capacity} Cubic Meters
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"
                         aria-label="edit"
-                        href={`/stores/edit/${store.id}`}
+                        href={`/routes/edit/${route.id}`}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>
@@ -85,7 +82,7 @@ export const StoresTable = (props) => {
                       <IconButton
                         color="primary"
                         aria-label="remove"
-                        onClick={() => handleDelete(store)}
+                        onClick={() => handleDelete(route)}
                         LinkComponent={NextLink}
                       >
                         <SvgIcon>
@@ -113,7 +110,7 @@ export const StoresTable = (props) => {
   );
 };
 
-StoresTable.propTypes = {
+RoutesTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,

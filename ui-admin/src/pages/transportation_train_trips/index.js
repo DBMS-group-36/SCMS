@@ -5,18 +5,18 @@ import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import { Box, Button, Container, LinearProgress, Stack, SvgIcon, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { StoresTable } from 'src/sections/stores/stores-table';
+import { Transportation_train_tripsTable } from 'src/sections/transportation_train_trips/transportation_train_trips-table';
 import { BigSearch } from 'src/sections/big-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
-import { deleteStore, getAllStores } from 'src/apis/stores';
+import { getAllTransportation_train_trips } from 'src/apis/transportation_train_trips';
 import { searchObjects } from 'src/utils/search-objects';
 
- 
-const useStores = (data, page, rowsPerPage, search) => {
+
+const useTransportation_train_trips = (data, page, rowsPerPage, search) => {
   return useMemo(
     () => {
       const filtered = searchObjects(data, search)
@@ -33,17 +33,17 @@ const Page = () => {
   const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const stores = useStores(data, page, rowsPerPage, search);
+  const transportation_train_trips = useTransportation_train_trips(data, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
 
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
-      const stores = (await getAllStores()) || [];
-      console.log("Stored were fetched from the database", stores)
+      const transportation_train_trips = (await getAllTransportation_train_trips()) || [];
+      console.log("Transportation_train_trips were fetched from the database", transportation_train_trips)
       
-      setData(stores)
+      setData(transportation_train_trips)
     } catch (e) {
       console.error(e)
     }
@@ -71,18 +71,10 @@ const Page = () => {
 
   const confirm = useConfirm()
 
-  const handleDelete = async (store) => {
+  const handleDelete = (product) => {
     confirm({ description: `This will permanently delete the record` })
-      .then(async () => {
+      .then(() => {
         // TODO: Delete the data, api call
-        try {
-          setLoading(true)
-          await deleteStore(store.Id)
-          console.log("Record was successfully deleted...")
-      
-        } catch (e) {
-          console.error(e)
-        }
 
         retrieveAndRefreshData()
       })
@@ -90,10 +82,11 @@ const Page = () => {
   };
 
   return (
+
     <>
       <Head>
         <title>
-          Stores | A Suppilers
+          Transportation_train_trips | A Suppilers
         </title>
       </Head>
       <Box
@@ -112,13 +105,13 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h5">
-                  Stores
+                  Transportation train trips
                 </Typography>
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'Stores',
-                    linkUrl: '/stores',
+                    text: 'transportation train trips',
+                    linkUrl: '/transportation_train_trips',
                     active: true
                   },
                 ]} />
@@ -129,18 +122,7 @@ const Page = () => {
                   spacing={1}
                   direction={'row'}
                 >
-                  <Button
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
-                    href={'/stores/create'}
-                    LinkComponent={NextLink}
-                  >
-                    Add New
-                  </Button>
+                  
                   <Button
                     startIcon={(
                       <SvgIcon fontSize="small">
@@ -158,20 +140,20 @@ const Page = () => {
             <BigSearch
               search={search}
               onSearch={setSearch}
-              placeholder={"Search stores"}
+              placeholder={"Search transportation train trips"}
             />
 
-            {loading && <LinearProgress />}
+            {loading && <LinearProgress />} 
 
-            <StoresTable
+             <Transportation_train_tripsTable
               count={data.length}
-              items={stores}
+              items={transportation_train_trips}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
               page={page}
               rowsPerPage={rowsPerPage}
               handleDelete={handleDelete}
-            />
+            /> 
           </Stack>
         </Container>
       </Box>

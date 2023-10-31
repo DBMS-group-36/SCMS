@@ -13,10 +13,10 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { CompanyCard } from 'src/sections/companies/company-card';
-import { CompaniesSearch } from 'src/sections/companies/companies-search';
+import { OrderCard } from 'src/sections/orders/order-card';
+import { OrdersSearch } from 'src/sections/orders/orders-search';
 
-const companies = [
+const orders = [
   {
     id: '2569ce0d517a7f06d3ea1f24',
     createdAt: '27/03/2019',
@@ -44,7 +44,7 @@ const companies = [
   {
     id: '1efecb2bf6a51def9869ab0f',
     createdAt: '04/04/2019',
-    description: 'Lyft is an on-demand transportation company based in San Francisco, California.',
+    description: 'Lyft is an on-demand transportation order based in San Francisco, California.',
     logo: '/assets/logos/logo-lyft.png',
     title: 'Lyft',
     downloads: '406'
@@ -71,7 +71,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Companies | A Suppilers
+        Orders | A Suppilers
       </title>
     </Head>
     <Box
@@ -90,7 +90,7 @@ const Page = () => (
           >
             <Stack spacing={1}>
               <Typography variant="h4">
-                Companies
+                Orders
               </Typography>
               <Stack
                 alignItems="center"
@@ -132,19 +132,19 @@ const Page = () => (
               </Button>
             </div>
           </Stack>
-          <CompaniesSearch />
+          <OrdersSearch />
           <Grid
             container
             spacing={3}
           >
-            {companies.map((company) => (
+            {orders.map((order) => (
               <Grid
                 xs={12}
                 md={6}
                 lg={4}
-                key={company.id}
+                key={order.id}
               >
-                <CompanyCard company={company} />
+                <OrderCard order={order} />
               </Grid>
             ))}
           </Grid>

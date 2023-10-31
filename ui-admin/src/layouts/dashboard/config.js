@@ -37,8 +37,8 @@ export const items = [
     )
   },
   {
-    title: 'Companies',
-    path: '/companies',
+    title: 'Orders',
+    path: '/orders',
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />
@@ -48,6 +48,33 @@ export const items = [
   {
     title: 'Stores',
     path: '/stores',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Products',
+    path: '/products',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Transportation train trips',
+    path: '/transportation_train_trips',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ShoppingBagIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Routes',
+    path: '/routes',
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />

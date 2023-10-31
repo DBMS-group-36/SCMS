@@ -4,11 +4,11 @@ public static class MapSCMSGrpcServicesExtension
 {
     public static void MapSCMSGrpcServices(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGrpcService<Authentication.AuthService>();
-        endpoints.MapGrpcService<Admin.TruckService>();
-        endpoints.MapGrpcService<Admin.StoreService>();
-        endpoints.MapGrpcService<Admin.ProductService>();
-        endpoints.MapGrpcService<Customer.ProductService>();
-        endpoints.MapGrpcService<Customer.OrderService>();
+        endpoints.MapGrpcService<Authentication.AuthService>().RequireCors("AllowAll");
+        endpoints.MapGrpcService<Admin.TruckService>().RequireCors("AllowAll");
+        endpoints.MapGrpcService<Admin.StoreService>().RequireCors("AllowAll");
+        endpoints.MapGrpcService<Admin.ProductService>().RequireCors("AllowAll");
+        endpoints.MapGrpcService<Customer.ProductService>().RequireCors("AllowAll");
+        endpoints.MapGrpcService<Customer.OrderService>().RequireCors("AllowAll");
     }
 }

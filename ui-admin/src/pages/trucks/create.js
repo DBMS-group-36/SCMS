@@ -8,7 +8,6 @@ import _cities from "src/pages/cities.json";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { insertStore } from 'src/apis/stores';
 
 const Page = () => {
   const router = useRouter();
@@ -31,9 +30,9 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await insertStore(formik.values)
-        
-        enqueueSnackbar('Store was added successfully!', {
+        // TODO: use axios and Connect with backend do the post request and create
+
+        enqueueSnackbar('Truck was added successfully!', {
           variant: 'success',
           anchorOrigin: {
             vertical: 'bottom',
@@ -43,7 +42,7 @@ const Page = () => {
           autoHideDuration: 2000
         })
 
-        setTimeout(() => router.push('/stores'), 400)
+        setTimeout(() => router.push('/trucks'), 400)
         
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -57,7 +56,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Stores | A Suppilers
+          Strucks | A Suppilers
         </title>
       </Head>
       <Box
@@ -76,17 +75,17 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h5">
-                  Stores
+                  Strucks
                 </Typography>
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'Stores',
-                    linkUrl: '/stores',
+                    text: 'Trucks',
+                    linkUrl: '/trucks',
                   },
                   {
                     text: 'Add New',
-                    linkUrl: '/stores/create',
+                    linkUrl: '/trucks/create',
                     active: true
                   },
                 ]} />
@@ -95,7 +94,7 @@ const Page = () => {
 
             </Stack>
             <Card sx={{ overflow: 'visible' }}>
-              <CardHeader title="Add New Store" />
+              <CardHeader title="Add New Truck" />
               <CardContent>
                 <form onSubmit={formik.handleSubmit}>
                   <Stack

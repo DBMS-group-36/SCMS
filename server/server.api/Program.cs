@@ -53,6 +53,15 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 //builder.Services.AddControllers();
 builder.Services.AddGrpc().AddJsonTranscoding();
+builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+    }));
+
+
 builder.Services.AddGrpcReflection();
 builder.Services.AddRazorPages();
 
@@ -60,6 +69,7 @@ var app = builder.Build();
 
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 
+app.UseCors();
 // Configure the HTTP request pipeline.
 app.UseAuthorization();
 //app.MapControllers();

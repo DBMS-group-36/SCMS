@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "health-monitor",
+            "script": "./dist/index.js",
+            "merge_logs": true,
+            "max_restarts": 20,
+            "node_args": ["--require=module-alias/register"],
+            "instances": 1,
+            "max_memory_restart": "200M"
+        }
+    ]
+}

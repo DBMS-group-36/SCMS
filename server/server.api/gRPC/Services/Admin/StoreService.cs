@@ -42,7 +42,7 @@ public class StoreService : Store.StoreBase
         {
             if (request.P.Limit < 1)
             {
-                request.P.Limit = 20;
+                request.P.Limit = 200;
             }
             sql += $" LIMIT {request.P.Limit.ToSqlString()} OFFSET {request.P.Offset.ToSqlString()}";
         }
@@ -70,6 +70,11 @@ public class StoreService : Store.StoreBase
             $"{request.City.ToSqlString()}, " +
             $"{request.Capacity.ToSqlString()})";
 
+        MySqlParameter[] parameters = new MySqlParameter[]
+            {
+                new("@City", request.City),
+                new("@Capacity", request.Capacity)
+            };
 
         reply.Id = await database.ExecuteScalarAsync<ulong>(sql);
 

@@ -3,8 +3,8 @@ import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIc
 import ClockIcon from '@heroicons/react/24/solid/ClockIcon';
 import { Avatar, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } from '@mui/material';
 
-export const CompanyCard = (props) => {
-  const { company } = props;
+export const OrderCard = (props) => {
+  const { order } = props;
 
   return (
     <Card
@@ -23,7 +23,7 @@ export const CompanyCard = (props) => {
           }}
         >
           <Avatar
-            src={company.logo}
+            src={order.logo}
             variant="square"
           />
         </Box>
@@ -32,13 +32,13 @@ export const CompanyCard = (props) => {
           gutterBottom
           variant="h5"
         >
-          {company.title}
+          {order.title}
         </Typography>
         <Typography
           align="center"
           variant="body1"
         >
-          {company.description}
+          {order.description}
         </Typography>
       </CardContent>
       <Box sx={{ flexGrow: 1 }} />
@@ -85,7 +85,7 @@ export const CompanyCard = (props) => {
             display="inline"
             variant="body2"
           >
-            {company.downloads} Downloads
+            {order.downloads} Downloads
           </Typography>
         </Stack>
       </Stack>
@@ -93,6 +93,6 @@ export const CompanyCard = (props) => {
   );
 };
 
-CompanyCard.propTypes = {
-  company: PropTypes.object.isRequired
+OrderCard.propTypes = {
+  order: PropTypes.object.isRequired
 };
