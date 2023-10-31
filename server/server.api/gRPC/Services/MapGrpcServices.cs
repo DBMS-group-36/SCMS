@@ -10,5 +10,6 @@ public static class MapSCMSGrpcServicesExtension
         endpoints.MapGrpcService<Admin.ProductService>().RequireCors("AllowAll");
         endpoints.MapGrpcService<Customer.ProductService>().RequireCors("AllowAll");
         endpoints.MapGrpcService<Customer.OrderService>().RequireCors("AllowAll");
+      
     }
 }
