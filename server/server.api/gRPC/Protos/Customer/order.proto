@@ -75,13 +75,3 @@ message OrderMessage {
 	string status = 7;
 }
 
-message OrderMessage {
-	uint64 id = 1;
-	google.protobuf.Timestamp orderDate = 2;
-	google.protobuf.Timestamp deliveryDate = 3;
-	uint64 deliveryAddressId = 4;
-	uint64 routeId = 5;
-	string price = 6;
-	string status = 7;
-}
-
