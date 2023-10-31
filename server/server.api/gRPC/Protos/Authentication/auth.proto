@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "server.api.gRPC.Authentication";
 
-package auth;
+package Authentication;
 
 import "google/api/annotations.proto";
 
@@ -22,8 +22,10 @@ service Auth {
 }
 
 message LoginRequest {	
-	string userName = 1;
-	string email = 2;
+	oneof OneOfIdentity {
+		string email = 1;
+		string userName = 2;
+	}
 	string password = 3;
 }
 

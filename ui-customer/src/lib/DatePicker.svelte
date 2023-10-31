@@ -23,7 +23,13 @@
   // Create a reactive object to store the calculated values
   let totalPrice = 0;
   let totalWeight = 0;
-
+  let stores;
+  fetch("http://localhost:5000/api/admin/store")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      stores = data.stores;
+    });
   // Function to calculate totals based on the store's data
   function calculateTotals() {
     totalPrice = $myArrayStore.reduce(
@@ -41,7 +47,8 @@
   const dispatch = createEventDispatcher();
   let elModal: any; // HTMLElement
   let inputTxt: any;
-  let location: string; // string, défault date = now
+  let location: string;
+  let route: string; // string, défault date = now
   let isOpenCalendar = false; // true: show calendar
   const arrDays = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"];
   const currentDay = +dayjs().format("D"); // 1..31
@@ -316,6 +323,17 @@
       <label class="label">
         <!-- <span>Select Location</span> -->
         <select class="select w-64" bind:value={location}>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+          <option value="4">Option 4</option>
+          <option value="5">Option 5</option>
+        </select>
+      </label>
+      <label class="text-gray-200">Select Route</label>
+      <label class="label">
+        <!-- <span>Select Location</span> -->
+        <select class="select w-64" bind:value={route}>
           <option value="1">Option 1</option>
           <option value="2">Option 2</option>
           <option value="3">Option 3</option>

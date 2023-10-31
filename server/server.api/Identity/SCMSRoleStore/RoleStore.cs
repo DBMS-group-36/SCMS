@@ -19,10 +19,10 @@ public partial class SCMSRoleStore : IRoleStore<SCMSRole>
     public async Task<IdentityResult> CreateAsync(SCMSRole role, CancellationToken cancellationToken)
     {
         var sql = $"INSERT INTO roles VALUES (" +
-            $"{role.Id.toSqlString()}, " +
-            $"{role.Name.toSqlString()}, " +
-            $"{role.NormalizedName.toSqlString()}, " +
-            $"{role.ConcurrencyStamp.toSqlString()} " +
+            $"{role.Id.ToSqlString()}, " +
+            $"{role.Name.ToSqlString()}, " +
+            $"{role.NormalizedName.ToSqlString()}, " +
+            $"{role.ConcurrencyStamp.ToSqlString()} " +
             $");";
         var result = await database.ExecuteAsync(sql);
         if (result == 1) return IdentityResult.Success;
@@ -40,6 +40,7 @@ public partial class SCMSRoleStore : IRoleStore<SCMSRole>
     public void Dispose()
     {
         // TODO : Implement
+        GC.SuppressFinalize(this);
     }
 
     public async Task<SCMSRole> FindByIdAsync(string roleId, CancellationToken cancellationToken)
@@ -59,7 +60,7 @@ public partial class SCMSRoleStore : IRoleStore<SCMSRole>
 
     public async Task<string> GetRoleIdAsync(SCMSRole role, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(role.Id);
+        return await Task.FromResult(role.Id.ToString());
     }
 
     public async Task<string> GetRoleNameAsync(SCMSRole role, CancellationToken cancellationToken)
@@ -82,10 +83,10 @@ public partial class SCMSRoleStore : IRoleStore<SCMSRole>
     public async Task<IdentityResult> UpdateAsync(SCMSRole role, CancellationToken cancellationToken)
     {
         var sql = $"UPDATE roles SET " +
-            $"Name = {role.Name.toSqlString()}, " +
-            $"NormalizedName = {role.NormalizedName.toSqlString()}, " +
-            $"ConcurrencyStamp = {role.ConcurrencyStamp.toSqlString()}, " +
-            $"WHARE Id = {role.Id.toSqlString()}";
+            $"Name = {role.Name.ToSqlString()}, " +
+            $"NormalizedName = {role.NormalizedName.ToSqlString()}, " +
+            $"ConcurrencyStamp = {role.ConcurrencyStamp.ToSqlString()}, " +
+            $"WHARE Id = {role.Id.ToSqlString()}";
 
         var result = await database.ExecuteAsync(sql);
 

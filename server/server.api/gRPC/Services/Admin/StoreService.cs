@@ -28,12 +28,14 @@ public class StoreService : Store.StoreBase
 
         var reply = new GetStoresReply();
         var sql = "SELECT * FROM stores";
+        var parameters = new Dictionary<string, object>();
         var countSql = "SELECT COUNT(*) FROM stores";
 
-        if (!string.IsNullOrEmpty(request.Id))
+        if (request.Id != 0)
         {
-            sql += $" WHERE Id = {request.Id.toSqlString()}";
-            countSql += $" WHERE Id = {request.Id.toSqlString()}";
+            sql += $" WHERE Id = @Id";
+            parameters.Add("@Id", request.Id);
+            countSql += $" WHERE Id = {request.Id.ToSqlString()}";
         }
 
         if (request.P is not null)
@@ -42,18 +44,19 @@ public class StoreService : Store.StoreBase
             {
                 request.P.Limit = 200;
             }
-            sql += $" LIMIT {request.P.Limit.toSqlString()} OFFSET {request.P.Offset.toSqlString()}";
+            sql += $" LIMIT {request.P.Limit.ToSqlString()} OFFSET {request.P.Offset.ToSqlString()}";
         }
 
         else
         {
-            sql += $" LIMIT {200.toSqlString()} OFFSET {0.toSqlString()}";
+            sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
-        var stores = await database.QueryAllAsync<StoreMessage>(sql);
+        var stores = await database.QueryAllAsync<StoreMessage>(sql, parameters);
 
         reply.Stores.AddRange(stores);
-        reply.Count = (int)await database.ExecuteScalarAsync<long>(countSql);
+
+        reply.Count = await database.ExecuteScalarAsync<long>(countSql);
 
         return reply;
     }
@@ -63,7 +66,9 @@ public class StoreService : Store.StoreBase
     {
         var reply = request;
 
-        var sql = $"INSERT INTO stores(City, Capacity) VALUES(@City, @Capacity); SELECT LAST_INSERT_ID();";
+        var sql = $"CALL insert_store(" +
+            $"{request.City.ToSqlString()}, " +
+            $"{request.Capacity.ToSqlString()})";
 
         MySqlParameter[] parameters = new MySqlParameter[]
             {
@@ -71,7 +76,8 @@ public class StoreService : Store.StoreBase
                 new("@Capacity", request.Capacity)
             };
 
-        var Id = await database.ExecuteScalarAsync<ulong>(sql, parameters);
+        reply.Id = await database.ExecuteScalarAsync<ulong>(sql);
+
         return reply;
     }
 
@@ -82,7 +88,7 @@ public class StoreService : Store.StoreBase
         var t = typeof(StoreMessage);
 
 
-        var sql = $"SELECT * from stores WHERE Id = {request.Id.toSqlString()}";
+        var sql = $"SELECT * from stores WHERE Id = {request.Id.ToSqlString()}";
         var existing = await database.QueryFirstAsync<StoreMessage>(sql);
         if (existing is null) return null;
 
@@ -100,15 +106,15 @@ public class StoreService : Store.StoreBase
     {
 
         var sql = $"UPDATE stores SET " +
-            $"Capacity = {request.Capacity.toSqlString()}, " +
-            $"City = {request.City.toSqlString()}" +
-            $"WHERE Id = {request.Id.toSqlString()}";
+            $"Capacity = {request.Capacity.ToSqlString()}, " +
+            $"City = {request.City.ToSqlString()}" +
+            $"WHERE Id = {request.Id.ToSqlString()}";
 
         var result = await database.ExecuteAsync(sql);
 
         if (result == 1)
         {
-            var sqlUpdated = $"SELECT * from stores WHERE Id = {request.Id.toSqlString()}";
+            var sqlUpdated = $"SELECT * from stores WHERE Id = {request.Id.ToSqlString()}";
             return await database.QueryFirstAsync<StoreMessage>(sqlUpdated);
         }
 
@@ -117,15 +123,13 @@ public class StoreService : Store.StoreBase
 
     public override async Task<StoreMessage> RemoveStore(StoreMessage request, ServerCallContext context)
     {
-        var reply = new StoreMessage();
+        var sql = $"SELECT * from stores WHERE Id = {request.Id.ToSqlString()}";
 
-        var sql = $"SELECT * from stores WHERE Id = {request.Id.toSqlString()}";
-
-        reply = await database.QueryFirstAsync<StoreMessage>(sql);
+        var reply = await database.QueryFirstAsync<StoreMessage>(sql);
 
         if (reply is null) return null;
 
-        sql = $"DELETE FROM stores WHERE Id = {request.Id.toSqlString()}";
+        sql = $"DELETE FROM stores WHERE Id = {request.Id.ToSqlString()}";
 
         var result = await database.ExecuteAsync(sql);
 

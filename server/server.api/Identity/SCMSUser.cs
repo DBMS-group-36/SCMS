@@ -7,6 +7,6 @@ using System.Data.Common;
 
 namespace server.api.Identity;
 
-public class SCMSUser : IdentityUser
+public class SCMSUser : IdentityUser<ulong>
 {
 }

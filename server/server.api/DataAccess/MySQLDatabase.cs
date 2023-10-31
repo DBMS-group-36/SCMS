@@ -2,6 +2,9 @@
 
 using MySql.Data.MySqlClient;
 
+using System.Data;
+using System.Data.Common;
+
 namespace server.api.DataAccess;
 
 public class MySQLDatabase : IDatabase
@@ -17,77 +20,56 @@ public class MySQLDatabase : IDatabase
         connection.Open();
     }
 
-    public async Task<T> ExecuteScalarAsync<T> (string sql, params object[] args)
+    public async Task<T> ExecuteScalarAsync<T> (string sql, IDictionary<string, object> parameters = null)
     {
-        T result = default(T);
-
-        var command = new MySqlCommand(sql, connection);
-        command.Parameters.AddRange(args);
-
-        result = (T)await command.ExecuteScalarAsync();
-
-        return result;
+        return (T)await CreateCommand(sql, parameters).ExecuteScalarAsync();
     }
 
 
-    public async Task<IEnumerable<T>> QueryAllAsync<T>(string sql, params object[] args)
+    public async Task<IEnumerable<T>> QueryAllAsync<T>(string sql, IDictionary<string, object> parameters = null)
     {
-        var t = typeof(T);
         var result = new List<T>();
-
-        var command = new MySqlCommand(sql, connection);
-        command.Parameters.AddRange(args);
-        using var reader = await command.ExecuteReaderAsync();
-
-
-        while (await reader.ReadAsync())
-        {
-            var item = (T)Activator.CreateInstance(t);
-            t.GetProperties().ToList().ForEach((p) =>
-            {
-                if (p.Name == "Parser" || p.Name == "Descriptor") return;
-                var val = reader[p.Name];
-                if (val is DBNull) return;
-                if (p.PropertyType == typeof(string)) val = val.ToString();
-                p.SetValue(item, val);
-            });
-
-            result.Add(item);
-        }
-
+        using var reader = await CreateCommand(sql, parameters).ExecuteReaderAsync();
+        while (await reader.ReadAsync()) result.Add(ReadRowToObject<T>(reader));
         return result;
     }
 
-    public async Task<T> QueryFirstAsync<T>(string sql, params object[] args)
+    public async Task<T> QueryFirstAsync<T>(string sql, IDictionary<string, object> parameters = null)
+    {
+        using var reader = await CreateCommand(sql, parameters).ExecuteReaderAsync();
+        if (await reader.ReadAsync()) return ReadRowToObject<T>(reader);
+        return default;
+    }
+
+    public async Task<int> ExecuteAsync(string sql, IDictionary<string, object> parameters = null)
+    {
+        return await CreateCommand(sql, parameters).ExecuteNonQueryAsync();
+    }
+
+    private DbCommand CreateCommand(string sql, IDictionary<string, object> parameters = null)
+    {
+        var command = new MySqlCommand(sql, connection);
+        if(parameters is not null)
+            foreach (var param in parameters) 
+                command.Parameters.AddWithValue(param.Key, param.Value);
+        return command;
+    }
+
+    private static T ReadRowToObject<T>(IDataReader reader)
     {
         var t = typeof(T);
-        var result = default(T);
-
-        var command = new MySqlCommand(sql, connection);
-        command.Parameters.AddRange(args);
-        using var reader = await command.ExecuteReaderAsync();
-
-        if (await reader.ReadAsync())
+        var item = (T)Activator.CreateInstance(t);
+        t.GetProperties().ToList().ForEach((p) =>
         {
-            var item = (T)Activator.CreateInstance(t);
+            if (p.Name == "Parser" || p.Name == "Descriptor") return;
+            var val = reader[p.Name];
+            if (val is DBNull) return;
+            if (p.PropertyType == typeof(ulong)) val = Convert.ToUInt64(val);
+            if (p.PropertyType == typeof(string)) val = val.ToString();
+            p.SetValue(item, val);
+        });
 
-            t.GetProperties().ToList().ForEach((p) =>
-            {
-                if (p.Name == "Parser" || p.Name == "Descriptor") return;
-                var val = reader[p.Name];
-                if (val is not DBNull) p.SetValue(item, val);
-            });
-
-            result = item;
-        }
-
-        return result;
-    }
-
-    public async Task<int> ExecuteAsync(string sql, params object[] args)
-    {
-        var command = new MySqlCommand(sql, connection);
-        return await command.ExecuteNonQueryAsync();
+        return item;
     }
 
     ~MySQLDatabase()

@@ -32,15 +32,15 @@
   });
   export let data: any;
   console.log(data);
-  let items = [
-    { title: "Item 1", price: 4, weight: 12 },
-    { title: "Item 2", price: 1, weight: 10 },
-    { title: "Item 3", price: 3, weight: 15 },
-    { title: "Item 4", price: 5, weight: 18 },
-    { title: "Item 5", price: 3, weight: 12 },
-    { title: "Item 6", price: 1, weight: 20 },
-    // Add more items as needed
-  ];
+  // let items = [
+  //   { title: "Item 1", price: 4, weight: 12 },
+  //   { title: "Item 2", price: 1, weight: 10 },
+  //   { title: "Item 3", price: 3, weight: 15 },
+  //   { title: "Item 4", price: 5, weight: 18 },
+  //   { title: "Item 5", price: 3, weight: 12 },
+  //   { title: "Item 6", price: 1, weight: 20 },
+  //   // Add more items as needed
+  // ];
 </script>
 
 <div class="flex flex-col items-center justify-center">
@@ -91,11 +91,11 @@
       <div
         class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 max-w-screen-xl mx-auto overflow-x-auto"
       >
-        {#each items as item (item.title)}
+        {#each data.products as item (item.id)}
           <GridItem
-            title={item.title}
-            price={item.price}
-            weight={item.weight}
+            title={item.name}
+            price={Number(item.price)}
+            weight={item.capacityPerUnit}
           />
         {/each}
       </div>

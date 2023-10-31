@@ -7,21 +7,26 @@ package Customer;
 import "google/api/annotations.proto";
 import "gRPC/Protos/shared.proto";
 
-service Product {
-	rpc GetProducts (GetProductsRequest) returns (GetProductsReply){
+service Route {
+	rpc GetDeliveryRoutes (GetRoutesRequest) returns (GetRoutesReply) {
 		option (google.api.http) = {
-			get: "/api/products"
+			get: "/api/routes"
 		};
 	}
 }
 
-message GetProductsRequest {
+message GetRoutesRequest {
 	optional uint64 id = 2;
 	optional shared.Pagination p = 3;
 }
 
-message GetProductsReply {
-	repeated shared.ListedProductMessage products = 1;
+message GetRoutesReply {
+	repeated shared.ListedProductMessage routes = 1;
 	int64 count = 2;
 
 }
+
+message RouteMessage {
+	string a = 1;
+}
+

@@ -14,17 +14,17 @@ public partial class SCMSUserStore : IUserClaimStore<SCMSUser>
     {
         foreach (var claim in claims)
         {
-            var userClaim = new IdentityUserClaim<string>();
+            var userClaim = new IdentityUserClaim<ulong>();
             userClaim.InitializeFromClaim(claim);
             userClaim.UserId = user.Id;
 
             var sql = $"INSERT INTO roleclaims VALUES (" +
-                $"{userClaim.Id.toSqlString()}, " +
-                $"{userClaim.UserId.toSqlString()}, " +
-                $"{userClaim.ClaimType.toSqlString()}, " +
-                $"{userClaim.ClaimValue.toSqlString()} " +
+                $"{userClaim.Id.ToSqlString()}, " +
+                $"{userClaim.UserId.ToSqlString()}, " +
+                $"{userClaim.ClaimType.ToSqlString()}, " +
+                $"{userClaim.ClaimValue.ToSqlString()} " +
                 $");";
-            var result = await database.ExecuteAsync(sql);
+            _ = await database.ExecuteAsync(sql);
         }
     }
 

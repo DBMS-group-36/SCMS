@@ -10,17 +10,17 @@ public partial class SCMSRoleStore : IRoleClaimStore<SCMSRole>
 {
     public async Task AddClaimAsync(SCMSRole role, Claim claim, CancellationToken cancellationToken = default)
     {
-        var roleClaim = new IdentityRoleClaim<string>();
+        var roleClaim = new IdentityRoleClaim<ulong>();
         roleClaim.InitializeFromClaim(claim);
         roleClaim.RoleId = role.Id;
 
         var sql = $"INSERT INTO roleclaims VALUES (" +
-            $"{roleClaim.Id.toSqlString()}, " +
-            $"{roleClaim.RoleId.toSqlString()}, " +
-            $"{roleClaim.ClaimType.toSqlString()}, " +
-            $"{roleClaim.ClaimValue.toSqlString()} " +
+            $"{roleClaim.Id.ToSqlString()}, " +
+            $"{roleClaim.RoleId.ToSqlString()}, " +
+            $"{roleClaim.ClaimType.ToSqlString()}, " +
+            $"{roleClaim.ClaimValue.ToSqlString()} " +
             $");";
-        var result = await database.ExecuteAsync(sql);
+        _ = await database.ExecuteAsync(sql);
     }
 
     public async Task<IList<Claim>> GetClaimsAsync(SCMSRole role, CancellationToken cancellationToken = default)

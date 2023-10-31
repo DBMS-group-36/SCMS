@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 using MySql.Data.MySqlClient;
@@ -14,21 +15,23 @@ using System.Configuration;
 
 namespace server.api.gRPC.Services.Customer;
 
-public class ProductService : Product.ProductBase
+[Authorize]
+public class OrderService : Order.OrderBase
 {
     private readonly IDatabase database;
 
-    public ProductService(IDatabase database)
+    public OrderService(IDatabase database)
     {
         this.database = database;
     }
 
-    public async override Task<GetProductsReply> GetProducts(GetProductsRequest request, ServerCallContext context)
+    public async override Task<GetOrdersReply> GetOrders(GetOrdersRequest request, ServerCallContext context)
     {
 
-        var reply = new GetProductsReply();
-        var sql = "SELECT * FROM listed_products";
-        var countSql = "SELECT COUNT(*) FROM listed_products";
+        var reply = new GetOrdersReply();
+        var sql = "SELECT * FROM orders";
+        var countSql = "SELECT COUNT(*) FROM orders";
+
 
         if (request.Id != 0)
         {
@@ -50,9 +53,9 @@ public class ProductService : Product.ProductBase
             sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
-        var products = await database.QueryAllAsync<ListedProductMessage>(sql);
+        var orders = await database.QueryAllAsync<ListedProductMessage>(sql);
 
-        reply.Products.AddRange(products);
+        reply.Stores.AddRange(orders);
 
         reply.Count = await database.ExecuteScalarAsync<long>(countSql);
 

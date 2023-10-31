@@ -18,6 +18,6 @@ public class SendGridEmailSender : IEmailSender
         var from = new EmailAddress("SCMSg36@gmail.com", "Company A");
         var to = new EmailAddress(email, userName);
         var msg = MailHelper.CreateSingleEmail(from, to, subject, htmlMessage, htmlMessage);
-        var response = await client.SendEmailAsync(msg);
+        _ = await client.SendEmailAsync(msg);
     }
 }

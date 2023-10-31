@@ -12,23 +12,25 @@ using server.api.Identity.Services;
 
 using System.Configuration;
 
+using Route = server.api.gRPC.Customer.Route;
+
 namespace server.api.gRPC.Services.Customer;
 
-public class ProductService : Product.ProductBase
+public class RouteService : Route.RouteBase
 {
     private readonly IDatabase database;
 
-    public ProductService(IDatabase database)
+    public RouteService(IDatabase database)
     {
         this.database = database;
     }
 
-    public async override Task<GetProductsReply> GetProducts(GetProductsRequest request, ServerCallContext context)
+    public async override Task<GetRoutesReply> GetDeliveryRoutes(GetRoutesRequest request, ServerCallContext context)
     {
 
-        var reply = new GetProductsReply();
-        var sql = "SELECT * FROM listed_products";
-        var countSql = "SELECT COUNT(*) FROM listed_products";
+        var reply = new GetRoutesReply();
+        var sql = "SELECT * FROM routes";
+        var countSql = "SELECT COUNT(*) FROM routes";
 
         if (request.Id != 0)
         {
@@ -52,7 +54,7 @@ public class ProductService : Product.ProductBase
 
         var products = await database.QueryAllAsync<ListedProductMessage>(sql);
 
-        reply.Products.AddRange(products);
+        reply.Routes.AddRange(products);
 
         reply.Count = await database.ExecuteScalarAsync<long>(countSql);
 

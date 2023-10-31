@@ -1,7 +1,8 @@
-/** @type {import('./$types').Actions} */
+// @ts-nocheck
+/** */
 export const actions = {
     // @ts-ignore
-    default: async ({ cookies, request }) => {
+    default:/** @param {import('./$types').RequestEvent} event */  async ({ cookies, request }) => {
         const data = await request.formData();
         // @ts-ignore
         console.log(data);

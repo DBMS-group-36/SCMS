@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Grpc.Core;
+
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
 
+using server.api.gRPC.Admin;
 using server.api.gRPC.Authentication;
 using server.api.Validators;
 
@@ -22,16 +25,14 @@ public class UserService : IUserService
     private readonly SignInManager<SCMSUser> signInManager;
     private readonly IEmailSender emailSender;
     private readonly IConfiguration configuration;
-    private readonly IUserConfirmation<SCMSUser> confirmation;
 
-    public UserService(UserManager<SCMSUser> userManager, RoleManager<SCMSRole> roleManager, SignInManager<SCMSUser> signInManager, IEmailSender emailSender, IConfiguration configuration, IUserConfirmation<SCMSUser> confirmation)
+    public UserService(UserManager<SCMSUser> userManager, RoleManager<SCMSRole> roleManager, SignInManager<SCMSUser> signInManager, IEmailSender emailSender, IConfiguration configuration)
     {
         this.userManager = userManager;
         this.roleManager = roleManager;
         this.signInManager = signInManager;
         this.emailSender = emailSender;
         this.configuration = configuration;
-        this.confirmation = confirmation;
     }
     public async Task<StatusReply> RegisterUserAsync(RegisterRequest request)
     {
@@ -53,7 +54,7 @@ public class UserService : IUserService
             UserName = request.UserName,
             Email = request.Email
         };
-
+        
         var result = await userManager.CreateAsync(user, request.Password);
 
 
@@ -94,13 +95,31 @@ public class UserService : IUserService
     public async Task<TokenResponseReply> LoginUserAsync(LoginRequest request)
     {
         var reply = new TokenResponseReply();
+        string userName = null;
 
-        var result = await signInManager.PasswordSignInAsync(request.UserName, request.Password, true, lockoutOnFailure: true);
+        switch (request.OneOfIdentityCase)
+        {
+            case LoginRequest.OneOfIdentityOneofCase.None:
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Provide userName or email."));
+            case LoginRequest.OneOfIdentityOneofCase.UserName:
+                userName = request.UserName;
+                break;
+            case LoginRequest.OneOfIdentityOneofCase.Email:
+                userName = (await userManager.FindByEmailAsync(request.Email))?.UserName;
+                break;
+            default:
+                throw new RpcException(new Status(StatusCode.Unknown, "Unknown request type."));
+        }
+
+        userName ??= "";
+
+        var result = await signInManager.PasswordSignInAsync(userName, request.Password, true, lockoutOnFailure: true);
+        
         if (result.Succeeded)
         {
-            var user = await userManager.FindByNameAsync(request.UserName);
+            var user = await userManager.FindByNameAsync(userName);
 
-            await userManager.AddToRoleAsync(user, "admin");
+            //await userManager.AddToRoleAsync(user, "admin");
 
             var claims = new List<Claim>
             {
