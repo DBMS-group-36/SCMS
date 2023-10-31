@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const Transportation_train_tripsTable = (props) => {
+export const TransportationTrainTripsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -132,7 +132,7 @@ export const Transportation_train_tripsTable = (props) => {
   );
 };
 
-Transportation_train_tripsTable.propTypes = {
+TransportationTrainTripsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,

@@ -58,7 +58,7 @@ export const ProductsTable = (props) => {
                 return (
                   <TableRow
                     hover
-                    key={product.id}
+                    key={product.Id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
