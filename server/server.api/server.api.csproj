@@ -9,14 +9,6 @@
     <EditorConfigFiles Remove="/Users/pinsaramallawarachchi/SCMS/server/server.api/.editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="gRPC\Protos\Admin\product.proto" />
-    <None Remove="gRPC\Protos\Customer\order.proto" />
-    <None Remove="gRPC\Protos\product.proto" />
-    <None Remove="gRPC\Protos\store.proto" />
-  </ItemGroup>
-
-  
 
   <ItemGroup>
     <None Include="D:\Aca\S3\DB\CS3043-Group36-SupplyChainManagementSystem\server\server.api\.editorconfig" />
