@@ -10,7 +10,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="/Users/pinsaramallawarachchi/SCMS/server/server.api/.editorconfig" />
+    <None Remove="gRPC\Protos\Admin\product.proto" />
+    <None Remove="gRPC\Protos\Customer\order.proto" />
+    <None Remove="gRPC\Protos\product.proto" />
+    <None Remove="gRPC\Protos\store.proto" />
+  </ItemGroup>
+
+  
+
+  <ItemGroup>
+    <None Include="D:\Aca\S3\DB\CS3043-Group36-SupplyChainManagementSystem\server\server.api\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="gRPC\Protos\Admin\product.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\Customer\order.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Customer\product.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Admin\store.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Authentication\auth.proto" GrpcServices="Server" />

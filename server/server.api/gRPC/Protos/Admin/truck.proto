@@ -49,11 +49,11 @@ message GetTrucksRequest {
 
 message GetTrucksReply {
 	repeated TruckMessage trucks = 1;
-	int32 count = 2;
+	int64 count = 2;
 }
 
 message TruckMessage {
-	string id = 1;
+	uint64 id = 1;
 	string storeId = 2;
 	int32 capacity = 3;
 }

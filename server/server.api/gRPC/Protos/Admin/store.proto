@@ -40,17 +40,21 @@ service Store {
 }
 
 message GetStoresRequest {
+<<<<<<< HEAD
 	optional string id = 2;
+=======
+	optional uint64 id = 2;
+>>>>>>> 769bbb0989f28bbcdeb68b6f83b11f894ed51ea4
 	shared.Pagination p = 3;
 }
 
 message GetStoresReply {
 	repeated StoreMessage stores = 1;
-	int32 count = 2;
+	int64 count = 2;
 }
 
 message StoreMessage {
-	int32 id = 1;
+	uint64 id = 1;
 	string city = 2;
 	int32 capacity = 3;
 }

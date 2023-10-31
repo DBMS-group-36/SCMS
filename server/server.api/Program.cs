@@ -30,6 +30,7 @@ builder.Services.AddIdentity<SCMSUser, SCMSRole>(options =>
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
+    options.User.RequireUniqueEmail = true;
 }).AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>

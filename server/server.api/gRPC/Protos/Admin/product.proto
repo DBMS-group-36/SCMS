@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option csharp_namespace = "server.api.gRPC.Admin";
+
+package Admin;
+
+import "google/api/annotations.proto";
+import "gRPC/Protos/shared.proto";
+
+service Product {
+	rpc GetProducts (GetProductsRequest) returns (GetProductsReply){
+		option (google.api.http) = {
+			get: "/api/admin/product"
+		};
+	}
+
+	rpc AddProduct (ProductMessage) returns (ProductMessage){
+		option (google.api.http) = {
+			post: "/api/admin/product"	
+		};
+	}
+
+	rpc UpdateProduct (ProductMessage) returns (ProductMessage){
+		option (google.api.http) = {
+			put: "/api/admin/product"	
+		};
+	}
+
+	rpc EditProduct (ProductMessage) returns (ProductMessage){
+		option (google.api.http) = {
+			patch: "/api/admin/product"	
+		};
+	}
+
+	rpc RemoveProduct (ProductMessage) returns (ProductMessage){
+		option (google.api.http) = {
+			delete: "/api/admin/product"	
+		};
+	}
+}
+
+message GetProductsRequest {
+	optional uint64 id = 2;
+	shared.Pagination p = 3;
+}
+
+message GetProductsReply {
+	repeated ProductMessage products = 1;
+	int64 count = 2;
+}
+
+message ProductMessage {
+	uint64 id = 1;
+	string name = 2;
+	int32 capacityPerUnit = 3;
+	string price = 4;
+	bool listed = 5;
+}
+

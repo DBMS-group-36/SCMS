@@ -6,6 +6,6 @@ using System.Data.Common;
 
 namespace server.api.Identity;
 
-public class SCMSRole : IdentityRole
+public class SCMSRole : IdentityRole<ulong>
 {
 }
