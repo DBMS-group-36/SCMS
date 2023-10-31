@@ -1,10 +1,17 @@
 {
 	"/": [
-		"src/routes/+page.server.js"
+		"src/routes/+page.server.js",
+		"src/routes/+layout.server.js",
+		"src/routes/+layout.server.js"
 	],
-	"/dashboard": [],
-	"/date": [],
+	"/dashboard": [
+		"src/routes/+layout.server.js"
+	],
+	"/date": [
+		"src/routes/+layout.server.js"
+	],
 	"/login": [
-		"src/routes/login/+page.server.js"
+		"src/routes/login/+page.server.js",
+		"src/routes/+layout.server.js"
 	]
 }

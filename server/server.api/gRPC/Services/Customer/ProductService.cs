@@ -53,7 +53,7 @@ public class ProductService : Product.ProductBase
 
         var products = await database.QueryAllAsync<ProductMessage>(sql);
 
-        reply.Stores.AddRange(products);
+        reply.Products.AddRange(products);
 
         reply.Count = (int)await database.ExecuteScalarAsync<long>(countSql);
 

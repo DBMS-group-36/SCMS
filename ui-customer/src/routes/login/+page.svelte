@@ -1,14 +1,14 @@
 <script lang="ts">
   // Implement your login logic here
-  function login() {
-    // Replace this with your actual login logic
-    username = "";
-    password = "";
-    console.log("Login clicked");
-    console.log(username, password);
-  }
-  let username: String;
-  let password: String;
+  // function login() {
+  //   // Replace this with your actual login logic
+  //   username = "";
+  //   password = "";
+  //   console.log("Login clicked");
+  //   console.log(username, password);
+  // }
+  // let username: String;
+  // let password: String;
 </script>
 
 <div
@@ -22,8 +22,8 @@
         <input
           class="border input rounded-md w-full py-2 px-3"
           type="text"
+          name="username"
           placeholder="Username"
-          bind:value={username}
         />
       </div>
       <div class="mb-4">
@@ -32,14 +32,13 @@
           class="border input rounded-md w-full py-2 px-3"
           type="password"
           placeholder="Password"
-          bind:value={password}
+          name="password"
         />
       </div>
       <div class="flex justify-end">
         <button
           type="submit"
           class="bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 rounded-md"
-          on:click={login}
         >
           Login
         </button>

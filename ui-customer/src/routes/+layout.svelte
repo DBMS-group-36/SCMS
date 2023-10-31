@@ -2,6 +2,7 @@
   import "../app.postcss";
   import { AppShell, AppBar } from "@skeletonlabs/skeleton";
   import { page } from "$app/stores";
+  export let data: any;
 </script>
 
 <!-- App Shell -->
@@ -20,30 +21,33 @@
         </a>
       </svelte:fragment>
       <svelte:fragment slot="trail">
-        <a
-          class="btn btn-sm variant-filled-primary"
-          href="/login"
-          rel="noreferrer"
-          aria-current={$page.url.pathname === "/login"}
-        >
-          Login
-        </a>
-        <a
-          class="btn btn-sm variant-filled-primary"
-          href="/dashboard"
-          rel="noreferrer"
-          aria-current={$page.url.pathname === "/dashboard"}
-        >
-          Dashboard
-        </a>
-        <a
-          class="btn btn-sm variant-filled-primary"
-          href="/date"
-          rel="noreferrer"
-          aria-current={$page.url.pathname === "/dashboard"}
-        >
-          Date
-        </a>
+        {#if data.visited != "true"}
+          <a
+            class="btn btn-sm variant-filled-primary"
+            href="/login"
+            rel="noreferrer"
+            aria-current={$page.url.pathname === "/login"}
+          >
+            Login
+          </a>
+        {:else}
+          <a
+            class="btn btn-sm variant-filled-primary"
+            href="/dashboard"
+            rel="noreferrer"
+            aria-current={$page.url.pathname === "/dashboard"}
+          >
+            Dashboard
+          </a>
+          <a
+            class="btn btn-sm variant-filled-primary"
+            href="/date"
+            rel="noreferrer"
+            aria-current={$page.url.pathname === "/"}
+          >
+            Home
+          </a>
+        {/if}
       </svelte:fragment>
     </AppBar>
   </svelte:fragment>

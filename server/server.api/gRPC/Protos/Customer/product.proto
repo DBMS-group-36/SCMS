@@ -21,7 +21,7 @@ message GetProductsRequest {
 }
 
 message GetProductsReply {
-	repeated ProductMessage stores = 1;
+	repeated ProductMessage products = 1;
 	int32 count = 2;
 }
 
