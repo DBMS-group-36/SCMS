@@ -7,6 +7,8 @@ public static class MapSCMSGrpcServicesExtension
         endpoints.MapGrpcService<Authentication.AuthService>();
         endpoints.MapGrpcService<Admin.TruckService>();
         endpoints.MapGrpcService<Admin.StoreService>();
+        endpoints.MapGrpcService<Admin.ProductService>();
         endpoints.MapGrpcService<Customer.ProductService>();
+        endpoints.MapGrpcService<Customer.OrderService>();
     }
 }

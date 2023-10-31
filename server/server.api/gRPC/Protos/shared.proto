@@ -8,3 +8,10 @@ message Pagination {
 	int32 offset = 1;
 	int32 limit = 2;
 }
+
+
+message ListedProductMessage {
+	string id = 1;
+	string name = 2;
+	string price = 4;
+}

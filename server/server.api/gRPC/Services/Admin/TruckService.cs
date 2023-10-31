@@ -35,12 +35,12 @@ public class TruckService : Truck.TruckBase
             case GetTrucksRequest.OneOfGetTruckRequestOneofCase.None:
                 break;
             case GetTrucksRequest.OneOfGetTruckRequestOneofCase.StoreId:
-                sql += $" WHERE StoreId = {request.StoreId.toSqlString()}";
-                countSql += $" WHERE StoreId = {request.StoreId.toSqlString()}";
+                sql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
+                countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
                 break;
             case GetTrucksRequest.OneOfGetTruckRequestOneofCase.Id:
-                sql += $" WHERE Id = {request.Id.toSqlString()}";
-                countSql += $" WHERE Id = {request.Id.toSqlString()}";
+                sql += $" WHERE Id = {request.Id.ToSqlString()}";
+                countSql += $" WHERE Id = {request.Id.ToSqlString()}";
                 break;
             default:
                 throw new ArgumentException("Unknown request type.");
@@ -52,19 +52,19 @@ public class TruckService : Truck.TruckBase
             {
                 request.P.Limit = 20;
             }
-            sql += $" LIMIT {request.P.Limit.toSqlString()} OFFSET {request.P.Offset.toSqlString()}";
+            sql += $" LIMIT {request.P.Limit.ToSqlString()} OFFSET {request.P.Offset.ToSqlString()}";
         }
 
         else
         {
-            sql += $" LIMIT {20.toSqlString()} OFFSET {0.toSqlString()}";
+            sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
         var trucks = await database.QueryAllAsync<TruckMessage>(sql);
 
         reply.Trucks.AddRange(trucks);
 
-        reply.Count = (int)await database.ExecuteScalarAsync<long>(countSql);
+        reply.Count = await database.ExecuteScalarAsync<long>(countSql);
 
         return reply;
     }
@@ -75,11 +75,11 @@ public class TruckService : Truck.TruckBase
         var reply = request;
 
         var sql = $"CALL insert_truck(" +
-            $"{request.Capacity.toSqlString()}, " +
-            $"{request.StoreId.toSqlString()})";
+            $"{request.Capacity.ToSqlString()}, " +
+            $"{request.StoreId.ToSqlString()})";
 
 
-        var Id = await database.ExecuteScalarAsync<string>(sql);
+        var Id = await database.ExecuteScalarAsync<ulong>(sql);
 
         reply.Id = Id;
 
@@ -93,7 +93,7 @@ public class TruckService : Truck.TruckBase
         var t = typeof(TruckMessage);
 
 
-        var sql = $"SELECT * from trucks WHERE Id = {request.Id.toSqlString()}";
+        var sql = $"SELECT * from trucks WHERE Id = {request.Id.ToSqlString()}";
         var existing = await database.QueryFirstAsync<TruckMessage>(sql);
         if (existing is null) return null;
 
@@ -111,15 +111,15 @@ public class TruckService : Truck.TruckBase
     {
 
         var sql = $"UPDATE trucks SET " +
-            $"Capacity = {request.Capacity.toSqlString()}, " +
-            $"StoreId = {request.StoreId.toSqlString()}" +
-            $"WHERE Id = {request.Id.toSqlString()}";
+            $"Capacity = {request.Capacity.ToSqlString()}, " +
+            $"StoreId = {request.StoreId.ToSqlString()}" +
+            $"WHERE Id = {request.Id.ToSqlString()}";
 
         var result = await database.ExecuteAsync(sql);
 
         if (result == 1)
         {
-            var sqlUpdated = $"SELECT * from trucks WHERE Id = {request.Id.toSqlString()}";
+            var sqlUpdated = $"SELECT * from trucks WHERE Id = {request.Id.ToSqlString()}";
             return await database.QueryFirstAsync<TruckMessage>(sqlUpdated);
         }
 
@@ -128,18 +128,12 @@ public class TruckService : Truck.TruckBase
 
     public override async Task<TruckMessage> RemoveTruck(TruckMessage request, ServerCallContext context)
     {
-        var reply = new TruckMessage();
-
-        var sql = $"SELECT * from trucks WHERE Id = {request.Id.toSqlString()}";
-
-        reply = await database.QueryFirstAsync<TruckMessage>(sql);
-
+        var sql = $"SELECT * from trucks WHERE Id = {request.Id.ToSqlString()}";
+        var reply = await database.QueryFirstAsync<TruckMessage>(sql);
         if (reply is null) return null;
 
-        sql = $"DELETE FROM trucks WHERE Id = {request.Id.toSqlString()}";
-
+        sql = $"DELETE FROM trucks WHERE Id = {request.Id.ToSqlString()}";
         var result = await database.ExecuteAsync(sql);
-
         if (result != 1) return null;
 
         return reply;

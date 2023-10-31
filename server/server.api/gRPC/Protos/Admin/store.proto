@@ -40,17 +40,17 @@ service Store {
 }
 
 message GetStoresRequest {
-	optional string id = 2;
+	optional uint64 id = 2;
 	shared.Pagination p = 3;
 }
 
 message GetStoresReply {
 	repeated StoreMessage stores = 1;
-	int32 count = 2;
+	int64 count = 2;
 }
 
 message StoreMessage {
-	string id = 1;
+	uint64 id = 1;
 	string city = 2;
 	int32 capacity = 3;
 }

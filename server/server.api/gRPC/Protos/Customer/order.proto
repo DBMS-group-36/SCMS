@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+option csharp_namespace = "server.api.gRPC.Customer";
+
+package Customer;
+
+import "google/api/annotations.proto";
+import "gRPC/Protos/shared.proto";
+
+service Order {
+	rpc GetOrders (GetOrdersRequest) returns (GetOrdersReply){
+		option (google.api.http) = {
+			get: "/api/orders"
+		};
+	}
+
+	rpc PlaceOrder (PlaceOrderRequest) returns (PlaceOrderReply){
+		option (google.api.http) = {
+			post: "/api/order"
+		};
+	}
+
+	rpc CancelOrder (CancelOrderRequest) returns (CancelOrderReply){
+		option (google.api.http) = {
+			delete: "/api/order"
+		};
+	}
+}
+
+message GetOrdersRequest {
+	optional uint64 id = 2;
+	optional shared.Pagination p = 3;
+}
+
+message GetOrdersReply {
+	repeated shared.ListedProductMessage stores = 1;
+	int64 count = 2;
+}
+
+message PlaceOrderRequest {
+	repeated OrderItem orderItems = 1;
+	uint64 routeId = 2;
+	string deliveryDate = 3;
+	uint64 deliveryAddressId = 4;
+}
+
+message PlaceOrderReply {
+	string status = 1;
+	uint64 orderId = 2;
+}
+
+message CancelOrderRequest {
+	uint64 orderId = 1;
+}
+
+message CancelOrderReply {
+	uint64 orderId = 1;
+	PlaceOrderRequest orderDetails = 2;
+}
+
+message OrderItem {
+	uint64 itemId = 1;
+	int32 quantity = 2;
+}
+

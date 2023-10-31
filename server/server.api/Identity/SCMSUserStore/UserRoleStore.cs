@@ -9,7 +9,7 @@ public partial class SCMSUserStore : IUserRoleStore<SCMSUser>
     public async Task AddToRoleAsync(SCMSUser user, string roleName, CancellationToken cancellationToken)
     {
         var roleId = (await roleStore.FindByNameAsync(roleName, cancellationToken)).Id;
-        var sql = $"INSERT IGNORE INTO userroles VALUES ({user.Id.toSqlString()}, {roleId.toSqlString()})";
+        var sql = $"INSERT IGNORE INTO userroles VALUES ({user.Id.ToSqlString()}, {roleId.ToSqlString()})";
         var result = await database.ExecuteAsync(sql);
     }
 
@@ -30,7 +30,7 @@ public partial class SCMSUserStore : IUserRoleStore<SCMSUser>
 
     public async Task<bool> IsInRoleAsync(SCMSUser user, string roleName, CancellationToken cancellationToken)
     {
-        var roleId = (await roleStore.FindByNameAsync(roleName, cancellationToken)).Id;
+        var roleId = (await roleStore.FindByNameAsync(roleName, cancellationToken))?.Id;
         var sql = $"SELECT COUNT(*) AS role_count FROM userroles WHERE UserId = '{user.Id}' AND RoleId = '{roleId}';";
         var result = await database.ExecuteScalarAsync<long>(sql);
         return result > 0;

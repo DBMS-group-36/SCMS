@@ -10,6 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="gRPC\Protos\Admin\product.proto" />
+    <None Remove="gRPC\Protos\Customer\order.proto" />
     <None Remove="gRPC\Protos\product.proto" />
     <None Remove="gRPC\Protos\store.proto" />
   </ItemGroup>
@@ -33,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="gRPC\Protos\Admin\product.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\Customer\order.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Customer\product.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Admin\store.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Authentication\auth.proto" GrpcServices="Server" />

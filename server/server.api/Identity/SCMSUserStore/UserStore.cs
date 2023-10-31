@@ -18,21 +18,21 @@ public partial class SCMSUserStore : IUserStore<SCMSUser>
     public async Task<IdentityResult> CreateAsync(SCMSUser user, CancellationToken cancellationToken)
     {
         var sql = $"INSERT INTO users VALUES (" +
-            $"{user.Id.toSqlString()}, " +
-            $"{user.UserName.toSqlString()}, " +
-            $"{user.NormalizedUserName.toSqlString()}, " +
-            $"{user.Email.toSqlString()}, " +
-            $"{user.NormalizedEmail.toSqlString()}, " +
-            $"{user.EmailConfirmed.toSqlString()}, " +
-            $"{user.PasswordHash.toSqlString()}, " +
-            $"{user.SecurityStamp.toSqlString()}, " +
-            $"{user.ConcurrencyStamp.toSqlString()}, " +
-            $"{user.PhoneNumber.toSqlString()}, " +
-            $"{user.PhoneNumberConfirmed.toSqlString()}, " +
-            $"{user.TwoFactorEnabled.toSqlString()}, " +
-            $"{user.LockoutEnd.toSqlString()}, " +
-            $"{user.LockoutEnabled.toSqlString()}, " +
-            $"{user.AccessFailedCount.toSqlString()} " +
+            $"{user.Id.ToSqlString()}, " +
+            $"{user.UserName.ToSqlString()}, " +
+            $"{user.NormalizedUserName.ToSqlString()}, " +
+            $"{user.Email.ToSqlString()}, " +
+            $"{user.NormalizedEmail.ToSqlString()}, " +
+            $"{user.EmailConfirmed.ToSqlString()}, " +
+            $"{user.PasswordHash.ToSqlString()}, " +
+            $"{user.SecurityStamp.ToSqlString()}, " +
+            $"{user.ConcurrencyStamp.ToSqlString()}, " +
+            $"{user.PhoneNumber.ToSqlString()}, " +
+            $"{user.PhoneNumberConfirmed.ToSqlString()}, " +
+            $"{user.TwoFactorEnabled.ToSqlString()}, " +
+            $"{user.LockoutEnd.ToSqlString()}, " +
+            $"{user.LockoutEnabled.ToSqlString()}, " +
+            $"{user.AccessFailedCount.ToSqlString()} " +
             $");";
 
         //Console.WriteLine( sql );
@@ -52,6 +52,7 @@ public partial class SCMSUserStore : IUserStore<SCMSUser>
     public void Dispose()
     {
         // TODO : Implement
+        GC.SuppressFinalize(this);
     }
 
     public async Task<SCMSUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
@@ -75,7 +76,7 @@ public partial class SCMSUserStore : IUserStore<SCMSUser>
     {
         //string userId = (await database.QueryFirstAsync<SCMSUser>($"SELECT * FROM user WHERE NormalizedUserName = '{user.NormalizedUserName}'")).Id;
         //return userId;
-        return await Task.FromResult(user.Id);
+        return await Task.FromResult(user.Id.ToString());
     }
 
     public async Task<string> GetUserNameAsync(SCMSUser user, CancellationToken cancellationToken)
@@ -110,21 +111,21 @@ public partial class SCMSUserStore : IUserStore<SCMSUser>
     public async Task<IdentityResult> UpdateAsync(SCMSUser user, CancellationToken cancellationToken)
     {
         var sql = $"UPDATE users SET " +
-            $"UserName = {user.UserName.toSqlString()}, " +
-            $"NormalizedUserName = {user.NormalizedUserName.toSqlString()}, " +
-            $"Email = {user.Email.toSqlString()}, " +
-            $"NormalizedEmail = {user.NormalizedEmail.toSqlString()}, " +
-            $"EmailConfirmed = {user.EmailConfirmed.toSqlString()}, " +
-            $"PasswordHash = {user.PasswordHash.toSqlString()}, " +
-            $"SecurityStamp = {user.SecurityStamp.toSqlString()}, " +
+            $"UserName = {user.UserName.ToSqlString()}, " +
+            $"NormalizedUserName = {user.NormalizedUserName.ToSqlString()}, " +
+            $"Email = {user.Email.ToSqlString()}, " +
+            $"NormalizedEmail = {user.NormalizedEmail.ToSqlString()}, " +
+            $"EmailConfirmed = {user.EmailConfirmed.ToSqlString()}, " +
+            $"PasswordHash = {user.PasswordHash.ToSqlString()}, " +
+            $"SecurityStamp = {user.SecurityStamp.ToSqlString()}, " +
             $"ConcurrencyStamp = '{user.ConcurrencyStamp}', " +
-            $"PhoneNumber = {user.PhoneNumber.toSqlString()}, " +
-            $"PhoneNumberConfirmed = {user.PhoneNumberConfirmed.toSqlString()}, " +
-            $"TwoFactorEnabled = {user.TwoFactorEnabled.toSqlString()}, " +
-            $"LockoutEnd = {user.LockoutEnd.toSqlString()}, " +
-            $"LockoutEnabled = {user.LockoutEnabled.toSqlString()}, " +
-            $"AccessFailedCount = {user.AccessFailedCount.toSqlString()} " +
-            $"WHERE Id = {user.Id.toSqlString()};";
+            $"PhoneNumber = {user.PhoneNumber.ToSqlString()}, " +
+            $"PhoneNumberConfirmed = {user.PhoneNumberConfirmed.ToSqlString()}, " +
+            $"TwoFactorEnabled = {user.TwoFactorEnabled.ToSqlString()}, " +
+            $"LockoutEnd = {user.LockoutEnd.ToSqlString()}, " +
+            $"LockoutEnabled = {user.LockoutEnabled.ToSqlString()}, " +
+            $"AccessFailedCount = {user.AccessFailedCount.ToSqlString()} " +
+            $"WHERE Id = {user.Id.ToSqlString()};";
 
         var result = await database.ExecuteAsync(sql);
 
