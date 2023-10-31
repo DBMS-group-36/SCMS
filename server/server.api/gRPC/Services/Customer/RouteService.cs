@@ -1,4 +1,4 @@
-using Grpc.Core;
+﻿using Grpc.Core;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -12,6 +12,8 @@ using server.api.Identity.Services;
 
 using System.Configuration;
 
+using Route = server.api.gRPC.Customer.Route;
+
 namespace server.api.gRPC.Services.Customer;
 
 public class RouteService : Route.RouteBase
@@ -23,7 +25,7 @@ public class RouteService : Route.RouteBase
         this.database = database;
     }
 
-    public async override Task<GetRoutesReply> GetRoutes(GetRoutesRequest request, ServerCallContext context)
+    public async override Task<GetRoutesReply> GetDeliveryRoutes(GetRoutesRequest request, ServerCallContext context)
     {
 
         var reply = new GetRoutesReply();
@@ -32,8 +34,8 @@ public class RouteService : Route.RouteBase
 
         if (request.Id != 0)
         {
-            sql += $" WHERE StoreId = {request.Id.ToSqlString()}";
-            countSql += $" WHERE StoreId = {request.Id.ToSqlString()}";
+            sql += $" WHERE Id = {request.Id.ToSqlString()}";
+            countSql += $" WHERE Id = {request.Id.ToSqlString()}";
         }
 
         if (request.P is not null)
@@ -50,7 +52,7 @@ public class RouteService : Route.RouteBase
             sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
-        var routes = await database.QueryAllAsync<RouteMessage>(sql);
+        var products = await database.QueryAllAsync<ListedProductMessage>(sql);
 
         reply.Routes.AddRange(products);
 
