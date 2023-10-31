@@ -16,25 +16,29 @@ service Truck {
 
 	rpc AddTruck (TruckMessage) returns (TruckMessage){
 		option (google.api.http) = {
-			post: "/api/admin/truck"	
+			post: "/api/admin/truck",
+			body : "*"	
 		};
 	}
 
 	rpc UpdateTruck (TruckMessage) returns (TruckMessage){
 		option (google.api.http) = {
-			put: "/api/admin/truck"	
+			put: "/api/admin/truck",
+			body : "*"	
 		};
 	}
 
 	rpc EditTruck (TruckMessage) returns (TruckMessage){
 		option (google.api.http) = {
-			patch: "/api/admin/truck"	
+			patch: "/api/admin/truck",
+			body : "*"	
 		};
 	}
 
 	rpc RemoveTruck (TruckMessage) returns (TruckMessage){
 		option (google.api.http) = {
-			delete: "/api/admin/truck"	
+			delete: "/api/admin/truck",
+			body : "*"	
 		};
 	}
 }

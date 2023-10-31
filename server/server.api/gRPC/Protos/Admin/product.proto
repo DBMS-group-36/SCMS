@@ -16,25 +16,29 @@ service Product {
 
 	rpc AddProduct (ProductMessage) returns (ProductMessage){
 		option (google.api.http) = {
-			post: "/api/admin/product"	
+			post: "/api/admin/product",
+			body : "*"	
 		};
 	}
 
 	rpc UpdateProduct (ProductMessage) returns (ProductMessage){
 		option (google.api.http) = {
-			put: "/api/admin/product"	
+			put: "/api/admin/product",
+			body : "*"	
 		};
 	}
 
 	rpc EditProduct (ProductMessage) returns (ProductMessage){
 		option (google.api.http) = {
-			patch: "/api/admin/product"	
+			patch: "/api/admin/product",
+			body : "*"	
 		};
 	}
 
 	rpc RemoveProduct (ProductMessage) returns (ProductMessage){
 		option (google.api.http) = {
-			delete: "/api/admin/product"	
+			delete: "/api/admin/product",
+			body : "*"	
 		};
 	}
 }

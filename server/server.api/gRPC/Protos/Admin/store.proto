@@ -16,25 +16,29 @@ service Store {
 
 	rpc AddStore (StoreMessage) returns (StoreMessage){
 		option (google.api.http) = {
-			post: "/api/admin/store"	
+			post: "/api/admin/store",
+			body : "*"	
 		};
 	}
 
 	rpc UpdateStore (StoreMessage) returns (StoreMessage){
 		option (google.api.http) = {
-			put: "/api/admin/store"	
+			put: "/api/admin/store",
+			body : "*"	
 		};
 	}
 
 	rpc EditStore (StoreMessage) returns (StoreMessage){
 		option (google.api.http) = {
-			patch: "/api/admin/store"	
+			patch: "/api/admin/store",
+			body : "*"	
 		};
 	}
 
 	rpc RemoveStore (StoreMessage) returns (StoreMessage){
 		option (google.api.http) = {
-			delete: "/api/admin/store"	
+			delete: "/api/admin/store",
+			body : "*"	
 		};
 	}
 }

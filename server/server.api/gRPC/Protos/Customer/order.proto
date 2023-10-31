@@ -24,7 +24,8 @@ service Order {
 
 	rpc CancelOrder (CancelOrderRequest) returns (OrderMessage){
 		option (google.api.http) = {
-			delete: "/api/order"
+			delete: "/api/order",
+			body : "*"
 		};
 	}
 }
