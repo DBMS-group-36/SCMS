@@ -68,16 +68,26 @@ export const Transportation_train_tripsTable = (props) => {
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {transportation_train_trip.id}
+                        {transportation_train_trip.Id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {transportation_train_trip.city}
+                      {transportation_train_trip.Date}
                     </TableCell>
                     <TableCell>
-                      <Typography variant="subtitle2">
-                        {transportation_train_trip.capacity} Cubic Meters
-                      </Typography>
+                      {transportation_train_trip.TimeOfDeparture}
+                    </TableCell>
+                    <TableCell>
+                      {transportation_train_trip.TimeOfArrival}
+                    </TableCell>
+                    <TableCell>
+                      {transportation_train_trip.CapacityAllocated}
+                    </TableCell>
+                    <TableCell>
+                      {transportation_train_trip.Destination}
+                    </TableCell>
+                    <TableCell>
+                      {transportation_train_trip.CapacityAvailable}
                     </TableCell>
                     <TableCell>
                       <IconButton

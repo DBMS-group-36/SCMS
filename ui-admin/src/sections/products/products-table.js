@@ -62,16 +62,20 @@ export const ProductsTable = (props) => {
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {product.id}
+                        {product.Id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {product.city}
+                      {product.Name}
+                    </TableCell>
+                    <TableCell>                     
+                        {product.CapacityPerUnit}                   
                     </TableCell>
                     <TableCell>
-                      <Typography variant="subtitle2">
-                        {product.capacity} Cubic Meters
-                      </Typography>
+                      {product.Price}
+                    </TableCell>
+                    <TableCell>                      
+                        {product.UnitsSold}                      
                     </TableCell>
                     <TableCell>
                       <IconButton
