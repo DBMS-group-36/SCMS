@@ -5,18 +5,18 @@ import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import { Box, Button, Container, LinearProgress, Stack, SvgIcon, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { Transportation_train_tripsTable } from 'src/sections/transportation_train_trips/transportation_train_trips-table';
+import { TransportationTrainTripsTable } from 'src/sections/transportation_train_trips/transportation-train-trips-table';
 import { BigSearch } from 'src/sections/big-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
-import { getAllTransportation_train_trips } from 'src/apis/transportation_train_trips';
+import { getAllTransportationTrainTrips } from 'src/apis/transportation_train_trips';
 import { searchObjects } from 'src/utils/search-objects';
 
 
-const useTransportation_train_trips = (data, page, rowsPerPage, search) => {
+const useTransportationTrainTrips = (data, page, rowsPerPage, search) => {
   return useMemo(
     () => {
       const filtered = searchObjects(data, search)
@@ -33,17 +33,17 @@ const Page = () => {
   const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const transportation_train_trips = useTransportation_train_trips(data, page, rowsPerPage, search);
+  const transportationTrainTrips = useTransportationTrainTrips(data, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
 
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
-      const transportation_train_trips = (await getAllTransportation_train_trips()) || [];
-      console.log("Transportation_train_trips were fetched from the database", transportation_train_trips)
+      const transportationTrainTrips = (await getAllTransportationTrainTrips()) || [];
+      console.log("TransportationTrainTrips were fetched from the database", transportationTrainTrips)
       
-      setData(transportation_train_trips)
+      setData(transportationTrainTrips)
     } catch (e) {
       console.error(e)
     }
@@ -86,7 +86,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Transportation_train_trips | A Suppilers
+          TransportationTrainTrips | A Suppilers
         </title>
       </Head>
       <Box
@@ -110,7 +110,7 @@ const Page = () => {
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'transportation train trips',
+                    text: 'Transportation train trips',
                     linkUrl: '/transportation_train_trips',
                     active: true
                   },
@@ -145,9 +145,9 @@ const Page = () => {
 
             {loading && <LinearProgress />} 
 
-             <Transportation_train_tripsTable
+             <TransportationTrainTripsTable
               count={data.length}
-              items={transportation_train_trips}
+              items={transportationTrainTrips}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
               page={page}

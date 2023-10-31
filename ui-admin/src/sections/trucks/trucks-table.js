@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const Transportation_train_tripsTable = (props) => {
+export const TrucksTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -37,71 +37,46 @@ export const Transportation_train_tripsTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={170}>
-                  Transportation train trip ID
+                  Truck ID
                 </TableCell>
+                
                 <TableCell>
-                  Date
+                  Capacity
                 </TableCell>
+                
                 <TableCell>
-                  Time of Departure
+                  Store ID
                 </TableCell>
+
                 <TableCell>
-                  Time of Arrival
+                  truck city
                 </TableCell>
-                <TableCell>
-                  Capacity allocated
-                </TableCell>
-                <TableCell>
-                  destination
-                </TableCell>
-                <TableCell>
-                  Capacity available
-                </TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((transportation_train_trip) => {
+              {items.map((truck) => {
                 return (
                   <TableRow
                     hover
-                    key={transportation_train_trip.id}
+                    key={truck.Id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {transportation_train_trip.id}
+                        {truck.Id}
                       </Typography>
                     </TableCell>
-                    <TableCell>
-                      {transportation_train_trip.city}
+                    <TableCell>                     
+                        {truck.Capacity} Cubic Centimeters                   
                     </TableCell>
                     <TableCell>
-                      <Typography variant="subtitle2">
-                        {transportation_train_trip.capacity} Cubic Meters
-                      </Typography>
+                      {truck.StoreId}
                     </TableCell>
                     <TableCell>
-                      <IconButton
-                        color="primary"
-                        aria-label="edit"
-                        href={`/transportation_train_trips/edit/${transportation_train_trip.id}`}
-                        LinkComponent={NextLink}
-                      >
-                        <SvgIcon>
-                          <PencilIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
-                        </SvgIcon>
-                      </IconButton>
-
-                      <IconButton
-                        color="primary"
-                        aria-label="remove"
-                        onClick={() => handleDelete(transportation_train_trip)}
-                        LinkComponent={NextLink}
-                      >
-                        <SvgIcon>
-                          <TrashIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
-                        </SvgIcon>
-                      </IconButton>
+                      {truck.StoreCity}
                     </TableCell>
+                    
+                  
                   </TableRow>
                 );
               })}
@@ -122,7 +97,7 @@ export const Transportation_train_tripsTable = (props) => {
   );
 };
 
-Transportation_train_tripsTable.propTypes = {
+TrucksTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,

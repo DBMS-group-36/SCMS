@@ -10,6 +10,7 @@ using server.api.DataAccess;
 using System.Text;
 using server.api.Identity.Services;
 using server.api.gRPC.Services;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +77,12 @@ app.UseAuthorization();
 app.MapSCMSGrpcServices();
 app.MapGrpcReflectionService();
 app.MapRazorPages();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "static")),
+    RequestPath = "/static"
+});
 
 app.Run();
 

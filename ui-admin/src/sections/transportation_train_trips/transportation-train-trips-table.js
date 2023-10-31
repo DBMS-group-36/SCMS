@@ -18,7 +18,7 @@ import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import NextLink from 'next/link';
 
-export const ProductsTable = (props) => {
+export const TransportationTrainTripsTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -37,47 +37,59 @@ export const ProductsTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={170}>
-                  Product ID
+                  Transportation train trip ID
                 </TableCell>
                 <TableCell>
-                  Product Name
+                  Date
                 </TableCell>
                 <TableCell>
-                  Capacity per Unit
+                  Time of Departure
                 </TableCell>
                 <TableCell>
-                  Price
+                  Time of Arrival
                 </TableCell>
                 <TableCell>
-                  Number of Units sold
+                  Capacity allocated
+                </TableCell>
+                <TableCell>
+                  destination
+                </TableCell>
+                <TableCell>
+                  Capacity available
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((product) => {
+              {items.map((transportation_train_trip) => {
                 return (
                   <TableRow
                     hover
-                    key={product.Id}
+                    key={transportation_train_trip.id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {product.Id}
+                        {transportation_train_trip.Id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {product.Name}
-                    </TableCell>
-                    <TableCell>                     
-                        {product.CapacityPerUnit}                   
+                      {transportation_train_trip.Date}
                     </TableCell>
                     <TableCell>
-                      {product.Price}
+                      {transportation_train_trip.TimeOfDeparture}
                     </TableCell>
-                    <TableCell>                      
-                        {product.UnitsSold}                      
+                    <TableCell>
+                      {transportation_train_trip.TimeOfArrival}
                     </TableCell>
-                  
+                    <TableCell>
+                      {transportation_train_trip.CapacityAllocated}
+                    </TableCell>
+                    <TableCell>
+                      {transportation_train_trip.Destination}
+                    </TableCell>
+                    <TableCell>
+                      {transportation_train_trip.CapacityAvailable}
+                    </TableCell>
+                    
                   </TableRow>
                 );
               })}
@@ -98,7 +110,7 @@ export const ProductsTable = (props) => {
   );
 };
 
-ProductsTable.propTypes = {
+TransportationTrainTripsTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onPageChange: PropTypes.func,
