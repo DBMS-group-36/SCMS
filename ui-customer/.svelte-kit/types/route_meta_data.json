@@ -5,6 +5,7 @@
 		"src/routes/+layout.server.js"
 	],
 	"/dashboard": [
+		"src/routes/dashboard/+page.server.js",
 		"src/routes/+layout.server.js"
 	],
 	"/date": [

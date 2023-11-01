@@ -27,16 +27,22 @@ public class OrderService : Order.OrderBase
 
     public async override Task<GetOrdersReply> GetOrders(GetOrdersRequest request, ServerCallContext context)
     {
-
+     
         var reply = new GetOrdersReply();
-        var sql = "SELECT * FROM orders";
-        var countSql = "SELECT COUNT(*) FROM orders";
+         
+        
 
+var sql = $"SELECT routeId, deliveryDate, orderDate, deliveryAddressId, orderCapacity, price, storeId, Id FROM orders ";
+var countSql = $"SELECT COUNT(*) FROM orders ";
 
-        if (request.Id != 0)
+        if (request.UserName != null)
         {
-            sql += $" WHERE Id = {request.Id.ToSqlString()}";
-            countSql += $" WHERE Id = {request.Id.ToSqlString()}";
+            var getUserIdQuery = $"SELECT Id FROM users WHERE UserName = {request.UserName.ToSqlString()} ;";
+            int userId = await database.ExecuteScalarAsync<int>(getUserIdQuery);
+                    Console.WriteLine("user");
+        Console.WriteLine(userId);
+            sql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId} ORDER BY orders.Id";
+            countSql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId}";
         }
 
         if (request.P is not null)
@@ -53,9 +59,9 @@ public class OrderService : Order.OrderBase
             sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
-        var orders = await database.QueryAllAsync<ListedProductMessage>(sql);
+        var orders = await database.QueryAllAsync<OrderMessage>(sql);
 
-        reply.Stores.AddRange(orders);
+        reply.Orders.AddRange(orders);
 
         reply.Count = await database.ExecuteScalarAsync<long>(countSql);
 
@@ -65,7 +71,9 @@ public class OrderService : Order.OrderBase
     {
 
         Console.WriteLine(request);
-        Console.WriteLine(request.OrderItems);
+        await database.QueryAllAsync<ListedProductMessage>("start transaction;");
+        Console.WriteLine("user");
+        Console.WriteLine(request.UserName);
         var reply = new PlaceOrderReply();
 
 
@@ -84,9 +92,11 @@ public class OrderService : Order.OrderBase
             sql = $"INSERT INTO order_products (OrderId, ProductId, Quantity,UnitPrice) VALUES ({reply.OrderId}, {i.ItemId}, {i.Quantity}, {i.UnitPrice});";
              await database.QueryAllAsync<ListedProductMessage>(sql);
         }
-        await database.QueryAllAsync<ListedProductMessage>("commit;");
-        sql = $"INSERT INTO user_order (userId, orderId) SELECT Id FROM user WHERE username = {request.userName.ToSqlString()}, {reply.orderId};";
+         var getUserIdQuery = $"SELECT Id FROM users WHERE UserName = {request.UserName.ToSqlString()};";
+    int userId = await database.ExecuteScalarAsync<int>(getUserIdQuery);
+     sql = $"INSERT INTO user_order (userId, orderId) VALUES ({userId}, {reply.OrderId});";
         await database.QueryAllAsync<ListedProductMessage>(sql);
+        await database.QueryAllAsync<ListedProductMessage>("commit;");
         return reply;
     }
 }

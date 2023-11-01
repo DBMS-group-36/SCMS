@@ -1,6 +1,6 @@
 <script lang="ts">
   import DatePicker from "$lib/DatePicker.svelte";
-  import { myArrayStore } from "$lib/store";
+  import { myArrayStore, creds, addCreds } from "$lib/store";
   import GridItem from "../lib/gridItem.svelte";
   import { createEventDispatcher, onMount } from "svelte";
 
@@ -31,6 +31,7 @@
     });
   });
   export let data: any;
+  addCreds(data.token, data.userName);
   console.log(data);
   // let items = [
   //   { title: "Item 1", price: 4, weight: 12 },

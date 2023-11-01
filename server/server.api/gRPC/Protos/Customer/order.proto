@@ -10,7 +10,8 @@ import "gRPC/Protos/shared.proto";
 service Order {
 	rpc GetOrders (GetOrdersRequest) returns (GetOrdersReply){
 		option (google.api.http) = {
-			get: "/api/orders"
+			post : "/api/orders",
+			body:"*",
 		};
 	}
 
@@ -29,16 +30,26 @@ service Order {
 }
 
 message GetOrdersRequest {
-	optional uint64 id = 2;
+	string userName = 1;
 	optional shared.Pagination p = 3;
 }
 
 message GetOrdersReply {
-	repeated shared.ListedProductMessage stores = 1;
+	repeated OrderMessage orders = 1;
 	int64 count = 2;
 }
 
-
+message OrderMessage{
+	
+	uint64 routeId = 1;
+	string deliveryDate = 2;
+	string orderDate = 3;
+	string deliveryAddressId = 4;
+	uint64 orderCapacity = 5;
+	uint64 price = 6;
+	uint64 storeId = 7;
+	int32 Id = 8;
+}
 
 message PlaceOrderReply {
 	

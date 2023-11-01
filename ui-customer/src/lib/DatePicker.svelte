@@ -14,7 +14,7 @@
    */
   import { goto } from "$app/navigation";
   import { writable, derived } from "svelte/store";
-  import { myArrayStore, deleteArr } from "$lib/store";
+  import { myArrayStore, deleteArr, creds } from "$lib/store";
   import { createEventDispatcher, onMount } from "svelte";
   import dayjs from "dayjs";
   import "dayjs/locale/fr";
@@ -23,9 +23,11 @@
   // Create a reactive object to store the calculated values
   let totalPrice = 0;
   export let token: any;
+  export let userName: string;
   export let isOpen = false;
   let totalWeight = 0;
   let stores: any[] = [];
+  let orderId: number;
   let routes: any[] = [];
   let deliveryAddress: string;
   fetch("http://localhost:5000/api/admin/store")
@@ -110,7 +112,7 @@
       isOpenCalendar = false;
     }
   }
-
+  console.log("creds", $creds);
   function initRows() {
     return [
       [0, 0, 0, 0, 0, 0, 0],
@@ -208,37 +210,42 @@
     let data = {
       orderItems: $myArrayStore.map((item) => {
         return {
-          productId: Number(item.id),
+          itemId: Number(item.id),
           quantity: Number(item.quantity),
+          unitPrice: Number(item.price),
         };
       }),
       routeId: route,
-      deliveryDate: {
-        seconds: (new Date(inputTxt).getTime() / 1000).toString(),
-        nanos: 0,
-      },
-      deliveryAddressId: {
-        addressLine1: deliveryAddress,
-      },
+      deliveryDate: inputTxt,
+      orderDate: getCurrentDate(),
+      deliveryAddressId: deliveryAddress,
       orderCapacity: totalWeight,
-      price: totalWeight,
+      price: totalPrice,
       storeId: location,
+      userName: $creds[1],
     };
 
     console.log(data);
-    // fetch("http://localhost:5000/api/order", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + token,
-    //   },
-    //   body: JSON.stringify(data),
-    // });
-    // setTimeout(() => {
-    //   showMessage = false;
-    //   deleteArr();
-    //   goto("/dashboard");
-    // }, 2000);
+    fetch("http://localhost:5000/api/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + $creds[0],
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .then((json) => {
+        console.log(json);
+      });
+
+    setTimeout(() => {
+      showMessage = false;
+      deleteArr();
+      goto("/dashboard");
+    }, 2000);
   }
 </script>
 

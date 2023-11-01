@@ -3,6 +3,7 @@
 export async function load({ cookies }) {
     var visited = cookies.get('visited');
     var token = cookies.get('token');
+    var userName = cookies.get('userName');
     console.log(visited);
     console.log("set");
 
@@ -12,6 +13,6 @@ export async function load({ cookies }) {
     }).then(res => res.json()).then(json => { console.log(json); products = json.products; });
 
     return {
-        visited, token, products
+        visited, token, products, userName
     };
 }
