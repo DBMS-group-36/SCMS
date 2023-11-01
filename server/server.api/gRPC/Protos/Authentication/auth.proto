@@ -39,11 +39,13 @@ message TokenResponseReply {
 	string accessToken = 1;
 	string refreshToken = 2;
 	string expire = 3;
+	
 	StatusReply response = 4;
 }
 
 message StatusReply {
 	string message = 1;
 	bool isSuccess = 2;
-	repeated string errors = 3;
+	string userName = 3;
+	repeated string errors = 4;
 }

@@ -81,6 +81,7 @@ public class UserService : IUserService
                 return reply;
             }
 
+       
             reply.Message = "User created successfully";
             reply.IsSuccess = true;
             return reply;
@@ -94,6 +95,7 @@ public class UserService : IUserService
 
     public async Task<TokenResponseReply> LoginUserAsync(LoginRequest request)
     {
+        Console.WriteLine(request.UserName);
         var reply = new TokenResponseReply();
         string userName = null;
 
@@ -123,7 +125,6 @@ public class UserService : IUserService
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.AuthenticationMethod, "passwordSignIn")
