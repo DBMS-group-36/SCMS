@@ -5,6 +5,7 @@
   export let title: string;
   export let price: number;
   export let weight: number;
+  export let id: number;
   let quantity: number;
   console.log("fukc");
   let show = false;
@@ -45,6 +46,7 @@
             quantity: quantity,
             weight: weight,
             price: price,
+            id: id,
           });
           show = false;
         }}

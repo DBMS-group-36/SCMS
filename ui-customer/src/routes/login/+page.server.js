@@ -11,8 +11,9 @@ export const actions = {
             "userName": data.get('username'),
             "password": data.get('password')
         }
+        let un = (data.get('username') ?? '').toString();
         const body = JSON.stringify(data2);
-        await fetch('http://localhost:5184/auth/login', {
+        await fetch('http://localhost:5000/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,6 +24,10 @@ export const actions = {
             if (json.response.isSuccess) {
                 console.log("success");
                 cookies.set('token', json.accessToken, {
+                    expires: new Date(json.expire),
+                    path: '/'
+                });
+                cookies.set('userName', un, {
                     expires: new Date(json.expire),
                     path: '/'
                 });

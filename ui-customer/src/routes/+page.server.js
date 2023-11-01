@@ -5,7 +5,7 @@ export async function load({ cookies }) {
     var token = cookies.get('token');
     console.log(visited);
     console.log("set");
-    visited = "true"
+
     let products;
     await fetch('http://localhost:5000/api/products', {
         method: 'GET'

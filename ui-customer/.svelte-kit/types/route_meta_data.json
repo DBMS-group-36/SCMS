@@ -8,6 +8,7 @@
 		"src/routes/+layout.server.js"
 	],
 	"/date": [
+		"src/routes/date/+page.server.js",
 		"src/routes/+layout.server.js"
 	],
 	"/login": [

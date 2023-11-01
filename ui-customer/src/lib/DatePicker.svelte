@@ -22,11 +22,12 @@
 
   // Create a reactive object to store the calculated values
   let totalPrice = 0;
+  export let token: any;
   export let isOpen = false;
   let totalWeight = 0;
   let stores: any[] = [];
   let routes: any[] = [];
-
+  let deliveryAddress: string;
   fetch("http://localhost:5000/api/admin/store")
     .then((res) => res.json())
     .then((data) => {
@@ -184,9 +185,18 @@
     }
     affecteRows();
   }
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Month starts from 0
+    const day = String(today.getDate()).padStart(2, "0");
 
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
   function selectDate(y: any, m: any, d: any) {
     inputTxt = dayjs(y + "-" + m + "-" + d).format("YYYY-MM-DD");
+    console.log(inputTxt);
     isOpenCalendar = false;
   }
 
@@ -195,11 +205,40 @@
   function showSuccessMessage() {
     showMessage = true;
     // Automatically hide the message after a certain time (e.g., 3 seconds)
-    setTimeout(() => {
-      showMessage = false;
-      deleteArr();
-      goto("/dashboard");
-    }, 2000);
+    let data = {
+      orderItems: $myArrayStore.map((item) => {
+        return {
+          productId: Number(item.id),
+          quantity: Number(item.quantity),
+        };
+      }),
+      routeId: route,
+      deliveryDate: {
+        seconds: (new Date(inputTxt).getTime() / 1000).toString(),
+        nanos: 0,
+      },
+      deliveryAddressId: {
+        addressLine1: deliveryAddress,
+      },
+      orderCapacity: totalWeight,
+      price: totalWeight,
+      storeId: location,
+    };
+
+    console.log(data);
+    // fetch("http://localhost:5000/api/order", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + token,
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    // setTimeout(() => {
+    //   showMessage = false;
+    //   deleteArr();
+    //   goto("/dashboard");
+    // }, 2000);
   }
 </script>
 
@@ -348,6 +387,15 @@
   </h1>
   <div class="md:w-2/3 w-full bg-slate-400 bg-opacity-50">
     <div class="flex flex-col items-center justify-center">
+      <label class="text-gray-200">Delivery Address</label>
+      <label class="label">
+        <input
+          class="input w-64 mb-4"
+          type="text"
+          placeholder="Address"
+          bind:value={deliveryAddress}
+        />
+      </label>
       <label class="text-gray-200">Select Location</label>
       <label class="label">
         <!-- <span>Select Location</span> -->

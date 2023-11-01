@@ -96,6 +96,7 @@
             title={item.name}
             price={Number(item.price)}
             weight={item.CapacityPerUnit}
+            id={item.id}
           />
         {/each}
       </div>
