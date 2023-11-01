@@ -234,9 +234,7 @@
       },
       body: JSON.stringify(data),
     })
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => res.json())
       .then((json) => {
         console.log(json);
       });

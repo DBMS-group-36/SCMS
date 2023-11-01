@@ -49,6 +49,7 @@ message OrderMessage{
 	uint64 price = 6;
 	uint64 storeId = 7;
 	int32 Id = 8;
+	string status = 9;
 }
 
 message PlaceOrderReply {

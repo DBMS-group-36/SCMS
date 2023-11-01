@@ -32,7 +32,7 @@ public class OrderService : Order.OrderBase
          
         
 
-var sql = $"SELECT routeId, deliveryDate, orderDate, deliveryAddressId, orderCapacity, price, storeId, Id FROM orders ";
+var sql = $"SELECT routeId, deliveryDate, orderDate, deliveryAddressId, orderCapacity, price, storeId, Id,Status FROM orders ";
 var countSql = $"SELECT COUNT(*) FROM orders ";
 
         if (request.UserName != null)
@@ -41,7 +41,7 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
             int userId = await database.ExecuteScalarAsync<int>(getUserIdQuery);
                     Console.WriteLine("user");
         Console.WriteLine(userId);
-            sql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId} ORDER BY orders.Id";
+            sql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId} ORDER BY orders.Id DESC";
             countSql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId}";
         }
 

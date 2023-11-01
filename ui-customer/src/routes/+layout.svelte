@@ -41,7 +41,7 @@
           </a>
           <a
             class="btn btn-sm variant-filled-primary"
-            href="/date"
+            href="/"
             rel="noreferrer"
             aria-current={$page.url.pathname === "/"}
           >
