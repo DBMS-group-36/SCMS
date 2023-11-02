@@ -94,8 +94,8 @@ const Page = () => {
                   <Tab label="Still In Warehouse" value="Order Placed" />
                   <Tab label="On Train" value="On Train" />
                   <Tab label="At Store" value="At Store" />
-                  <Tab label="Delivery" value="Delivery" />
-                  <Tab label="Delivered" value="Delivered" />
+                  <Tab label="Deliverying By Vehicle" value="Delivery" />
+                  <Tab label="Successfully Delivered" value="Delivered" />
                   <Tab label="Cancelled" value="Cancelled" />
                 </TabList>
               </Box>
@@ -109,10 +109,10 @@ const Page = () => {
                 At Store
               </TabPanel>
               <TabPanel value="Delivery">
-                Delivery
+                Deliverying By Vehicle
               </TabPanel>
               <TabPanel value="Delivered">
-                Delivered
+                Successfully Delivered
               </TabPanel>
               <TabPanel value="Cancelled">
                 Cancelled
