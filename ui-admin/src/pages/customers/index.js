@@ -2,10 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
-import { Box, Button, Container, LinearProgress, Stack, SvgIcon, Typography } from '@mui/material';
-import { useSelection } from 'src/hooks/use-selection';
+import { AppBar, Box, Button, Container, LinearProgress, Stack, SvgIcon, Tab, Tabs, Typography } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { StoresTable } from 'src/sections/stores/stores-table';
 import { BigSearch } from 'src/sections/big-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
@@ -15,9 +13,12 @@ import { useConfirm } from 'material-ui-confirm';
 import { deleteStore, getAllStores } from 'src/apis/stores';
 import { searchObjects } from 'src/utils/search-objects';
 import { useSnackbar } from 'notistack';
+import { CustomersTable } from 'src/sections/customer/customers-table';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { getAllEndCustomers, getAllRetailers, getAllWholesalers } from 'src/apis/customers';
 
 
-const useStores = (data, page, rowsPerPage, search) => {
+const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
     () => {
       const filtered = searchObjects(data, search)
@@ -31,30 +32,37 @@ const useStores = (data, page, rowsPerPage, search) => {
 const Page = () => {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
-  const [data, setData] = useState([]);
+
+  const [selectedTab, setSelectedTab] = useState('retailers');
+
+  useEffect(() => {
+    setPage(0);
+    setSearch('')
+  }, [selectedTab])
+
+  const [retailers, setRetailers] = useState([]);
+  const [endCustomers, setEndCustomers] = useState([]);
+  const [wholesalers, setWholesalers] = useState([]);
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const stores = useStores(data, page, rowsPerPage, search);
+  const paginatedWholeSalers = useCustomers(wholesalers, page, rowsPerPage, search);
+  const paginatedRetailers = useCustomers(retailers, page, rowsPerPage, search);
+  const paginatedEndCustomers = useCustomers(endCustomers, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
 
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
-      const stores = (await getAllStores()) || [];
-      console.log("Stored were fetched from the database", stores)
-
-      setData(stores)
-    } catch (e) {    
-         enqueueSnackbar('Network Error', {
-      variant: 'error',
-      anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right',
-
-      },
-      autoHideDuration: 2000
-    })
+      await Promise.allSettled([
+        getAllEndCustomers().then(c => setEndCustomers(c)),
+        getAllRetailers().then(c => setRetailers(c)),
+        getAllWholesalers().then(c => setWholesalers(c))
+      ])
+      console.log("Customer were fetched from the database")
+      // setData(customers)
+    } catch (e) {
       console.error(e)
     }
     setLoading(false)
@@ -80,15 +88,13 @@ const Page = () => {
   );
 
   const confirm = useConfirm()
-  const { enqueueSnackbar } = useSnackbar()
 
-  const handleDelete = async (store) => {
+  const handleDelete = async (customer) => {
     confirm({ description: `This will permanently delete the record` })
       .then(async () => {
-        // TODO: Delete the data, api call
         try {
           setLoading(true)
-          await deleteStore(store.Id)
+          await deleteCustomer(customer.Id)
           console.log("Record was successfully deleted...")
 
         } catch (e) {
@@ -97,25 +103,14 @@ const Page = () => {
 
         retrieveAndRefreshData()
       })
-      .catch(() => {
-        enqueueSnackbar('Error while deleting the stores!', {
-          variant: 'error',
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'right',
-
-          },
-          autoHideDuration: 2000
-        })
-        console.error("Deletion cancelled.")
-      });
+      .catch(() => console.log("Deletion cancelled."));
   };
 
   return (
     <>
       <Head>
         <title>
-          Stores | A Suppilers
+          Customers | A Suppilers
         </title>
       </Head>
       <Box
@@ -134,13 +129,13 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h5">
-                  Stores
+                  Customers
                 </Typography>
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'Stores',
-                    linkUrl: '/stores',
+                    text: 'Customers',
+                    linkUrl: '/customers',
                     active: true
                   },
                 ]} />
@@ -158,7 +153,7 @@ const Page = () => {
                       </SvgIcon>
                     )}
                     variant="contained"
-                    href={'/stores/create'}
+                    href={'/customers/create'}
                     LinkComponent={NextLink}
                   >
                     Add New
@@ -180,20 +175,53 @@ const Page = () => {
             <BigSearch
               search={search}
               onSearch={setSearch}
-              placeholder={"Search stores"}
+              placeholder={"Search customers"}
             />
 
             {loading && <LinearProgress />}
 
-            <StoresTable
-              count={data.length}
-              items={stores}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              handleDelete={handleDelete}
-            />
+            <TabContext value={selectedTab}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList onChange={(s, v) => setSelectedTab(v)} aria-label="lab API tabs example">
+                  <Tab label="Retailer Customers" value="retailers" />
+                  <Tab label="Wholesalers" value="wholesalers" />
+                  <Tab label="End Customers" value="endcustomers" />
+                </TabList>
+              </Box>
+              <TabPanel value="retailers">
+                <CustomersTable
+                  count={retailers.length}
+                  items={paginatedRetailers}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  handleDelete={handleDelete}
+                />
+              </TabPanel>
+              <TabPanel value="wholesalers">
+                <CustomersTable
+                  count={paginatedWholeSalers.length}
+                  items={wholesalers}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  handleDelete={handleDelete}
+                />
+              </TabPanel>
+              <TabPanel value="endcustomers">
+                <CustomersTable
+                  count={endCustomers.length}
+                  items={paginatedEndCustomers}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  handleDelete={handleDelete}
+                />
+              </TabPanel>
+            </TabContext>
           </Stack>
         </Container>
       </Box>
