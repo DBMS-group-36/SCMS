@@ -50,6 +50,15 @@ const Page = () => {
         setTimeout(() => router.push('/stores'), 400)
 
       } catch (err) {
+        enqueueSnackbar('Error occured!', {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right',
+
+          },
+          autoHideDuration: 2000
+        })
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
         helpers.setSubmitting(false);

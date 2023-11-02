@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
 import { getAllProducts } from 'src/apis/products';
 import { searchObjects } from 'src/utils/search-objects';
+import { useSnackbar } from 'notistack';
 
 
 const useProducts = (data, page, rowsPerPage, search) => {
@@ -36,15 +37,25 @@ const Page = () => {
   const products = useProducts(data, page, rowsPerPage, search);
 
   const [loading, setLoading] = useState(true)
+  const { enqueueSnackbar } = useSnackbar()
 
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
       const products = (await getAllProducts()) || [];
       console.log("Products were fetched from the database", products)
-      
+
       setData(products)
     } catch (e) {
+      enqueueSnackbar('Error occured!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'right',
+
+        },
+        autoHideDuration: 2000
+      })
       console.error(e)
     }
     setLoading(false)
@@ -122,7 +133,7 @@ const Page = () => {
                   spacing={1}
                   direction={'row'}
                 >
-                  
+
                   <Button
                     startIcon={(
                       <SvgIcon fontSize="small">
@@ -143,9 +154,9 @@ const Page = () => {
               placeholder={"Search products"}
             />
 
-            {loading && <LinearProgress />} 
+            {loading && <LinearProgress />}
 
-             <ProductsTable
+            <ProductsTable
               count={data.length}
               items={products}
               onPageChange={handlePageChange}
@@ -153,7 +164,7 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               handleDelete={handleDelete}
-            /> 
+            />
           </Stack>
         </Container>
       </Box>

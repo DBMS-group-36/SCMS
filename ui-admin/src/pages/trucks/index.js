@@ -37,14 +37,24 @@ const Page = () => {
 
   const [loading, setLoading] = useState(true)
 
+  const { enqueueSnackbar } = useSnackbar()
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
       const trucks = (await getAllTrucks()) || [];
       console.log("Trucks were fetched from the database", trucks)
-      
+
       setData(trucks)
     } catch (e) {
+      enqueueSnackbar('Error occured!', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'right',
+
+        },
+        autoHideDuration: 2000
+      })
       console.error(e)
     }
     setLoading(false)
@@ -78,7 +88,18 @@ const Page = () => {
 
         retrieveAndRefreshData()
       })
-      .catch(() => console.log("Deletion cancelled."));
+      .catch(() => {
+        enqueueSnackbar('Error occured', {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right',
+
+          },
+          autoHideDuration: 2000
+        })
+        console.log("Deletion cancelled.")
+      });
   };
 
   return (
@@ -122,7 +143,7 @@ const Page = () => {
                   spacing={1}
                   direction={'row'}
                 >
-                  
+
                   <Button
                     startIcon={(
                       <SvgIcon fontSize="small">
@@ -143,9 +164,9 @@ const Page = () => {
               placeholder={"Search trucks"}
             />
 
-            {loading && <LinearProgress />} 
+            {loading && <LinearProgress />}
 
-             <TrucksTable
+            <TrucksTable
               count={data.length}
               items={trucks}
               onPageChange={handlePageChange}
@@ -153,7 +174,7 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               handleDelete={handleDelete}
-            /> 
+            />
           </Stack>
         </Container>
       </Box>

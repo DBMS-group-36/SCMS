@@ -92,6 +92,7 @@ export async function update(request: Request, response: Response) {
 
 export async function remove(request: Request, response: Response) {
   const storeId = request.params.id;
+  console.log(storeId)
   const sql = 'DELETE FROM stores WHERE id = ?';
 
   const connection = await getDatabaseConnection();
