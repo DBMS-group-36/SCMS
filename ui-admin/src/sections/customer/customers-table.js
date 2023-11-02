@@ -77,7 +77,7 @@ export const CustomersTable = (props) => {
                           {/* {getInitials(customer.name)} */}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          Customer Full Name
+                          {customer.FullName}
                         </Typography>
                       </Stack>
                     </TableCell>
