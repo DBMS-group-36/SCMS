@@ -147,18 +147,7 @@ const Page = () => {
                   spacing={1}
                   direction={'row'}
                 >
-                  <Button
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
-                    href={'/drivers/create'}
-                    LinkComponent={NextLink}
-                  >
-                    Add New
-                  </Button>
+                  
                   <Button
                     startIcon={(
                       <SvgIcon fontSize="small">

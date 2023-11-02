@@ -81,13 +81,13 @@ export const TransportationTrainTripsTable = (props) => {
                       {transportation_train_trip.TimeOfArrival}
                     </TableCell>
                     <TableCell>
-                      {transportation_train_trip.CapacityAllocated}
+                      {transportation_train_trip.CapacityAllocated} cubic meters
                     </TableCell>
                     <TableCell>
                       {transportation_train_trip.Destination}
                     </TableCell>
                     <TableCell>
-                      {transportation_train_trip.CapacityAvailable}
+                      {transportation_train_trip.CapacityAvailable} cubic meters
                     </TableCell>
                     
                   </TableRow>
