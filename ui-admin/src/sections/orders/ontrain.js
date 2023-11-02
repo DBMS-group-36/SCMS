@@ -176,22 +176,6 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
     setRowsPerPage(event.target.value);
   }, []);
 
-  const searchOrder = (orderId) => {
-    return data?.find(d => d.Id == orderId)
-  }
-
-  function getTotalCapacity() {
-    if (!ordersSelection?.selected?.length) return 0;
-
-    let c = 0;
-
-    (ordersSelection?.selected || []).forEach((orderId) => {
-      c += searchOrder(orderId)?.OrderCapacity
-    })
-
-    return c
-  }
-
   return (
     <Card>
       <div>
@@ -244,6 +228,7 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
             </TableHead>
             <TableBody>
               {orders.map((order) => {
+                console.log(orders)
                 const isSelected = ordersSelection.selected.includes(order.Id);
                 return (
                   <TableRow

@@ -125,14 +125,38 @@ export async function getOrdersCancelled(request: Request, response: Response) {
 export async function distributeOrdersByTrain(request: Request, response: Response) {
   const connection = await getDatabaseConnection();
 
-  const tripId = request.body.trainTripId
+  const tripId = request.body.tripId
 
   request.body.orderDistributions?.forEach(distribution_to_stores => {
     const sql = `INSERT INTO distribution_to_stores(OrderId,StoreId,TripId) Values(?,?,?)`;
 
     connection.query(sql,[distribution_to_stores.orderId, distribution_to_stores.storeId, tripId], (err, rows) => {
       if (err) {
-        console.error('Error executing the database: ' + err.message);
+        console.error('Error executing the query: ' + err.message);
+        response.status(500).send('Error querying the database');
+
+        return connection.commit()
+      }
+    });
+
+  });
+
+  return response.json({ success: 'true' });
+
+}
+
+
+export async function uploadFromTrain(request: Request, response: Response) {
+  const connection = await getDatabaseConnection();
+
+  const tripId = request.body.trainTripId
+
+  request.body.orderDistributions?.forEach(distribution_to_stores => {
+    const sql = `UPDATE orders SET Status = 'At Store' WHERE Id = ?`;
+
+    connection.query(sql,[request.params.id], (err, rows) => {
+      if (err) {
+        console.error('Error executing the query: ' + err.message);
         response.status(500).send('Error querying the database');
 
         return connection.commit()
@@ -153,5 +177,6 @@ export default {
   getOrdersDelivering,
   getOrdersCancelled,
   getOrdersOnTrain,
-  distributeOrdersByTrain
+  distributeOrdersByTrain,
+  uploadFromTrain
 }
