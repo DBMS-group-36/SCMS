@@ -186,7 +186,7 @@ export const OrdersStillInWarehouseTable = ({ search }) => {
               ordersSelection?.selected.map(oId => {
                 const o = searchOrder(oId);
 
-                if(!0) return <></>
+                if(!o) return <></>
                 return (
                   <ListItem key={oId}>
                     <ListItemAvatar>
