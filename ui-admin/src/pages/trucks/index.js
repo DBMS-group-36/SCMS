@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useConfirm } from 'material-ui-confirm';
 import { getAllTrucks } from 'src/apis/trucks';
 import { searchObjects } from 'src/utils/search-objects';
+import { useSnackbar } from 'notistack';
 
 
 const useTrucks = (data, page, rowsPerPage, search) => {
