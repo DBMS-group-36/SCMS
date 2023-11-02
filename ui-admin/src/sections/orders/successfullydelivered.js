@@ -36,8 +36,7 @@ import { searchObjects } from 'src/utils/search-objects';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { useSnackbar } from 'notistack';
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
-import { getOrdersCancelled, getOrdersOnTrain, getOrdersStillInWareHouse } from 'src/apis/orders';
-import { getAllTransportationTrainTrips } from 'src/apis/transportation_train_trips';
+import { getOrdersCancelled, getOrdersDelivered, getOrdersStillInWareHouse } from 'src/apis/orders';
 import axios from 'axios';
 import { BACKEND_URL } from 'src/apis/consts';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
@@ -69,7 +68,7 @@ const useOrderIds = (orders) => {
   );
 };
 
-export const OrdersOnTrainPanel = () => {
+export const OrdersDeliveredPanel = () => {
 
   const [loading, setLoading] = useState(false);
   const [stores, setStores] = useState([]);
@@ -123,7 +122,7 @@ export const OrdersOnTrainPanel = () => {
         </Box>{
           stores?.map(s => (
             <TabPanel key={s.Id} value={`${s.Id}`}>
-              <OrdersOnTrainForStore key={s.Id} storeId={s.Id} />
+              <OrdersDeliveredForStore key={s.Id} storeId={s.Id} />
             </TabPanel>
           ))
         }
@@ -132,7 +131,7 @@ export const OrdersOnTrainPanel = () => {
   );
 };
 
-export const OrdersOnTrainForStore = ({ storeId }) => {
+export const OrdersDeliveredForStore = ({ storeId }) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
@@ -146,7 +145,7 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
-      const orders = (await getOrdersOnTrain(storeId)) || [];
+      const orders = (await getOrdersDelivered(storeId)) || [];
       setData(orders)
     } catch (e) {
       enqueueSnackbar('Error while doing network operations...', {
@@ -176,35 +175,6 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
   const onRowsPerPageChange = useCallback((event) => {
     setRowsPerPage(event.target.value);
   }, []);
-
-  const confirm = useConfirm()
-
-  const handleUnloadFromTrain = async (orderId) => {
-    confirm({ description: `Are you sure unloading the order from the train?` })
-      .then(async () => {
-        try {
-          setLoading(true)
-
-          await axios.get(`${BACKEND_URL}/api/admin/orders/${orderId}/unloadFromTrain`)
-
-        } catch (e) {
-          console.error(e)
-        }
-
-        retrieveAndRefreshData()
-      })
-      .catch(() => {
-        enqueueSnackbar('Error while uploading the order!', {
-          variant: 'error',
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'right',
-
-          },
-          autoHideDuration: 2000
-        })
-      });
-  };
 
   return (
     <Card>
@@ -243,9 +213,6 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                   Store
                 </TableCell>
                 <TableCell>
-                  Arrival & Departure
-                </TableCell>
-                <TableCell>
                   Address
                 </TableCell>
                 <TableCell>
@@ -254,9 +221,6 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                 <TableCell>
                   Capacity
                 </TableCell>
-                <TableCell>
-                  Actions
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -264,6 +228,7 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                 const isSelected = ordersSelection.selected.includes(order.Id);
                 return (
                   <TableRow
+                  sx={{backgroundColor: '#dcffe9'}}
                     hover
                     key={order.Id}
                     selected={isSelected}
@@ -286,9 +251,6 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                       {order.StoreCity}
                     </TableCell>
                     <TableCell>
-                      {order.TimeOfArrival} - {order.TimeOfDeparture}
-                    </TableCell>
-                    <TableCell>
                       {getAddress(order)}
                     </TableCell>
                     <TableCell>
@@ -296,14 +258,6 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                     </TableCell>
                     <TableCell>
                       {order.OrderCapacity} m^3
-                    </TableCell>
-                    <TableCell width={200}>
-                      <Button
-                        onClick={() => handleUnloadFromTrain(order.Id)}
-                        variant="outlined"
-                      >
-                        Unload From Train
-                      </Button>
                     </TableCell>
                   </TableRow>
                 );

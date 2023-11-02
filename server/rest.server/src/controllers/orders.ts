@@ -89,10 +89,10 @@ export async function getOrdersDelivering(request: Request, response: Response) 
 }
 
 export async function getOrdersDelivered(request: Request, response: Response) {
-  const sql = `SELECT * FROM orders WHERE status = 'Delivered'`;
+  const sql = `SELECT * FROM orders_delivered WHERE StoreId = ?`;
   const connection = await getDatabaseConnection();
 
-  connection.query(sql, (err, rows) => {
+  connection.query(sql, [request.query.storeId], (err, rows) => {
     if (err) {
       console.error('Error querying the database: ' + err.message);
       response.status(500).send('Error querying the database');
@@ -145,14 +145,9 @@ export async function distributeOrdersByTrain(request: Request, response: Respon
 
 }
 
-
-export async function uploadFromTrain(request: Request, response: Response) {
+export async function unloadFromTrain(request: Request, response: Response) {
   const connection = await getDatabaseConnection();
-
-  const tripId = request.body.trainTripId
-
-  request.body.orderDistributions?.forEach(distribution_to_stores => {
-    const sql = `UPDATE orders SET Status = 'At Store' WHERE Id = ?`;
+   const sql = `UPDATE orders SET Status = 'At Store' WHERE Id = ?`;
 
     connection.query(sql,[request.params.id], (err, rows) => {
       if (err) {
@@ -162,8 +157,6 @@ export async function uploadFromTrain(request: Request, response: Response) {
         return connection.commit()
       }
     });
-
-  });
 
   return response.json({ success: 'true' });
 
@@ -178,5 +171,5 @@ export default {
   getOrdersCancelled,
   getOrdersOnTrain,
   distributeOrdersByTrain,
-  uploadFromTrain
+  unloadFromTrain
 }
