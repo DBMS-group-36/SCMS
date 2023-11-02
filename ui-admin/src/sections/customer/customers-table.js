@@ -15,7 +15,6 @@ import {
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
-import { getInitials } from 'src/utils/get-initials';
 
 const avatars = [
   '/assets/avatars/avatar-carson-darrin.png',
@@ -73,9 +72,7 @@ export const CustomersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={avatars[customer.UserId % avatars.length]}>
-                          {/* {getInitials(customer.name)} */}
-                        </Avatar>
+                        <Avatar src={avatars[customer.UserId % avatars.length]}/>
                         <Typography variant="subtitle2">
                           {customer.FullName}
                         </Typography>

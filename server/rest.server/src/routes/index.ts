@@ -4,6 +4,7 @@ import storesRouter from './stores';
 import transportationTrainTripsRouter from './transportation_train_trips';
 import productsRouter from './products';
 import trucksRouter from './trucks';
+import ordersRouter from './orders';
 import customersRouter from './customers';
 
 const baseRouter = Router();
@@ -13,5 +14,6 @@ baseRouter.use(`/api/admin/`, transportationTrainTripsRouter);
 baseRouter.use(`/api/admin/`, productsRouter);
 baseRouter.use(`/api/admin/`, trucksRouter);
 baseRouter.use(`/api/admin/`, customersRouter);
+baseRouter.use(`/api/admin/`, ordersRouter);
 
 export default baseRouter;

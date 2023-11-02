@@ -4,16 +4,11 @@ import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import { AppBar, Box, Button, Container, LinearProgress, Stack, SvgIcon, Tab, Tabs, Typography } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { BigSearch } from 'src/sections/big-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
-import { searchObjects } from 'src/utils/search-objects';
-import { useSnackbar } from 'notistack';
-import { CustomersTable } from 'src/sections/customer/customers-table';
+import { searchObjects } from 'src/utils/search-objects';;
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { getAllEndCustomers, getAllRetailers, getAllWholesalers } from 'src/apis/customers';
-
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -30,33 +25,19 @@ const Page = () => {
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
 
-  const [selectedTab, setSelectedTab] = useState('retailers');
+  const [selectedTab, setSelectedTab] = useState('Order Placed');
 
   useEffect(() => {
     setPage(0);
     setSearch('')
   }, [selectedTab])
 
-  const [retailers, setRetailers] = useState([]);
-  const [endCustomers, setEndCustomers] = useState([]);
-  const [wholesalers, setWholesalers] = useState([]);
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const paginatedWholeSalers = useCustomers(wholesalers, page, rowsPerPage, search);
-  const paginatedRetailers = useCustomers(retailers, page, rowsPerPage, search);
-  const paginatedEndCustomers = useCustomers(endCustomers, page, rowsPerPage, search);
-
   const [loading, setLoading] = useState(true)
 
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
-      await Promise.allSettled([
-        getAllEndCustomers().then(c => setEndCustomers(c)),
-        getAllRetailers().then(c => setRetailers(c)),
-        getAllWholesalers().then(c => setWholesalers(c))
-      ])
+
       console.log("Customer were fetched from the database")
       // setData(customers)
     } catch (e) {
@@ -69,25 +50,11 @@ const Page = () => {
     retrieveAndRefreshData()
   }, [])
 
-  const handlePageChange = useCallback(
-    (event, value) => {
-      setPage(value);
-    },
-    []
-  );
-
-  const handleRowsPerPageChange = useCallback(
-    (event) => {
-      setRowsPerPage(event.target.value);
-    },
-    []
-  );
-
   return (
     <>
       <Head>
         <title>
-          Customers | A Suppilers
+          Orders | A Suppilers
         </title>
       </Head>
       <Box
@@ -106,13 +73,13 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h5">
-                  Customers
+                  Orders
                 </Typography>
 
                 <StyledBreadCrumbs sequence={[
                   {
-                    text: 'Customers',
-                    linkUrl: '/customers',
+                    text: 'Orders',
+                    linkUrl: '/orders',
                     active: true
                   },
                 ]} />
@@ -130,7 +97,7 @@ const Page = () => {
                       </SvgIcon>
                     )}
                     variant="contained"
-                    href={'/customers/create'}
+                    href={'/orders/create'}
                     LinkComponent={NextLink}
                   >
                     Add New
@@ -149,51 +116,35 @@ const Page = () => {
                 </Stack>
               </div>
             </Stack>
-            <BigSearch
-              search={search}
-              onSearch={setSearch}
-              placeholder={"Search customers"}
-            />
-
             {loading && <LinearProgress />}
-
             <TabContext value={selectedTab}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList onChange={(s, v) => setSelectedTab(v)} aria-label="lab API tabs example">
-                  <Tab label="Retailer Customers" value="retailers" />
-                  <Tab label="Wholesalers" value="wholesalers" />
-                  <Tab label="End Customers" value="endcustomers" />
+                  <Tab label="Still In Warehouse" value="Order Placed" />
+                  <Tab label="On Train" value="On Train" />
+                  <Tab label="At Store" value="At Store" />
+                  <Tab label="Delivery" value="Delivery" />
+                  <Tab label="Delivered" value="Delivered" />
+                  <Tab label="Cancelled" value="Cancelled" />
                 </TabList>
               </Box>
-              <TabPanel value="retailers">
-                <CustomersTable
-                  count={retailers.length}
-                  items={paginatedRetailers}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                />
+              <TabPanel value="Order Placed">
+              
               </TabPanel>
-              <TabPanel value="wholesalers">
-                <CustomersTable
-                  count={paginatedWholeSalers.length}
-                  items={wholesalers}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                />
+              <TabPanel value="On Train">
+                On Train
               </TabPanel>
-              <TabPanel value="endcustomers">
-                <CustomersTable
-                  count={endCustomers.length}
-                  items={paginatedEndCustomers}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  page={page}
-                  rowsPerPage={rowsPerPage}
-                />
+              <TabPanel value="At Store">
+                At Store
+              </TabPanel>
+              <TabPanel value="Delivery">
+                Delivery
+              </TabPanel>
+              <TabPanel value="Delivered">
+                Delivered
+              </TabPanel>
+              <TabPanel value="Cancelled">
+                Cancelled
               </TabPanel>
             </TabContext>
           </Stack>

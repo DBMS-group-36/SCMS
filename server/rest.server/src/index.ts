@@ -50,5 +50,5 @@ app.use((req: Request, res: Response) => {
 // Start the API
 const port = Number(process.env.PORT || 3000);
 app.listen(port, () => {
-    logger.info('API has been started on port: ' + port);
+  logger.info('API has been started on port: ' + port);
 });
