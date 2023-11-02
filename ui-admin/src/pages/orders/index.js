@@ -10,6 +10,8 @@ import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { searchObjects } from 'src/utils/search-objects';;
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehouse';
+import { OrdersCancelledTable } from 'src/sections/orders/cancelled';
+import { OrdersOnTrainPanel } from 'src/sections/orders/ontrain';
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -92,7 +94,7 @@ const Page = () => {
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList onChange={(s, v) => setSelectedTab(v)} aria-label="lab API tabs example">
                   <Tab label="Still In Warehouse" value="Order Placed" />
-                  <Tab label="On Train" value="On Train" />
+                  <Tab label="Placed On Train" value="On Train" />
                   <Tab label="At Store" value="At Store" />
                   <Tab label="Deliverying By Vehicle" value="Delivery" />
                   <Tab label="Successfully Delivered" value="Delivered" />
@@ -103,7 +105,7 @@ const Page = () => {
                 <OrdersStillInWarehouseTable />
               </TabPanel>
               <TabPanel value="On Train">
-                On Train
+                <OrdersOnTrainPanel />
               </TabPanel>
               <TabPanel value="At Store">
                 At Store
@@ -115,7 +117,7 @@ const Page = () => {
                 Successfully Delivered
               </TabPanel>
               <TabPanel value="Cancelled">
-                Cancelled
+                <OrdersCancelledTable />
               </TabPanel>
             </TabContext>
           </Stack>

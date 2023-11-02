@@ -7,8 +7,8 @@ export async function getOrdersStillInWareHouse() {
     return response.data.orders
 }
 
-export async function getOrdersOnTrain() {
-    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/onTrain`)
+export async function getOrdersOnTrain(storeId) {
+    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/onTrain?storeId=${storeId}`)
     return response.data.orders
 }
 

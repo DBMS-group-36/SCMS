@@ -38,7 +38,7 @@ export async function getOrdersStillInWareHouse(request: Request, response: Resp
 }
 
 export async function getOrdersOnTrain(request: Request, response: Response) {
-  const sql = `SELECT * FROM orders WHERE status = 'On Train'`;
+  const sql = `SELECT * FROM orders_on_train`;
   const connection = await getDatabaseConnection();
 
   connection.query(sql, (err, rows) => {
@@ -106,7 +106,7 @@ export async function getOrdersDelivered(request: Request, response: Response) {
 }
 
 export async function getOrdersCancelled(request: Request, response: Response) {
-  const sql = `SELECT * FROM orders WHERE status = 'Cancelled'`;
+  const sql = `SELECT * FROM orders_cancelled`;
   const connection = await getDatabaseConnection();
 
   connection.query(sql, (err, rows) => {
@@ -129,21 +129,19 @@ export async function distributeOrdersByTrain(request: Request, response: Respon
 
   request.body.orderDistributions?.forEach(distribution_to_stores => {
     const sql = `INSERT INTO distribution_to_stores(OrderId,StoreId,TripId) Values(?,?,?)`;
-    const sql2 = `UPDATE orders SET status = 'On Train' WHERE Id = ?`;
+    // const sql2 = `UPDATE orders SET status = 'On Train' WHERE Id = ?`;
     
     connection.query(sql,[distribution_to_stores.orderId, distribution_to_stores.storeId, tripId], (err, rows) => {
       if (err) {
         console.error('Error executing the database: ' + err.message);
         response.status(500).send('Error querying the database');
 
+        // connection.query(sql2,[distribution_to_stores.orderId]);
+
         return connection.commit()
       }
-
     });
 
-    connection.query(sql2,[distribution_to_stores.orderId]);
-
-    connection.commit()
   });
 
   return response.json({ success: 'true' });
