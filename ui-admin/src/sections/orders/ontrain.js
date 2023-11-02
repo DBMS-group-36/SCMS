@@ -99,8 +99,8 @@ export const OrdersOnTrainPanel = () => {
   useEffect(() => { retrieveAndRefreshData() }, [])
 
   useEffect(() => {
-    if (!!stores?.length) return;
-    setSelectedTab(stores?.[0]?.Id)
+    if (!stores?.length) return;
+    setSelectedTab(`${stores?.[0]?.Id}`)
   }, [stores])
 
   const [selectedTab, setSelectedTab] = useState(1);
@@ -108,26 +108,10 @@ export const OrdersOnTrainPanel = () => {
     <Card>
       <div>
       {loading && <LinearProgress />}
-        <Stack
-          spacing={1}
-          direction={'row'}
-          sx={{ padding: '20px', justifyContent: 'space-between' }}
-        >
-          <Button
-            startIcon={(
-              <SvgIcon fontSize="small">
-                <ArrowPathIcon />
-              </SvgIcon>
-            )}
-            onClick={() => retrieveAndRefreshData()}
-            variant="outlined"
-          >
-            Refresh Orders
-          </Button>
-        </Stack>
+      
       </div>
       <TabContext value={`${selectedTab}`}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ marginLeft: '40px', borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={(s, v) => setSelectedTab(v)}>
             {
               stores?.map(s => (
@@ -137,7 +121,7 @@ export const OrdersOnTrainPanel = () => {
           </TabList>
         </Box>{
           stores?.map(s => (
-            <TabPanel key={s.Id} value="Order Placed">
+            <TabPanel key={s.Id} value={`${s.Id}`}>
               <OrdersOnTrainForStore key={s.Id} storeId={s.Id} />
             </TabPanel>
           ))
@@ -180,7 +164,7 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
 
   useEffect(() => { retrieveAndRefreshData() }, [])
 
-  const orders = useOrders(data, page, rowsPerPage, search || '');
+  const orders = useOrders(data, page, rowsPerPage, '');
   const onPageChange = useCallback(
     (event, value) => {
       setPage(value);
