@@ -30,13 +30,15 @@ public class OrderService : Order.OrderBase
      
         var reply = new GetOrdersReply();
          
-        
+
 
 var sql = $"SELECT routeId, deliveryDate, orderDate, deliveryAddressId, orderCapacity, price, storeId, Id,Status FROM orders ";
 var countSql = $"SELECT COUNT(*) FROM orders ";
 
-        if (request.UserName != null)
+        if (request.UserName != "")
         {
+            Console.WriteLine("user");
+            Console.WriteLine(request.UserName);
             var getUserIdQuery = $"SELECT Id FROM users WHERE UserName = {request.UserName.ToSqlString()} ;";
             int userId = await database.ExecuteScalarAsync<int>(getUserIdQuery);
                     Console.WriteLine("user");
@@ -44,6 +46,30 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
             sql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId} ORDER BY orders.Id DESC";
             countSql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId}";
         }
+    
+        else if (request.StoreId != 0 && request.RouteId == 0)
+
+        {
+                    Console.WriteLine("store");
+        Console.WriteLine(request.StoreId);
+            sql += $" WHERE StoreId = {request.StoreId.ToSqlString()} ORDER BY orders.Id DESC";
+            countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
+        }
+
+        else if(request.StoreId != 0 && request.RouteId != 0){
+            sql += $" WHERE StoreId = {request.StoreId.ToSqlString()} AND RouteId = {request.RouteId.ToSqlString()} ORDER BY orders.Id DESC";
+            countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()} AND RouteId = {request.RouteId.ToSqlString()}";
+            Console.WriteLine(sql);
+        } else if(request.Status != ''){
+            sql += $" WHERE Status ={request.Status.ToSqlString()} ORDER BY orders.Id DESC";
+            countSql += $" WHERE Status ={request.Status.ToSqlString()}";
+            Console.WriteLine(sql);
+        }
+
+        // {
+        //     sql += $" AND Status = {request.StoreId.ToSqlString()} ORDER BY orders.Id DESC";
+        //     countSql += $" AND Status = {request.StoreId.ToSqlString()}";
+        // }
 
         if (request.P is not null)
         {
@@ -56,7 +82,7 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
 
         else
         {
-            sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
+            sql += $" LIMIT {40.ToSqlString()} OFFSET {0.ToSqlString()}";
         }
 
         var orders = await database.QueryAllAsync<OrderMessage>(sql);

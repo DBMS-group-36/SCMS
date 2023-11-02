@@ -30,9 +30,13 @@ service Order {
 }
 
 message GetOrdersRequest {
-	string userName = 1;
-	optional shared.Pagination p = 3;
+	optional string userName = 1;
+	optional int32 storeId = 2;
+	optional int32 routeId = 3;
+	optional string status = 5;
+	optional shared.Pagination p = 4;
 }
+
 
 message GetOrdersReply {
 	repeated OrderMessage orders = 1;
