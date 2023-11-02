@@ -12,6 +12,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehouse';
 import { OrdersCancelledTable } from 'src/sections/orders/cancelled';
 import { OrdersOnTrainPanel } from 'src/sections/orders/ontrain';
+import { OrdersDeliveredPanel } from 'src/sections/orders/successfullydelivered';
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -114,7 +115,7 @@ const Page = () => {
                 Deliverying By Vehicle
               </TabPanel>
               <TabPanel value="Delivered">
-                Successfully Delivered
+                <OrdersDeliveredPanel />
               </TabPanel>
               <TabPanel value="Cancelled">
                 <OrdersCancelledTable />
