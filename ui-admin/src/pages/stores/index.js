@@ -38,6 +38,8 @@ const Page = () => {
 
   const [loading, setLoading] = useState(true)
 
+  const { enqueueSnackbar } = useSnackbar()
+  
   async function retrieveAndRefreshData() {
     setLoading(true)
     try {
@@ -80,7 +82,6 @@ const Page = () => {
   );
 
   const confirm = useConfirm()
-  const { enqueueSnackbar } = useSnackbar()
 
   const handleDelete = async (store) => {
     confirm({ description: `This will permanently delete the record` })

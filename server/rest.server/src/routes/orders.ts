@@ -15,4 +15,6 @@ ordersRouter.get('/orders/delivering', OrdersController.getOrdersDelivering);
 ordersRouter.get('/orders/delivered', OrdersController.getOrdersDelivered);
 ordersRouter.get('/orders/cancelled', OrdersController.getOrdersCancelled);
 
+ordersRouter.post('/orders/distributeOrdersByTrain', OrdersController.distributeOrdersByTrain);
+
 export default ordersRouter;

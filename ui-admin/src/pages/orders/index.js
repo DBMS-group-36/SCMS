@@ -2,13 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
-import { AppBar, Box, Button, Container, LinearProgress, Stack, SvgIcon, Tab, Tabs, Typography } from '@mui/material';
+import { AppBar, Box, Button, Container, LinearProgress, Modal, Stack, SvgIcon, Tab, Tabs, Typography } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { applyPagination } from 'src/utils/apply-pagination';
 import NextLink from 'next/link';
 import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { searchObjects } from 'src/utils/search-objects';;
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehouse';
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -85,36 +86,6 @@ const Page = () => {
                 ]} />
 
               </Stack>
-              <div>
-                <Stack
-                  spacing={1}
-                  direction={'row'}
-                >
-                  <Button
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
-                    href={'/orders/create'}
-                    LinkComponent={NextLink}
-                  >
-                    Add New
-                  </Button>
-                  <Button
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowPathIcon />
-                      </SvgIcon>
-                    )}
-                    onClick={() => retrieveAndRefreshData()}
-                    variant="outlined"
-                  >
-                    Refresh
-                  </Button>
-                </Stack>
-              </div>
             </Stack>
             {loading && <LinearProgress />}
             <TabContext value={selectedTab}>
@@ -129,7 +100,7 @@ const Page = () => {
                 </TabList>
               </Box>
               <TabPanel value="Order Placed">
-              
+                <OrdersStillInWarehouseTable />
               </TabPanel>
               <TabPanel value="On Train">
                 On Train
