@@ -67,7 +67,7 @@ export const TrucksTable = (props) => {
                       </Typography>
                     </TableCell>
                     <TableCell>                     
-                        {truck.Capacity} Cubic Centimeters                   
+                        {truck.Capacity} Cubic Meters                   
                     </TableCell>
                     <TableCell>
                       {truck.StoreId}
