@@ -1,7 +1,7 @@
 export function searchObjects(data, searchString) {
   searchString = searchString.toLowerCase();
 
-  const matchingObjects = data.filter(obj => {
+  const matchingObjects = data?.filter(obj => {
     // Iterate through the keys of the object
     for (const key in obj) {
       if (obj[key]?.toString().toLowerCase().includes(searchString)) {
