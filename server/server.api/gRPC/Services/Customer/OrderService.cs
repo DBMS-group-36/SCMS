@@ -47,7 +47,7 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
             countSql += $" JOIN user_order ON orders.Id = user_order.orderId WHERE userId = {userId}";
         }
     
-        if (request.StoreId != 0 && request.RouteId == 0)
+        else if (request.StoreId != 0 && request.RouteId == 0)
 
         {
                     Console.WriteLine("store");
@@ -56,9 +56,13 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
             countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
         }
 
-        if(request.StoreId != 0 && request.RouteId != 0){
+        else if(request.StoreId != 0 && request.RouteId != 0){
             sql += $" WHERE StoreId = {request.StoreId.ToSqlString()} AND RouteId = {request.RouteId.ToSqlString()} ORDER BY orders.Id DESC";
             countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()} AND RouteId = {request.RouteId.ToSqlString()}";
+            Console.WriteLine(sql);
+        } else if(request.Status != ''){
+            sql += $" WHERE Status ={request.Status.ToSqlString()} ORDER BY orders.Id DESC";
+            countSql += $" WHERE Status ={request.Status.ToSqlString()}";
             Console.WriteLine(sql);
         }
 
