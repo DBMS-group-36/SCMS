@@ -17,7 +17,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
 
-const avatar = [
+const avatars = [
   '/assets/avatars/avatar-carson-darrin.png',
   '/assets/avatars/avatar-fran-perez.png',
   '/assets/avatars/avatar-jie-yan-song.png',
@@ -50,27 +50,22 @@ export const CustomersTable = (props) => {
                   Name
                 </TableCell>
                 <TableCell>
+                  User Name
+                </TableCell>
+                <TableCell>
                   Email
                 </TableCell>
                 <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
                   Phone
-                </TableCell>
-                <TableCell>
-                  Signed Up
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {items.map((customer) => {
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
-
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={customer.UserId}
                   >
                     <TableCell>
                       <Stack
@@ -78,25 +73,22 @@ export const CustomersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                        <Avatar src={avatars[customer.UserId % avatars.length]}>
+                          {/* {getInitials(customer.name)} */}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                          Customer Full Name
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {customer.UserName}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {customer.Email}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
-                    </TableCell>
-                    <TableCell>
-                      {createdAt}
+                      {customer.PhoneNumber}
                     </TableCell>
                   </TableRow>
                 );
