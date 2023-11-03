@@ -27,8 +27,31 @@ service Order {
 			delete: "/api/order"
 		};
 	}
+
+	rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply){
+		option (google.api.http) = {
+			post: "/api/order/update",
+			body: "*"
+		};
+	}
+}
+message UpdateOrderRequest{
+	int32 dirverId = 1;
+	int32 truckUd = 2;
+	int32 driverAssistantId = 3;
+	int32 orderId = 4;
+}
+message UpdateOrderReply{
+	StatusReply statusReply = 1;
 }
 
+
+message StatusReply {
+	string message = 1;
+	bool isSuccess = 2;
+	string userName = 3;
+	repeated string errors = 4;
+}
 message GetOrdersRequest {
 	optional string userName = 1;
 	optional int32 storeId = 2;

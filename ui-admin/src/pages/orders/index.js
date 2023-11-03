@@ -10,6 +10,7 @@ import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { searchObjects } from 'src/utils/search-objects';;
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehouse';
+import { AtStore } from 'src/sections/orders/atStore';
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -106,7 +107,7 @@ const Page = () => {
                 On Train
               </TabPanel>
               <TabPanel value="At Store">
-                At Store
+                <AtStore />
               </TabPanel>
               <TabPanel value="Delivery">
                 Deliverying By Vehicle

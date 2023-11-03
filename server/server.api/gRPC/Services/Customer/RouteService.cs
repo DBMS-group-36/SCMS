@@ -60,4 +60,45 @@ public class RouteService : Route.RouteBase
 
         return reply;
     }
+
+
+
+    public async override Task<GetDriversReply> GetDrivers(GetDriversRequest request, ServerCallContext context)
+    {
+        var sql = "";
+        var countSql = "";
+        var reply = new GetDriversReply();
+        Console.WriteLine("driver");
+        Console.WriteLine(request.StoreId);
+        if(request.Type == 1){
+             sql = $"SELECT EmployeeId,WorkHours,StoreId FROM drivers WHERE StoreId = {request.StoreId} ORDER BY WorkHours DESC";
+                   countSql = $"SELECT COUNT(*) FROM drivers WHERE StoreId = {request.StoreId}";
+        }else{
+                     sql = $"SELECT EmployeeId,WorkHours,StoreId FROM driver_assisstants WHERE StoreId = {request.StoreId} ORDER BY WorkHours ASC";
+                 countSql = $"SELECT COUNT(*) FROM driver_assisstants WHERE StoreId = {request.StoreId}";
+        }
+
+  
+        if (request.P is not null)
+        {
+            if (request.P.Limit < 1)
+            {
+                request.P.Limit = 20;
+            }
+            sql += $" LIMIT {request.P.Limit.ToSqlString()} OFFSET {request.P.Offset.ToSqlString()}";
+        }
+
+        else
+        {
+            sql += $" LIMIT {20.ToSqlString()} OFFSET {0.ToSqlString()}";
+        }
+
+        var drivers = await database.QueryAllAsync<ListedDriverMessage>(sql);
+        
+        reply.Drivers.AddRange(drivers);
+
+        reply.Count = await database.ExecuteScalarAsync<long>(countSql);
+
+        return reply;
+    }
 }

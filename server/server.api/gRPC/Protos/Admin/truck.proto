@@ -10,13 +10,13 @@ import "gRPC/Protos/shared.proto";
 service Truck {
 	rpc GetTrucks (GetTrucksRequest) returns (GetTrucksReply){
 		option (google.api.http) = {
-			get: "/api/admin/truck"
+			post: "/api/admin/truck"
 		};
 	}
 
 	rpc AddTruck (TruckMessage) returns (TruckMessage){
 		option (google.api.http) = {
-			post: "/api/admin/truck",
+			get: "/api/admin/truck",
 			body : "*"	
 		};
 	}

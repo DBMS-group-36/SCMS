@@ -81,9 +81,10 @@ export const OrdersStillInWarehouseTable = ({ search }) => {
     try {
       const orders = (await getOrdersStillInWareHouse()) || [];
       setData(orders)
-
+      console.log("Orders were fetched from the database", orders)
       const ts = (await getAllTransportationTrainTrips()) || [];
       setTransportationTrainTrip(ts)
+      console.log("Transportation Train Trips were fetched from the database", ts)
     } catch (e) {
       enqueueSnackbar('Error while doing network operations...', {
         variant: 'error',
@@ -186,7 +187,7 @@ export const OrdersStillInWarehouseTable = ({ search }) => {
               ordersSelection?.selected.map(oId => {
                 const o = searchOrder(oId);
 
-                if(!o) return <></>
+                if (!o) return <></>
                 return (
                   <ListItem key={oId}>
                     <ListItemAvatar>
@@ -339,10 +340,10 @@ export const OrdersStillInWarehouseTable = ({ search }) => {
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {format(new Date(order.OrderDate), 'yyyy-MM-dd')}
+                      {order.OrderDate}
                     </TableCell>
                     <TableCell>
-                      {format(new Date(order.DeliveryDate), 'yyyy-MM-dd')}
+                      {order.DeliveryDate}
                     </TableCell>
                     <TableCell>
                       {order.StoreCity}

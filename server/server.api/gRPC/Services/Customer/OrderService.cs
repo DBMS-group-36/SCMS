@@ -60,7 +60,7 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
             sql += $" WHERE StoreId = {request.StoreId.ToSqlString()} AND RouteId = {request.RouteId.ToSqlString()} ORDER BY orders.Id DESC";
             countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()} AND RouteId = {request.RouteId.ToSqlString()}";
             Console.WriteLine(sql);
-        } else if(request.Status != ''){
+        } else if(request.Status != ""){
             sql += $" WHERE Status ={request.Status.ToSqlString()} ORDER BY orders.Id DESC";
             countSql += $" WHERE Status ={request.Status.ToSqlString()}";
             Console.WriteLine(sql);
@@ -123,6 +123,12 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
      sql = $"INSERT INTO user_order (userId, orderId) VALUES ({userId}, {reply.OrderId});";
         await database.QueryAllAsync<ListedProductMessage>(sql);
         await database.QueryAllAsync<ListedProductMessage>("commit;");
+        return reply;
+    }
+        public async override Task<UpdateOrderReply> UpdateOrder(UpdateOrderRequest request, ServerCallContext context)
+    {
+        Console.WriteLine(request);
+        var reply = new UpdateOrderReply();
         return reply;
     }
 }
