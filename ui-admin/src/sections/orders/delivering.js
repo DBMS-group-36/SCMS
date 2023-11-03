@@ -185,7 +185,7 @@ export const OrdersDeliveringForStore = ({ storeId }) => {
         try {
           setLoading(true)
 
-          await axios.get(`${BACKEND_URL}/api/admin/orders/${orderId}/Delivering`)
+          await axios.post(`${BACKEND_URL}/api/admin/orders/${orderId}/setDeliveredToCustomer`)
 
         } catch (e) {
           console.error(e)

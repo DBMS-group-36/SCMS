@@ -13,10 +13,14 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BACKEND_URL } from 'src/apis/consts';
 
 const statusMap = {
   pending: 'warning',
@@ -25,54 +29,54 @@ const statusMap = {
 };
 
 export const OverviewLatestOrders = (props) => {
-  const { orders = [], sx } = props;
+  const { sx } = props;
 
-  
+const [orders, setOrders] = useState([])
+  async function refresh() {
+    const {data} = await axios.get(`${BACKEND_URL}/api/admin/reports/mostSoldProducts`)
+    setOrders(data?.data[0] || [])
+    
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [])
+
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Products With Most Orders" />
+      <CardHeader title="Hot Products" />
       <Scrollbar sx={{ flexGrow: 1 }}>
         <Box sx={{ minWidth: 800 }}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Order
+                  #
                 </TableCell>
                 <TableCell>
-                  Customer
+                  Product Name
                 </TableCell>
                 <TableCell sortDirection="desc">
-                  Date
-                </TableCell>
-                <TableCell>
-                  Status
+                  Units Sold
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => {
-                const createdAt = format(order.createdAt, 'dd/MM/yyyy');
-
+              {orders.map((order, i) => {
                 return (
                   <TableRow
                     hover
                     key={order.id}
                   >
                     <TableCell>
-                      {order.ref}
+                      <Typography variant='h4'>#{i+1}</Typography>
                     </TableCell>
                     <TableCell>
-                      {order.customer.name}
+                      {order.Name}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
-                    </TableCell>
-                    <TableCell>
-                      <SeverityPill color={statusMap[order.status]}>
-                        {order.status}
-                      </SeverityPill>
+                    <Typography variant='h6'>{order.UnitsSold}</Typography>
                     </TableCell>
                   </TableRow>
                 );

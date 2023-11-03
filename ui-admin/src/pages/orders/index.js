@@ -101,7 +101,7 @@ const Page = () => {
                   <Tab label="Still In Warehouse" value="Order Placed" />
                   <Tab label="Placed On Train" value="On Train" />
                   <Tab label="At Store" value="At Store" />
-                  <Tab label="Deliverying By Vehicle" value="Delivery" />
+                  <Tab label="Delivering By Vehicle" value="Delivery" />
                   <Tab label="Successfully Delivered" value="Delivered" />
                   <Tab label="Cancelled" value="Cancelled" />
                 </TabList>

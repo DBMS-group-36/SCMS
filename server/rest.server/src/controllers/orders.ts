@@ -72,10 +72,10 @@ export async function getOrdersAtStore(request: Request, response: Response) {
 }
 
 export async function getOrdersDelivering(request: Request, response: Response) {
-  const sql = `SELECT * FROM orders WHERE status = 'Delivery'`;
+  const sql = `SELECT * FROM orders_delivering WHERE StoreId = ?`;
   const connection = await getDatabaseConnection();
 
-  connection.query(sql, (err, rows) => {
+  connection.query(sql, [request.query.storeId], (err, rows) => {
     if (err) {
       console.error('Error querying the database: ' + err.message);
       response.status(500).send('Error querying the database');
@@ -162,6 +162,23 @@ export async function unloadFromTrain(request: Request, response: Response) {
 
 }
 
+export async function setDeliveredToCustomer(request: Request, response: Response) {
+  const connection = await getDatabaseConnection();
+   const sql = `UPDATE orders SET Status = 'Delivered' WHERE Id = ?`;
+
+    connection.query(sql,[request.params.id], (err, rows) => {
+      if (err) {
+        console.error('Error executing the query: ' + err.message);
+        response.status(500).send('Error querying the database');
+
+        return connection.commit()
+      }
+    });
+
+  return response.json({ success: 'true' });
+
+}
+
 export default {
   getAll,
   getOrdersStillInWareHouse,
@@ -171,5 +188,6 @@ export default {
   getOrdersCancelled,
   getOrdersOnTrain,
   distributeOrdersByTrain,
-  unloadFromTrain
+  unloadFromTrain,
+  setDeliveredToCustomer
 }

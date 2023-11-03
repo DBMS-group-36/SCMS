@@ -56,4 +56,22 @@ export async function totalEmployees(request: Request, response: Response) {
 
 }
 
-export default { quartelySales, itemsInWarehouse, totalEmployees }
+export async function mostSoldProducts(request: Request, response: Response) {
+
+  const sql = `call scms_database.get_products_sold_report();`;
+  const connection = await getDatabaseConnection();
+
+  connection.query(sql, (err, rows) => {
+    if (err) {
+      console.error('Error querying the database: ' + err.message);
+      response.status(500).send('Error querying the database');
+
+      return connection.commit()
+    }
+    response.json({ data: rows })
+    connection.commit()
+  });
+
+}
+
+export default { quartelySales, itemsInWarehouse, totalEmployees, mostSoldProducts }
