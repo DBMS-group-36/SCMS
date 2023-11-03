@@ -12,8 +12,8 @@ export async function getOrdersOnTrain(storeId) {
     return response.data.orders
 }
 
-export async function getOrdersAtStore() {
-    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/atStore`)
+export async function getOrdersAtStore(storeId) {
+    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/atStore?storeId=${storeId}`)
     return response.data.orders
 }
 

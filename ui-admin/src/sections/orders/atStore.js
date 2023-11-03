@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+
+
 import {
     Avatar,
     Box,
@@ -38,7 +40,7 @@ import { searchObjects } from 'src/utils/search-objects';
 import { applyPagination } from 'src/utils/apply-pagination';
 import { useSnackbar } from 'notistack';
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
-import { getOrdersCancelled, getOrdersOnTrain, getOrdersStillInWareHouse } from 'src/apis/orders';
+import { getOrdersCancelled, getOrdersOnTrain, getOrdersStillInWareHouse, getOrdersAtStore } from 'src/apis/orders';
 import { getAllTransportationTrainTrips } from 'src/apis/transportation_train_trips';
 import axios from 'axios';
 import { BACKEND_URL } from 'src/apis/consts';
@@ -46,6 +48,7 @@ import { BACKEND_URL2 } from 'src/apis/consts';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { getAllStores } from 'src/apis/stores';
 import { useConfirm } from 'material-ui-confirm';
+// import { json } from 'stream/consumers';
 
 
 export function getAddress(o) {
@@ -149,7 +152,9 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
     async function retrieveAndRefreshData() {
         setLoading(true)
         try {
-            const orders = (await getOrdersOnTrain(storeId)) || [];
+            console.log("dfe", storeId)
+            const orders = (await getOrdersAtStore(storeId)) || [];
+
             setData(orders)
         } catch (e) {
             enqueueSnackbar('Error while doing network operations...', {
@@ -304,6 +309,7 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
             console.error(e)
         }
     }
+
     useEffect(() => { fetchRoutes() }, []);
 
 
@@ -402,7 +408,13 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                             </FormControl>
                         </Grid>
                     </Grid>
-
+                    {selectedOrders.length > 0 && <div> <Typography id="modal-modal-title" sx={{ paddingBottom: '20px' }} variant="subtitle1" component="h2"> Selected: </Typography>
+                        {selectedOrders.map((t) => {
+                            return <a key={t.Id}>{t.Id}</a>
+                        }
+                        )
+                        }
+                    </div>}
                     {availableOrders.length > 0 &&
 
                         <TableContainer >
@@ -415,91 +427,66 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                                         <TableCell>OrderId</TableCell>
                                         <TableCell>DeliveryDate</TableCell>
                                         <TableCell>Capacity</TableCell>
+                                        <TableCell>
+                                            Actions
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {availableOrders.map((row) => (
-                                        <TableRow key={row.Id}>
+                                        <TableRow key={row.Id}
+
+
+                                        // handle row click here
+                                        >
                                             <TableCell>{row.Id}</TableCell>
                                             <TableCell>{row.deliveryDate}</TableCell>
                                             <TableCell>{row.orderCapacity}</TableCell>
+                                            <TableCell >
+                                                <Button
+                                                    onClick={() => {
+                                                        setSelectedOrders([row.Id])
+                                                        console.log(selectedOrders)
+                                                    }}
+                                                    variant="outlined"
+                                                >
+                                                    Send
+                                                </Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
-                        </TableContainer>
-                    }
+                        </TableContainer>}
+
 
 
                     <Button variant='outlined' onClick={() => {
-                        // setOpen(true)
+                        // 
+                        let data2 = {
+                            "routeId": Number(selectedRoute),
+                            "storeId": Number(storeId),
+                            "driverId": Number(selectedDriver),
+                            "driverAssistantId": Number(selectedDrivingAssistant),
+                            "truckId": Number(selectedTruck),
+                            "orders": selectedOrders
+                        }
+                        fetch(`${BACKEND_URL2}/api/order/update`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data2),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('done');
+                                console.log(data.deliveryId);
+
+                            })
+                        console.log(data2)
                     }}>Proceed</Button>
-                    {/* <FormControl fullWidth >
-            <Select
-              sx={{ paddingTop: '10px' }}
-              value={selectedTrainTrip}
-              onChange={(e) => setSelectedTrainTrip(e.target.value)}
-            >
-              {filteredTrainsTrips.map((t) => (
-                <MenuItem key={t.Id} value={t.Id}>Train trip {t.Id} : {t.TimeOfArrival} - {t.TimeOfDeparture}</MenuItem>
-              ))}
 
-            </Select>
-          </FormControl>
-
-          <Typography id="modal-modal-title" variant="body2" component="h2" sx={{ marginTop: '10px' }}>
-            These orders will be distributed
-          </Typography>
-          <List dense={true}>
-            {
-              ordersSelection?.selected.map(oId => {
-                const o = searchOrder(oId);
-
-                if (!o) return <></>
-                return (
-                  <ListItem key={oId}>
-                    <ListItemAvatar>
-                      <Avatar sx={{ padding: '10px' }}>
-                        <InboxStackIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={<Typography variant='subtitle1'>Order {o?.Id} {'->'} {o.StoreCity}</Typography>}
-                      secondary={`Delivery Date: ${o?.DeliveryDate}`}
-                    />
-                  </ListItem>
-                )
-              })
-            }
-          </List>
-
-          <Typography id="modal-modal-title" sx={{ paddingTop: '15px', paddingBottom: '30px', }} variant="h6" component="h2">
-            Total Capacity : {ordersCapacity}
-          </Typography>
-
-          <Stack>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={async () => {
-                setLoading(true);
-                await axios.post(`${BACKEND_URL}/api/admin/orders/distributeOrdersByTrain`, {
-                  orderDistributions: (ordersSelection?.selected || []).map((oId) => {
-                    let so = searchOrder(oId)
-                    return {
-                      orderId: so.Id,
-                      storeId: so.StoreId
-                    }
-                  }),
-                  tripId: selectedTrainTrip,
-                })
-                retrieveAndRefreshData()
-                setOpen(false)
-              }}
-            >
-              Distribute
-            </Button>
-          </Stack> */}
                 </Box>
             </Modal>
             <div>
@@ -552,9 +539,7 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                                 <TableCell>
                                     Capacity
                                 </TableCell>
-                                {/* <TableCell>
-                                    Actions
-                                </TableCell> */}
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -578,31 +563,24 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
                                             </Stack>
                                         </TableCell>
                                         <TableCell>
-                                            {format(new Date(order.DeliveryDate), 'yyyy-MM-dd')}
+                                            {order.DeliveryDate}
                                         </TableCell>
                                         <TableCell>
-                                            {order.StoreCity}
+                                            {order.StoreId}
                                         </TableCell>
                                         <TableCell>
-                                            {order.TimeOfArrival} - {order.TimeOfDeparture}
+                                            {/* {order.TimeOfArrival} - {order.TimeOfDeparture} */}
                                         </TableCell>
                                         <TableCell>
-                                            {getAddress(order)}
+                                            {order.deliveryAddressId}
                                         </TableCell>
                                         <TableCell>
                                             Rs. {order.price}.00
                                         </TableCell>
                                         <TableCell>
-                                            {order.OrderCapacity} m^3
+                                            {order.orderCapacity} m^3
                                         </TableCell>
-                                        {/* <TableCell width={200}>
-                                            <Button
-                                                onClick={() => handleUnloadFromTrain(order.Id)}
-                                                variant="outlined"
-                                            >
-                                                Unload From Train
-                                            </Button>
-                                        </TableCell> */}
+
                                     </TableRow>
                                 );
                             })}
