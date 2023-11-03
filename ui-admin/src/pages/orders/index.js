@@ -13,6 +13,7 @@ import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehous
 import { OrdersCancelledTable } from 'src/sections/orders/cancelled';
 import { OrdersOnTrainPanel } from 'src/sections/orders/ontrain';
 import { OrdersDeliveredPanel } from 'src/sections/orders/successfullydelivered';
+import { OrdersDeliveringPanel } from 'src/sections/orders/delivering';
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -108,11 +109,13 @@ const Page = () => {
               <TabPanel value="On Train">
                 <OrdersOnTrainPanel />
               </TabPanel>
+
               <TabPanel value="At Store">
                 At Store
               </TabPanel>
+
               <TabPanel value="Delivery">
-                Deliverying By Vehicle
+                <OrdersDeliveringPanel></OrdersDeliveringPanel>
               </TabPanel>
               <TabPanel value="Delivered">
                 <OrdersDeliveredPanel />
