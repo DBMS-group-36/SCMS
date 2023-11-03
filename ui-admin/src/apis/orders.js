@@ -17,8 +17,8 @@ export async function getOrdersAtStore() {
     return response.data.orders
 }
 
-export async function getOrdersDelivering() {
-    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/delivering`)
+export async function getOrdersDelivering(storeId) {
+    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/delivering?storeId=${storeId}`)
     return response.data.orders
 }
 

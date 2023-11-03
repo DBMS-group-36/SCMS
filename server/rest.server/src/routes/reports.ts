@@ -10,5 +10,6 @@ const reportsRouter = Router({ mergeParams: true });
 reportsRouter.get('/reports/quartelySales/:year', ReportsController.quartelySales);
 reportsRouter.get('/reports/itemsInWarehouse', ReportsController.itemsInWarehouse);
 reportsRouter.get('/reports/totalEmployees', ReportsController.totalEmployees);
+reportsRouter.get('/reports/mostSoldProducts', ReportsController.mostSoldProducts);
 
 export default reportsRouter;
