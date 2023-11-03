@@ -44,6 +44,7 @@ message UpdateOrderRequest{
 	int32 storeId = 6;
 }
 message UpdateOrderReply{
+	int32 deliveryId = 2;
 	StatusReply statusReply = 1;
 }
 

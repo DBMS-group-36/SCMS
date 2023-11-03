@@ -151,10 +151,19 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
 
 
         string sqlFormattedDateTime = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-           sql = $" INSERT INTO deliveries (`DriverId`, `DriverAssistantId`, `TruckId`, `RouteId`, `Date`) VALUES ({request.DriverId}, {request.DriverAssistantId}, {request.TruckId},  {request.RouteId}, {sqlFormattedDateTime.ToSqlString()});";
+           sql = $" INSERT INTO deliveries (`DriverId`, `DriverAssistantId`, `TruckId`, `RouteId`, `Date`, `StoreId`) VALUES ({request.DriverId}, {request.DriverAssistantId}, {request.TruckId},  {request.RouteId}, {sqlFormattedDateTime.ToSqlString()}, {request.StoreId});";
 
            Console.WriteLine(sql);
             await database.QueryAllAsync<ListedProductMessage>(sql);
+            reply.DeliveryId = (int) await database.ExecuteScalarAsync<ulong>("SELECT LAST_INSERT_ID();");
+            Console.WriteLine(reply.DeliveryId);
+        foreach (int i in request.Orders)
+        {
+            sql = $" UPDATE orders SET Status = 'Delivery' WHERE Id = {i};";
+            await database.QueryAllAsync<ListedProductMessage>(sql);
+            sql = $" INSERT INTO Delivery_Order (OrderId, DeliverId) VALUES ({i}, {reply.DeliveryId});";
+            await database.QueryAllAsync<ListedProductMessage>(sql);
+        }
      return reply;
     }
 }
