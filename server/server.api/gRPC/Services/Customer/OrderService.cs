@@ -139,8 +139,22 @@ var countSql = $"SELECT COUNT(*) FROM orders ";
         Console.WriteLine(request);
 
         var reply = new UpdateOrderReply();
-        var sql = $" UPDATE drivers d JOIN routes r ON d.StoreId = r.StoreId SET d.WorkHours = CONCAT(d.WorkHours, r.MaximumTimeForCompletion), d.Recent = 1 WHERE d.EmployeeId = {request.DriverId} AND r.Id = {request.RouteId};";
+        var sql = $" UPDATE drivers d JOIN routes r ON d.StoreId = r.StoreId SET d.WorkHours = d.WorkHours + r.MaximumTimeForCompletion, d.Recent = 1 WHERE d.EmployeeId = {request.DriverId} AND r.Id = {request.RouteId};";
+
         await database.QueryAllAsync<ListedProductMessage>(sql);
-        return reply;
+
+        sql = $" UPDATE driver_assisstants d JOIN routes r ON d.StoreId = r.StoreId SET d.WorkHours = d.WorkHours + r.MaximumTimeForCompletion, d.Recent = 1 WHERE d.EmployeeId = {request.DriverAssistantId} AND r.Id = {request.RouteId};";
+        await database.QueryAllAsync<ListedProductMessage>(sql);
+        sql = $" UPDATE trucks d JOIN routes r ON d.StoreId = r.StoreId  SET d.WorkHours = d.WorkHours + r.MaximumTimeForCompletion WHERE d.Id = {request.TruckId} AND r.Id = {request.RouteId};";
+         await database.QueryAllAsync<ListedProductMessage>(sql);
+        DateTime currentDateTime = DateTime.Now;
+
+
+        string sqlFormattedDateTime = currentDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+           sql = $" INSERT INTO deliveries (`DriverId`, `DriverAssistantId`, `TruckId`, `RouteId`, `Date`) VALUES ({request.DriverId}, {request.DriverAssistantId}, {request.TruckId},  {request.RouteId}, {sqlFormattedDateTime.ToSqlString()});";
+
+           Console.WriteLine(sql);
+            await database.QueryAllAsync<ListedProductMessage>(sql);
+     return reply;
     }
 }

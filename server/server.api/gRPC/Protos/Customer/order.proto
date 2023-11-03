@@ -36,7 +36,7 @@ service Order {
 	}
 }
 message UpdateOrderRequest{
-	int32 dirverId = 1;
+	int32 driverId = 1;
 	int32 truckId = 2;
 	int32 driverAssistantId = 3;
 	repeated int32 orders = 4;
