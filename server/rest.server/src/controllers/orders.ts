@@ -55,10 +55,10 @@ export async function getOrdersOnTrain(request: Request, response: Response) {
 }
 
 export async function getOrdersAtStore(request: Request, response: Response) {
-  const sql = `SELECT * FROM orders WHERE Status = 'At Store'`;
+  const sql = `SELECT * FROM orders WHERE Status = 'At Store' AND StoreId = ?`;
   const connection = await getDatabaseConnection();
 
-  connection.query(sql, (err, rows) => {
+  connection.query(sql, [request.query.storeId], (err, rows) => {
     if (err) {
       console.error('Error querying the database: ' + err.message);
       response.status(500).send('Error querying the database');
