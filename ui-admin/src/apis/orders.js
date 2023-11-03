@@ -7,8 +7,8 @@ export async function getOrdersStillInWareHouse() {
     return response.data.orders
 }
 
-export async function getOrdersOnTrain() {
-    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/onTrain`)
+export async function getOrdersOnTrain(storeId) {
+    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/onTrain?storeId=${storeId}`)
     return response.data.orders
 }
 
@@ -22,8 +22,8 @@ export async function getOrdersDelivering() {
     return response.data.orders
 }
 
-export async function getOrdersDelivered() {
-    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/delivered`)
+export async function getOrdersDelivered(storeId) {
+    const response = await axios.get(`${BACKEND_URL}/api/admin/orders/delivered?storeId=${storeId}`)
     return response.data.orders
 }
 

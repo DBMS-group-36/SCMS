@@ -223,7 +223,7 @@ export const OrdersStillInWarehouseTable = ({ search }) => {
                       storeId: so.StoreId
                     }
                   }),
-                  selectedTrainTrip,
+                  tripId: selectedTrainTrip,
                 })
                 retrieveAndRefreshData()
                 setOpen(false)

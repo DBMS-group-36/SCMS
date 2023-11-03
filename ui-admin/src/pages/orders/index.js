@@ -10,7 +10,13 @@ import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { searchObjects } from 'src/utils/search-objects';;
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehouse';
-import { AtStore } from 'src/sections/orders/atStore';
+
+import { AtStorePanel } from 'src/sections/orders/atStore';
+
+import { OrdersCancelledTable } from 'src/sections/orders/cancelled';
+import { OrdersOnTrainPanel } from 'src/sections/orders/ontrain';
+import { OrdersDeliveredPanel } from 'src/sections/orders/successfullydelivered';
+import { OrdersDeliveringPanel } from 'src/sections/orders/delivering';
 
 const useCustomers = (data, page, rowsPerPage, search) => {
   return useMemo(
@@ -93,7 +99,7 @@ const Page = () => {
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList onChange={(s, v) => setSelectedTab(v)} aria-label="lab API tabs example">
                   <Tab label="Still In Warehouse" value="Order Placed" />
-                  <Tab label="On Train" value="On Train" />
+                  <Tab label="Placed On Train" value="On Train" />
                   <Tab label="At Store" value="At Store" />
                   <Tab label="Deliverying By Vehicle" value="Delivery" />
                   <Tab label="Successfully Delivered" value="Delivered" />
@@ -104,19 +110,21 @@ const Page = () => {
                 <OrdersStillInWarehouseTable />
               </TabPanel>
               <TabPanel value="On Train">
-                On Train
+                <OrdersOnTrainPanel />
               </TabPanel>
+
               <TabPanel value="At Store">
-                <AtStore />
+                <AtStorePanel />
               </TabPanel>
+
               <TabPanel value="Delivery">
-                Deliverying By Vehicle
+                <OrdersDeliveringPanel></OrdersDeliveringPanel>
               </TabPanel>
               <TabPanel value="Delivered">
-                Successfully Delivered
+                <OrdersDeliveredPanel />
               </TabPanel>
               <TabPanel value="Cancelled">
-                Cancelled
+                <OrdersCancelledTable />
               </TabPanel>
             </TabContext>
           </Stack>

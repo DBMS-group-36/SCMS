@@ -6,6 +6,12 @@ import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import UserGroupIcon from '@heroicons/react/24/solid/UserGroupIcon';
+import TruckIcon from '@heroicons/react/24/solid/TruckIcon';
+import BuildingStorefrontIcon from '@heroicons/react/24/solid/BuildingStorefrontIcon';
+import ShoppingCartIcon from '@heroicons/react/24/solid/ShoppingCartIcon';
+import TicketIcon from '@heroicons/react/24/solid/TicketIcon';
+import ArrowTrendingUpIcon from '@heroicons/react/24/solid/ArrowTrendingUpIcon';
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -23,7 +29,7 @@ export const items = [
     path: '/customers',
     icon: (
       <SvgIcon fontSize="small">
-        <UsersIcon />
+        <UserGroupIcon />
       </SvgIcon>
     )
   },
@@ -41,7 +47,7 @@ export const items = [
     path: '/trucks',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <TruckIcon />
       </SvgIcon>
     )
   },
@@ -50,7 +56,7 @@ export const items = [
     path: '/orders',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <ShoppingCartIcon />
       </SvgIcon>
     )
   },
@@ -59,7 +65,7 @@ export const items = [
     path: '/stores',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <BuildingStorefrontIcon />
       </SvgIcon>
     )
   },
@@ -77,7 +83,7 @@ export const items = [
     path: '/transportation_train_trips',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <TicketIcon />
       </SvgIcon>
     )
   },
@@ -86,7 +92,7 @@ export const items = [
     path: '/routes',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <ArrowTrendingUpIcon />
       </SvgIcon>
     )
   },
