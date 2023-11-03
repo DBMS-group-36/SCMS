@@ -10,6 +10,9 @@ import { StyledBreadCrumbs } from 'src/components/breadcrumbs';
 import { searchObjects } from 'src/utils/search-objects';;
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { OrdersStillInWarehouseTable } from 'src/sections/orders/stillInWarehouse';
+
+import { AtStorePanel } from 'src/sections/orders/atStore';
+
 import { OrdersCancelledTable } from 'src/sections/orders/cancelled';
 import { OrdersOnTrainPanel } from 'src/sections/orders/ontrain';
 import { OrdersDeliveredPanel } from 'src/sections/orders/successfullydelivered';
@@ -111,7 +114,7 @@ const Page = () => {
               </TabPanel>
 
               <TabPanel value="At Store">
-                At Store
+                <AtStorePanel />
               </TabPanel>
 
               <TabPanel value="Delivery">
