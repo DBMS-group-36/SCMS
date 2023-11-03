@@ -25,8 +25,8 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'demogmail.com',
-      password: 'Password123!',
+      email: 'helith@gmail.com',
+      password: 'demo',
       submit: null
     },
     validationSchema: Yup.object({
@@ -42,8 +42,13 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
-        router.push('/');
+        let a = await auth.signIn(values.email, values.password);
+        if(a) {
+          router.push('/');
+        } else {
+          helpers.setErrors({ submit: "Please enter correct password" });
+        }
+        
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -176,6 +181,7 @@ const Page = () => {
                   sx={{ mt: 3 }}
                   type="submit"
                   variant="contained"
+
                 >
                   Continue
                 </Button>
@@ -193,7 +199,7 @@ const Page = () => {
                   sx={{ mt: 3 }}
                 >
                   <div>
-                    You can use <b>demogmail.com</b> and password <b>Password123!</b>
+                    You can use <b>admin@asuppliers.com</b> and password <b>Password123!</b>
                   </div>
                 </Alert>
               </form>

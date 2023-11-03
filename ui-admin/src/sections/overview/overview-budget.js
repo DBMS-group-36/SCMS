@@ -3,9 +3,37 @@ import ArrowDownIcon from '@heroicons/react/24/solid/ArrowDownIcon';
 import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BACKEND_URL } from 'src/apis/consts';
 
 export const OverviewBudget = (props) => {
-  const { difference, positive = false, sx, value } = props;
+  const { difference, positive = false, sx } = props;
+
+  const [year, setYear] = useState(2023)
+  const [sales, setSales] = useState(0)
+
+  async function refresh() {
+    const { data } = await axios.get(`${BACKEND_URL}/api/admin/reports/quartelySales/${year}`)
+    let report = data?.report?.[0]
+    console.log(report, 'report')
+
+    if (!!report) {
+      let _sales = 0
+
+      report.forEach(r => {
+        _sales += r.Revenue
+      })
+
+      setSales(_sales)
+    }
+
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [])
+
 
   return (
     <Card sx={sx}>
@@ -14,17 +42,17 @@ export const OverviewBudget = (props) => {
           alignItems="flex-start"
           direction="row"
           justifyContent="space-between"
-          spacing={3}
+          spacing={2}
         >
           <Stack spacing={1}>
             <Typography
               color="text.secondary"
               variant="overline"
             >
-              Budget
+              Total Revenue
             </Typography>
             <Typography variant="h4">
-              {value}
+              Rs. {sales}.00
             </Typography>
           </Stack>
           <Avatar
@@ -39,39 +67,7 @@ export const OverviewBudget = (props) => {
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
-          <Stack
-            alignItems="center"
-            direction="row"
-            spacing={2}
-            sx={{ mt: 2 }}
-          >
-            <Stack
-              alignItems="center"
-              direction="row"
-              spacing={0.5}
-            >
-              <SvgIcon
-                color={positive ? 'success' : 'error'}
-                fontSize="small"
-              >
-                {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              </SvgIcon>
-              <Typography
-                color={positive ? 'success.main' : 'error.main'}
-                variant="body2"
-              >
-                {difference}%
-              </Typography>
-            </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
-          </Stack>
-        )}
+
       </CardContent>
     </Card>
   );
