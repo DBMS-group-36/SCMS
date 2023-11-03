@@ -1,11 +1,26 @@
 import PropTypes from 'prop-types';
 import ArrowDownIcon from '@heroicons/react/24/solid/ArrowDownIcon';
 import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
-import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
+import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BACKEND_URL } from 'src/apis/consts';
 
 export const OverviewTotalCustomers = (props) => {
-  const { difference, positive = false, sx, value } = props;
+  const { difference, positive = false, sx } = props;
+
+  const [value, setValue] = useState(0)
+
+  async function refresh() {
+    const { data } = await axios.get(`${BACKEND_URL}/api/admin/reports/itemsInWarehouse`)
+    setValue(data?.data?.[0].Count)
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [])
+
 
   return (
     <Card sx={sx}>
@@ -21,7 +36,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Customers
+              Total Orders In Warehouse
             </Typography>
             <Typography variant="h4">
               {value}
@@ -35,43 +50,11 @@ export const OverviewTotalCustomers = (props) => {
             }}
           >
             <SvgIcon>
-              <UsersIcon />
+              <ShoppingBagIcon />
             </SvgIcon>
           </Avatar>
         </Stack>
-        {difference && (
-          <Stack
-            alignItems="center"
-            direction="row"
-            spacing={2}
-            sx={{ mt: 2 }}
-          >
-            <Stack
-              alignItems="center"
-              direction="row"
-              spacing={0.5}
-            >
-              <SvgIcon
-                color={positive ? 'success' : 'error'}
-                fontSize="small"
-              >
-                {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              </SvgIcon>
-              <Typography
-                color={positive ? 'success.main' : 'error.main'}
-                variant="body2"
-              >
-                {difference}%
-              </Typography>
-            </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
-          </Stack>
-        )}
+        
       </CardContent>
     </Card>
   );

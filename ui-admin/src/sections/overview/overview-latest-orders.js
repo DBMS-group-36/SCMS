@@ -27,9 +27,11 @@ const statusMap = {
 export const OverviewLatestOrders = (props) => {
   const { orders = [], sx } = props;
 
+  
+
   return (
     <Card sx={sx}>
-      <CardHeader title="Latest Orders" />
+      <CardHeader title="Products With Most Orders" />
       <Scrollbar sx={{ flexGrow: 1 }}>
         <Box sx={{ minWidth: 800 }}>
           <Table>

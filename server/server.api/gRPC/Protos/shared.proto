@@ -16,3 +16,8 @@ message ListedProductMessage {
 	string price = 3;
 	int32 CapacityPerUnit = 4;
 }
+message ListedDriverMessage {
+	int32 EmployeeId = 1;
+	int32 WorkHours = 2;
+	int32 StoreId = 3;
+}

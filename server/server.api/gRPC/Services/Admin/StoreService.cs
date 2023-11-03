@@ -34,10 +34,10 @@ public class StoreService : Store.StoreBase
         if (request.Id != 0)
         {
             sql += $" WHERE Id = @Id";
-            parameters.Add("@Id", request.Id);
+            parameters.Add("@Id", request.Id.ToSqlString());
             countSql += $" WHERE Id = {request.Id.ToSqlString()}";
         }
-
+        Console.WriteLine(sql);
         if (request.P is not null)
         {
             if (request.P.Limit < 1)

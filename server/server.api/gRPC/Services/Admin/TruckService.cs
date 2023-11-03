@@ -29,7 +29,7 @@ public class TruckService : Truck.TruckBase
         var reply = new GetTrucksReply();
         var sql = "SELECT * FROM trucks";
         var countSql = "SELECT COUNT(*) FROM trucks";
-
+        Console.WriteLine(request.OneOfGetTruckRequestCase);
         switch (request.OneOfGetTruckRequestCase)
         {
             case GetTrucksRequest.OneOfGetTruckRequestOneofCase.None:

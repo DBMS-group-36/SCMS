@@ -8,6 +8,8 @@ import ordersRouter from './orders';
 import customersRouter from './customers';
 import employeesRouter from './employees';
 import routesRouter from './routes';
+import usersRouter from './users';
+import reportsRouter from './reports';
 
 const baseRouter = Router();
 
@@ -19,5 +21,7 @@ baseRouter.use(`/api/admin/`, customersRouter);
 baseRouter.use(`/api/admin/`, ordersRouter);
 baseRouter.use(`/api/admin/`, employeesRouter);
 baseRouter.use(`/api/admin/`, routesRouter);
+baseRouter.use(`/api/admin/`, usersRouter);
+baseRouter.use(`/api/admin/`, reportsRouter);
 
 export default baseRouter;

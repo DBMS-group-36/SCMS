@@ -12,6 +12,9 @@ import {
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Chart } from 'src/components/chart';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BACKEND_URL } from 'src/apis/consts';
 
 const useChartOptions = () => {
   const theme = useTheme();
@@ -51,7 +54,7 @@ const useChartOptions = () => {
     },
     plotOptions: {
       bar: {
-        columnWidth: '40px'
+        columnWidth: '100px'
       }
     },
     stroke: {
@@ -72,18 +75,10 @@ const useChartOptions = () => {
         show: true
       },
       categories: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
+        'Quarter 1',
+        'Quarter 2',
+        'Quarter 3',
+        'Quarter 4',
       ],
       labels: {
         offsetY: 5,
@@ -105,27 +100,43 @@ const useChartOptions = () => {
 };
 
 export const OverviewSales = (props) => {
-  const { chartSeries, sx } = props;
+  const { sx } = props;
   const chartOptions = useChartOptions();
+
+  const [year, setYear] = useState(2023)
+  const [sales, setSales] = useState([0,0,0,0])
+
+  async function refresh() {
+    const {data} = await axios.get(`${BACKEND_URL}/api/admin/reports/quartelySales/${year}`)
+    let report = data?.report?.[0]
+    console.log(report, 'report')
+    if(!!report) {
+      const _sales = [0,0,0,0]
+
+      report.forEach(r => {
+        _sales[r.Quarter - 1] += r.Revenue
+      })
+
+      setSales(_sales)
+      console.log(_sales, "sales")
+    }
+    
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [])
+
+  const chartSeries = [
+    {
+      name: '2023 Year',
+      data: sales
+    }
+  ]
 
   return (
     <Card sx={sx}>
-      <CardHeader
-        action={(
-          <Button
-            color="inherit"
-            size="small"
-            startIcon={(
-              <SvgIcon fontSize="small">
-                <ArrowPathIcon />
-              </SvgIcon>
-            )}
-          >
-            Sync
-          </Button>
-        )}
-        title="Sales"
-      />
+      <CardHeader title="Quarterly sales report for a given year" />
       <CardContent>
         <Chart
           height={350}
@@ -137,6 +148,7 @@ export const OverviewSales = (props) => {
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
+        
         <Button
           color="inherit"
           endIcon={(
@@ -146,7 +158,7 @@ export const OverviewSales = (props) => {
           )}
           size="small"
         >
-          Overview
+          Get Report
         </Button>
       </CardActions>
     </Card>
