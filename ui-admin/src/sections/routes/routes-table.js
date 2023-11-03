@@ -29,6 +29,8 @@ export const RoutesTable = (props) => {
     rowsPerPage = 0,
   } = props;
 
+  console.log(items)
+
   return (
     <Card>
       <Scrollbar>
@@ -40,10 +42,13 @@ export const RoutesTable = (props) => {
                   Route ID
                 </TableCell>
                 <TableCell>
-                  maximum time for completion
+                  Maximum Time For Completion
                 </TableCell>
                 <TableCell>
-                  store id
+                  Store Id
+                </TableCell>
+                <TableCell>
+                  City
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -52,43 +57,23 @@ export const RoutesTable = (props) => {
                 return (
                   <TableRow
                     hover
-                    key={route.id}
+                    key={route.Id}
                   >
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {route.id}
+                        {route.Id}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      {route.city}
+                      {route.MaximumTimeForCompletion} Hours
+                    </TableCell>
+                    <TableCell>
+                      {route.StoreId}
                     </TableCell>
                     <TableCell>
                       <Typography variant="subtitle2">
-                        {route.capacity} Cubic Meters
+                        {route.StoreCity}
                       </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <IconButton
-                        color="primary"
-                        aria-label="edit"
-                        href={`/routes/edit/${route.id}`}
-                        LinkComponent={NextLink}
-                      >
-                        <SvgIcon>
-                          <PencilIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
-                        </SvgIcon>
-                      </IconButton>
-
-                      <IconButton
-                        color="primary"
-                        aria-label="remove"
-                        onClick={() => handleDelete(route)}
-                        LinkComponent={NextLink}
-                      >
-                        <SvgIcon>
-                          <TrashIcon style={{ fontSize: 24 }} /> {/* Customize the icon */}
-                        </SvgIcon>
-                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
