@@ -191,9 +191,10 @@ export const OrdersDeliveringForStore = ({ storeId }) => {
           console.error(e)
         }
 
-        retrieveAndRefreshData()
+        await retrieveAndRefreshData()
       })
-      .catch(() => {
+      .catch((error) => {
+        if(error == undefined) return;
         enqueueSnackbar('Error while uploading the order!', {
           variant: 'error',
           anchorOrigin: {
@@ -297,12 +298,12 @@ export const OrdersDeliveringForStore = ({ storeId }) => {
                     <TableCell>
                       {order.OrderCapacity} m^3
                     </TableCell>
-                    <TableCell width={250}>
+                    <TableCell width={160}>
                       <Button
                         onClick={() => handleDelivering(order.Id)}
                         variant="outlined"
                       >
-                        Delivered to customer
+                        Deliver To Customer
                       </Button>
                     </TableCell>
                   </TableRow>

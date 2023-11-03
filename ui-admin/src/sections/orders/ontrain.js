@@ -193,7 +193,8 @@ export const OrdersOnTrainForStore = ({ storeId }) => {
 
         retrieveAndRefreshData()
       })
-      .catch(() => {
+      .catch((error) => {
+        if(error == undefined) return;
         enqueueSnackbar('Error while uploading the order!', {
           variant: 'error',
           anchorOrigin: {
