@@ -59,5 +59,6 @@ message ProductMessage {
 	int32 capacityPerUnit = 3;
 	string price = 4;
 	bool listed = 5;
+	string imgUrl = 6;
 }
 

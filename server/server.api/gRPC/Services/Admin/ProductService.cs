@@ -68,7 +68,8 @@ public class ProductService : Product.ProductBase
             $"{request.Name.ToSqlString()}, " +
             $"{request.Price.ToSqlString()}, " +
             $"{request.CapacityPerUnit.ToSqlString()}, " +
-            $"{request.Listed.ToSqlString()})";
+            $"{request.Listed.ToSqlString()}, " +
+            $"{request.ImgUrl.ToSqlString()})";
 
 
         var Id = await database.ExecuteScalarAsync<ulong>(sql);
@@ -107,6 +108,7 @@ public class ProductService : Product.ProductBase
             $"Price = {request.Price.ToSqlString()}" +
             $"CapacityPerUnit = {request.CapacityPerUnit.ToSqlString()}, " +
             $"Listed = {request.Listed.ToSqlString()}, " +
+            $"ImgUrl = {request.ImgUrl.ToSqlString()}, " +
             $"WHERE Id = {request.Id.ToSqlString()}";
 
         var result = await database.ExecuteAsync(sql);
