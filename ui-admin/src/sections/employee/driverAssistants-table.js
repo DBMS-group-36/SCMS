@@ -70,6 +70,9 @@ export const DriverAssistantsTable = (props) => {
                 <TableCell>
                   manager id
                 </TableCell>
+                <TableCell>
+                  work hours
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -113,6 +116,9 @@ export const DriverAssistantsTable = (props) => {
                     </TableCell>
                     <TableCell>
                       {employee.ManagerId}
+                    </TableCell>
+                    <TableCell>
+                      {employee.WorkHours}
                     </TableCell>
                   </TableRow>
                 );
