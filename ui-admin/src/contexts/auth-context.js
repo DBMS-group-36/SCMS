@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { BACKEND_URL } from 'src/apis/consts';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -128,27 +130,31 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    if (email !== 'demogmail.com' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
-    }
 
+    console.log(email, password)
     try {
-      window.sessionStorage.setItem('authenticated', 'true');
+      let { data } = await axios.post(`${BACKEND_URL}/api/admin/auth/users/login`, { email, password })
+      if (!data.success) {
+        throw new Error("Please check the password again!")
+      }
+      window.sessionStorage.setItem('authenticated', 'true')
+
+      const user = {
+        avatar: '/assets/avatars/avatar-anika-visser.png',
+        name: data.Name,
+        email: data.Email,
+      };
+
+
+      dispatch({
+        type: HANDLERS.SIGN_IN,
+        payload: user
+      });
+
+      return true;
     } catch (err) {
       console.error(err);
     }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.vissergmail.com'
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
   };
 
   const signUp = async (email, name, password) => {
