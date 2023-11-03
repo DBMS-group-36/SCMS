@@ -35,6 +35,7 @@ public class RouteService : Route.RouteBase
         Console.WriteLine(request);
        
             sql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
+            Console.WriteLine(sql);
             countSql += $" WHERE StoreId = {request.StoreId.ToSqlString()}";
 //         sql += $" WHERE StoreId = 61";
 // countSql += $" WHERE StoreId = 61";
@@ -53,9 +54,9 @@ public class RouteService : Route.RouteBase
         }
 
         var products = await database.QueryAllAsync<RouteMessage>(sql);
-
+        
         reply.Routes.AddRange(products);
-
+        Console.WriteLine(reply.Routes);
         reply.Count = await database.ExecuteScalarAsync<long>(countSql);
 
         return reply;

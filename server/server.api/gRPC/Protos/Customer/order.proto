@@ -37,9 +37,11 @@ service Order {
 }
 message UpdateOrderRequest{
 	int32 dirverId = 1;
-	int32 truckUd = 2;
+	int32 truckId = 2;
 	int32 driverAssistantId = 3;
-	int32 orderId = 4;
+	repeated int32 orders = 4;
+	int32 routeId = 5;
+	int32 storeId = 6;
 }
 message UpdateOrderReply{
 	StatusReply statusReply = 1;
